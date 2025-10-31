@@ -8,6 +8,8 @@ __pycache__/
 
 .idea/
 .DS_Store
+frontend/node_modules/
+backend/landing_ai
 
 # Distribution / packaging
 .Python
