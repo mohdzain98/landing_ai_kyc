@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styling/task.css";
 import Spinner from "../../../components/Spinner";
@@ -10,6 +10,15 @@ const Task = ({ prop }) => {
   const showAlert = prop?.showAlert;
   const host = "http://127.0.0.1:8000/api";
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]'
+    );
+    const tooltipList = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+    );
+  }, []);
 
   const documentGroups = useMemo(
     () => [
@@ -125,7 +134,6 @@ const Task = ({ prop }) => {
       }
 
       const json = await res.json();
-      console.log("Uploaded:", json);
       showAlert("Documents uploaded successfully.", "success");
       navigate("/outcomes", { state: { caseId: json?.data?.caseId } });
     } catch (error) {
@@ -230,9 +238,14 @@ const Task = ({ prop }) => {
         <div className="text-center mt-5">
           <button
             type="button"
-            className="btn btn-primary btn-lg px-4 py-2 fw-semibold shadow"
+            className={`btn btn-${
+              !filesReady ? "secondary" : "primary"
+            } btn-lg px-4 py-2 fw-semibold shadow`}
             onClick={handleProcessDocuments}
             disabled={!filesReady}
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Click to Process the Documents"
           >
             Process Documents
             {loader && <Spinner />}
