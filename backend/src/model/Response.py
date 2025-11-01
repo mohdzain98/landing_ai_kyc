@@ -3,7 +3,7 @@ from typing import Optional, Any
 
 
 class Response(BaseModel):
-    status: str
+    status: int
     message: str
     data: Optional[Any] = None
     errors: Optional[Any] = None
