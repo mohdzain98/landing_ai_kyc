@@ -4,11 +4,11 @@ import Task from "./components/Task";
 import Footer from "./components/Footer";
 
 const Home = (props) => {
-  const { showAlert } = props.prop;
+  const { showAlert, showToast } = props.prop;
   return (
     <>
       <Main prop={{ showAlert }} />
-      <Task prop={{ showAlert }} />
+      <Task prop={{ showAlert, showToast }} />
       <Footer />
     </>
   );
