@@ -122,3 +122,28 @@ def list_folders_with_files(base_path: str):
             })
 
     return folder_list
+
+
+def get_files_in_folder(folder_path: str):
+    """
+    Returns a list of full file paths inside the given folder.
+
+    Args:
+        folder_path (str): Path to the folder.
+
+    Returns:
+        list[str]: List of full file paths.
+    """
+    if not os.path.exists(folder_path):
+        raise FileNotFoundError(f"Folder not found: {folder_path}")
+
+    if not os.path.isdir(folder_path):
+        raise NotADirectoryError(f"Provided path is not a folder: {folder_path}")
+
+    files = [
+        os.path.join(folder_path, f)
+        for f in os.listdir(folder_path)
+        if os.path.isfile(os.path.join(folder_path, f))
+    ]
+
+    return files

@@ -20,7 +20,8 @@ from src.service.doc_extractor.utils import (
     get_chunk_by_id,
     extract_bbox_from_response,
     draw_bounding_box,
-    list_folders_with_files
+    list_folders_with_files,
+    get_files_in_folder
 )
 from src.service.doc_extractor.logger import get_logger
 
@@ -214,74 +215,66 @@ def run(document_path: str | Path, document_type: str, output_dir: str | Path, m
     return extraction
 
 
-def process_documents(folder_id: str, model: str = MODEL) -> list[dict]:
+def process_documents(folder_id: str,document_type: str, model: str = MODEL) -> list[dict]:
     """
-    Process all documents for a given folder_id (UUID).
-    
-    This function processes all document types found in the folder structure,
-    extracting metadata and generating visualizations for each document.
-    
+    Processes a document of a given type under a specific folder ID.
+
+    It finds the first file in the given document type folder,
+    runs the extraction pipeline using the provided model,
+    and returns the extracted results with metadata.
+
     Args:
-        folder_id: UUID identifier for the folder containing documents
-        model: Model identifier for extraction (defaults to MODEL constant)
-    
+        folder_id (str): Unique ID of the folder containing documents.
+        document_type (str): Type of document to process (e.g., 'bank-statements').
+        model (str, optional): Model name to use for extraction. Defaults to MODEL.
+
     Returns:
-        List of dictionaries containing extraction results for each processed document.
-        Each dictionary contains the extraction results from the run() function.
-    
-    Raises:
-        Exception: If any error occurs during processing, the exception is logged and re-raised.
+        dict: Contains folder_id, document_type, document_path, output_dir, and extraction results.
     """
-    # Construct base path from folder_id (absolute path to avoid relative reference issues)
+    # Construct base path from folder_id 
     # Navigate up from backend/src/service/main.py to backend/, then append resources/folder_id
     base_path = str((Path(__file__).parent.parent.parent / "resources" / folder_id).resolve())
     
-    logger.info(f"Processing documents for folder_id: {folder_id}")
+    logger.info(f"Processing document for folder_id: {folder_id}")
     logger.info(f"Base path: {base_path}")
-    
-    # Get list of folders and their files from base path
-    folder_file = list_folders_with_files(base_path)
-    logger.info(f"Found {len(folder_file)} document type(s): {folder_file}")
-    
-    results = []
-    
+        
     try:
         # Process each folder (document type) found in base path
-        for d in folder_file:
-            logger.info(f"Running for {d}")
-            
-            # Extract folder name and first file
-            folder = d['folder_name']
-            file = d['files'][0]
-            
-            # Construct paths
-            document_path = f"{base_path}/{folder}/{file}"
-            document_type = folder
-            output_dir = f"{base_path}/{folder}/output"
-            
-            # Run extraction pipeline for this document
-            extraction_result = run(document_path, document_type, output_dir, model)
-            
-            # Store result with metadata
-            results.append({
-                'folder_id': folder_id,
-                'document_type': document_type,
-                'document_path': document_path,
-                'output_dir': output_dir,
-                'extraction': extraction_result
-            })
+        logger.info(f"Running for {document_type}")
+        
+        # Extract folder name and first file
+        folder = document_type
+        file_path = f"{base_path}/{document_type}"
+        file = get_files_in_folder(file_path)[0]
+        
+        # Construct paths
+        document_path = file 
+        document_type = folder
+        output_dir = f"{base_path}/{folder}/output"
+        
+        # Run extraction pipeline for this document
+        extraction_result = run(document_path, document_type, output_dir, model)
+        
+        # Store result with metadata
+        result = {
+            'folder_id': folder_id,
+            'document_type': document_type,
+            'document_path': document_path,
+            'output_dir': output_dir,
+            'extraction': extraction_result
+        }
             
     except Exception as exc:
         # Log the full exception traceback
         logger.exception("An error occurred while running the pipeline")
         raise
     
-    logger.info(f"Successfully processed {len(results)} document(s)")
-    return results
+    logger.info(f"Successfully processed {document_type}")
+    return result, folder_id, document_type, base_path
 
 
 # Main execution block
-if __name__ == "__main__":
-    folder_id = 'bc0f8f34-1933-448b-9259-de05b80a0814'
-    results = process_documents(folder_id=folder_id)
-    print(f"Processing complete. Results: {results}")
+# if __name__ == "__main__":
+#     folder_id = 'bc0f8f34-1933-448b-9259-de05b80a0814'
+#     results = process_documents(folder_id=folder_id,document_type='bank-statements')
+#     print(f"Processing complete. Results: {results}")
