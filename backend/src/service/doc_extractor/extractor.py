@@ -47,6 +47,7 @@ class DocumentExtractor:
         # Save parsed markdown for reference
         base_name = Path(document_path).stem
         (output_dir / f"{document_type}_parsed.md").write_text(parse_resp.markdown)
+        (output_dir / f"{document_type}_parsed.txt").write_text(parse_resp.markdown)
         extraction, metadata = self.extract(parse_resp.markdown, document_type)
         self.logger.info("Run complete")
         return extraction,metadata,parse_resp
