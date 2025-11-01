@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styling/task.css";
 import Spinner from "../../../components/Spinner";
+import ProcessingBlink from "../../../components/ProcessingBlink";
 import { userContext } from "../../../context/userContext";
 
-const Task = ({ prop }) => {
-  const showAlert = prop?.showAlert;
+const Task = (props) => {
+  const { showAlert } = props.prop;
+  // const [uploadCount, setUploadCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -14,6 +16,8 @@ const Task = ({ prop }) => {
     uploadSummary,
     uploadDocumentGroup,
     caseId,
+    uploadCount,
+    changeUploadCount,
   } = useContext(userContext);
 
   useEffect(() => {
@@ -29,21 +33,14 @@ const Task = ({ prop }) => {
     });
   }, [location.pathname == "/"]);
 
-  const allUploadsCompleted = useMemo(() => {
-    if (!documentGroups || documentGroups.length === 0) {
-      return false;
-    }
-    return documentGroups.every(
-      (group) => uploadStatuses[group.key]?.status === "completed"
-    );
-  }, [documentGroups, uploadStatuses]);
+  console.log(uploadCount);
 
   const anyUploadInFlight = useMemo(() => {
     if (!documentGroups || documentGroups.length === 0) {
       return false;
     }
     return documentGroups.some(
-      (group) => uploadStatuses[group.key]?.status === "uploading"
+      (group) => uploadStatuses[group.key]?.status === "processing"
     );
   }, [documentGroups, uploadStatuses]);
 
@@ -54,6 +51,7 @@ const Task = ({ prop }) => {
     }
 
     try {
+      changeUploadCount();
       await uploadDocumentGroup(group.key, files);
     } catch (error) {
       console.error(`Upload failed for ${group.key}`, error);
@@ -61,13 +59,11 @@ const Task = ({ prop }) => {
   };
 
   const handleProcessDocuments = () => {
-    if (!allUploadsCompleted) {
-      if (typeof showAlert === "function") {
-        showAlert(
-          "Please upload each document before navigating to outcomes.",
-          "warning"
-        );
-      }
+    if (!uploadCount == 6) {
+      showAlert(
+        "Please upload each document before navigating to outcomes.",
+        "warning"
+      );
       return;
     }
 
@@ -93,7 +89,7 @@ const Task = ({ prop }) => {
               .split(",")
               .map((format) => format.replace(".", "").toUpperCase())
               .join(" · ");
-            const isUploading = uploadState.status === "uploading";
+            const isUploading = uploadState.status === "processing";
             const isCompleted = uploadState.status === "completed";
             const hasError = uploadState.status === "error";
             const hasFiles =
@@ -129,24 +125,18 @@ const Task = ({ prop }) => {
                       aria-label={`Upload ${item.title}`}
                       onChange={(event) => handleFileChange(item, event)}
                     />
-                    <i className="fa-solid fa-cloud-arrow-up mb-3"></i>
+                    <i className="fa-solid fa-cloud-arrow-up mb-2"></i>
                     <p className="mb-1 fw-semibold text-dark">
                       Drag &amp; drop or{" "}
                       <span className="text-warning">browse</span>
                     </p>
-                    <small className="text-dark-50">
-                      {formats} · up to 25MB each
-                    </small>
+                    <small className="text-dark-50">{formats}</small>
                   </label>
                   <div className="mt-2">
-                    {isUploading && (
-                      <small className="text-info fw-semibold">
-                        Uploading…
-                      </small>
-                    )}
+                    {isUploading && <ProcessingBlink />}
                     {isCompleted && !hasError && (
                       <small className="text-success fw-semibold">
-                        Uploaded
+                        Processed
                       </small>
                     )}
                     {hasError && (
@@ -155,9 +145,9 @@ const Task = ({ prop }) => {
                       </small>
                     )}
                   </div>
-                  <div className="selected-file-list mt-3">
+                  <div className="selected-file-list">
                     {hasFiles && (
-                      <ul className="list-unstyled mb-0">
+                      <ul className="list-unstyled">
                         {uploadState.filesMeta.map((file, index) => (
                           <li
                             key={`${item.key}-${file.name}-${index}`}
@@ -184,16 +174,21 @@ const Task = ({ prop }) => {
           <button
             type="button"
             className={`btn btn-${
-              !allUploadsCompleted ? "secondary" : "primary"
+              uploadCount < 6 ? "secondary" : "primary"
             } btn-lg px-4 py-2 fw-semibold shadow`}
             onClick={handleProcessDocuments}
-            disabled={!allUploadsCompleted}
+            disabled={uploadCount < 6}
             // data-bs-toggle="tooltip"
             // data-bs-placement="top"
             // title="Click to view outcomes once all documents are uploaded"
           >
-            Process Documents
-            {anyUploadInFlight && <Spinner />}
+            <i
+              className={`fa-solid fa-check-double ${
+                uploadCount == 6 && "fa-fade"
+              } me-2`}
+            ></i>
+            See Results
+            {/* {anyUploadInFlight && <Spinner />} */}
           </button>
         </div>
       </div>
