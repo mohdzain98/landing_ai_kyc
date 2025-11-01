@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserState from "./context/UserState";
 import Navbar from "./components/Navbar";
 import Alert from "./components/Alert";
+import Toast from "./components/Toast";
 import Scrolltotop from "./components/Scrolltotop";
 import Home from "./pages/home/Home";
 import About from "./pages/About";
@@ -10,6 +11,7 @@ import Outcomes from "./pages/Outcomes";
 
 function App() {
   const [alert, setAlert] = useState(null);
+  const [toast, setToast] = useState(null);
 
   const showAlert = (message, type) => {
     setAlert({
@@ -20,18 +22,42 @@ function App() {
       setAlert(null);
     }, 3500);
   };
+
+  const showToast = (content, copy = false, msg = "", variant = "primary") => {
+    console.log(content, copy, msg);
+    setToast({
+      content,
+      copy,
+      msg,
+      variant,
+    });
+  };
+
+  const handleToastClose = () => {
+    setToast(null);
+  };
+
   return (
     <>
-      <UserState prop={{ showAlert }}>
+      <UserState prop={{ showAlert, showToast }}>
         <Router>
           <Navbar />
           <Scrolltotop />
           <Alert alert={alert} />
+          {toast && (
+            <Toast
+              content={toast.content}
+              copy={toast.copy}
+              msg={toast.msg}
+              variant={toast.variant}
+              onClose={handleToastClose}
+            />
+          )}
           <Routes>
             <Route
               exact
               path="/"
-              element={<Home prop={{ showAlert }} />}
+              element={<Home prop={{ showAlert, showToast }} />}
             ></Route>
             <Route
               exact
@@ -41,7 +67,7 @@ function App() {
             <Route
               exact
               path="/outcomes"
-              element={<Outcomes prop={{ showAlert }} />}
+              element={<Outcomes prop={{ showAlert, showToast }} />}
             ></Route>
           </Routes>
         </Router>
