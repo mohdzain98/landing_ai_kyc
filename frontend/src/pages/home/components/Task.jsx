@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styling/task.css";
 import Spinner from "../../../components/Spinner";
 import { userContext } from "../../../context/userContext";
@@ -7,6 +7,7 @@ import { userContext } from "../../../context/userContext";
 const Task = ({ prop }) => {
   const showAlert = prop?.showAlert;
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     documentGroups,
     uploadStatuses,
@@ -26,7 +27,7 @@ const Task = ({ prop }) => {
         new window.bootstrap.Tooltip(tooltipTriggerEl);
       }
     });
-  }, []);
+  }, [location.pathname == "/"]);
 
   const allUploadsCompleted = useMemo(() => {
     if (!documentGroups || documentGroups.length === 0) {
@@ -187,9 +188,9 @@ const Task = ({ prop }) => {
             } btn-lg px-4 py-2 fw-semibold shadow`}
             onClick={handleProcessDocuments}
             disabled={!allUploadsCompleted}
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Click to view outcomes once all documents are uploaded"
+            // data-bs-toggle="tooltip"
+            // data-bs-placement="top"
+            // title="Click to view outcomes once all documents are uploaded"
           >
             Process Documents
             {anyUploadInFlight && <Spinner />}

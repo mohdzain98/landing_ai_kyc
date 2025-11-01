@@ -78,7 +78,7 @@ const DOCUMENT_GROUPS = [
       "Monthly invoice for essential services like water, electricity, gas.",
     icon: "fa-solid fa-money-bills",
     accept: ".pdf,.jpg,.jpeg,.png",
-    endpoint: "upload/utility_bill",
+    endpoint: "upload/utility_bills",
     formField: "utility_bills",
     successMessage: "Utility bills uploaded successfully.",
     errorMessage: "Unable to upload utility bills.",
