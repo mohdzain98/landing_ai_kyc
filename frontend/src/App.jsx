@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import UserState from "./context/UserState";
 import Navbar from "./components/Navbar";
 import Alert from "./components/Alert";
 import Scrolltotop from "./components/Scrolltotop";
@@ -21,24 +22,30 @@ function App() {
   };
   return (
     <>
-      <Router>
-        <Navbar />
-        <Scrolltotop />
-        <Alert alert={alert} />
-        <Routes>
-          <Route exact path="/" element={<Home prop={{ showAlert }} />}></Route>
-          <Route
-            exact
-            path="/about"
-            element={<About prop={{ showAlert }} />}
-          ></Route>
-          <Route
-            exact
-            path="/outcomes"
-            element={<Outcomes prop={{ showAlert }} />}
-          ></Route>
-        </Routes>
-      </Router>
+      <UserState prop={{ showAlert }}>
+        <Router>
+          <Navbar />
+          <Scrolltotop />
+          <Alert alert={alert} />
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={<Home prop={{ showAlert }} />}
+            ></Route>
+            <Route
+              exact
+              path="/about"
+              element={<About prop={{ showAlert }} />}
+            ></Route>
+            <Route
+              exact
+              path="/outcomes"
+              element={<Outcomes prop={{ showAlert }} />}
+            ></Route>
+          </Routes>
+        </Router>
+      </UserState>
     </>
   );
 }

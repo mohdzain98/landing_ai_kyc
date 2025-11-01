@@ -10,6 +10,7 @@ __pycache__/
 .DS_Store
 frontend/node_modules/
 backend/landing_ai
+backend/resources/*
 
 # Distribution / packaging
 .Python

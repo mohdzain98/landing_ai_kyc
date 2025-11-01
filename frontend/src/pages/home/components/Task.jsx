@@ -1,139 +1,78 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styling/task.css";
 import Spinner from "../../../components/Spinner";
-import { v4 as uuidv4 } from "uuid";
+import { userContext } from "../../../context/userContext";
 
 const Task = ({ prop }) => {
-  const [selectedFiles, setSelectedFiles] = useState({});
-  const [loader, setLoader] = useState(false);
   const showAlert = prop?.showAlert;
-  const host = "http://127.0.0.1:8000/api";
   const navigate = useNavigate();
+  const {
+    documentGroups,
+    uploadStatuses,
+    uploadSummary,
+    uploadDocumentGroup,
+    caseId,
+  } = useContext(userContext);
 
-  const documentGroups = useMemo(
-    () => [
-      {
-        title: "Identity Documents",
-        description:
-          "Passports, national IDs, or driver’s licenses to verify the applicant.",
-        icon: "fa-solid fa-id-card",
-        accept: ".pdf,.jpg,.jpeg,.png",
-        field: "identity_documents",
-      },
-      {
-        title: "Bank Statements",
-        description:
-          "Recent bank statements for liquidity verification and cash-flow trends.",
-        icon: "fa-solid fa-building-columns",
-        accept: ".pdf,.csv,.xlsx",
-        field: "bank_statements",
-      },
-      {
-        title: "Tax Statements",
-        description:
-          "Latest tax returns or filings to confirm declared income and obligations.",
-        icon: "fa-solid fa-file-invoice-dollar",
-        accept: ".pdf",
-        field: "tax_statements",
-      },
-      {
-        title: "Credit Reports",
-        description:
-          "Bureau-rated credit histories to surface existing liabilities and scores.",
-        icon: "fa-solid fa-chart-line",
-        accept: ".pdf",
-        field: "credit_reports",
-      },
-      {
-        title: "Income Proof",
-        description:
-          "Payslips, employment letters, or audited financials for income validation.",
-        icon: "fa-solid fa-briefcase",
-        accept: ".pdf,.jpg,.jpeg,.png",
-        field: "income_proof",
-      },
-      {
-        title: "Utility Bills",
-        description:
-          "monthly invoice for essential services like water, electricity, gas",
-        icon: "fa-solid fa-money-bills",
-        accept: ".pdf,.jpg,.jpeg,.png",
-        field: "utility_bills",
-      },
-    ],
-    []
-  );
-
-  // const filesReady = useMemo(
-  //   () =>
-  //     Object.values(selectedFiles).some(
-  //       (files) => Array.isArray(files) && files.length > 0
-  //     ),
-  //   [selectedFiles]
-  // );
-  const filesReady = useMemo(() => {
-    const values = Object.values(selectedFiles);
-    if (values.length < documentGroups.length) return false;
-    return values.every((files) => Array.isArray(files) && files.length > 0);
-  }, [selectedFiles, documentGroups]);
-
-  const handleProcessDocuments = async (event) => {
-    event.preventDefault();
-    const sid = uuidv4();
-    setLoader(true);
-    const payload = Object.entries(selectedFiles).reduce(
-      (acc, [category, files]) => {
-        if (files && files.length) {
-          acc[category] = files;
-        }
-        return acc;
-      },
-      {}
+  useEffect(() => {
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]'
     );
-    if (Object.keys(payload).length < documentGroups.length) {
-      showAlert("Please upload all the document before processing.", "warning");
-      setLoader(false);
+    // Initialize Bootstrap tooltips when available on the page.
+    [...tooltipTriggerList].forEach((tooltipTriggerEl) => {
+      if (window.bootstrap?.Tooltip) {
+        // eslint-disable-next-line no-new
+        new window.bootstrap.Tooltip(tooltipTriggerEl);
+      }
+    });
+  }, []);
+
+  const allUploadsCompleted = useMemo(() => {
+    if (!documentGroups || documentGroups.length === 0) {
+      return false;
+    }
+    return documentGroups.every(
+      (group) => uploadStatuses[group.key]?.status === "completed"
+    );
+  }, [documentGroups, uploadStatuses]);
+
+  const anyUploadInFlight = useMemo(() => {
+    if (!documentGroups || documentGroups.length === 0) {
+      return false;
+    }
+    return documentGroups.some(
+      (group) => uploadStatuses[group.key]?.status === "uploading"
+    );
+  }, [documentGroups, uploadStatuses]);
+
+  const handleFileChange = async (group, event) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length === 0) {
       return;
     }
-    const fd = new FormData();
-    const backendFieldByTitle = documentGroups.reduce((acc, group) => {
-      acc[group.title] = group.field;
-      return acc;
-    }, {});
-    Object.entries(payload).forEach(([title, files]) => {
-      const fieldName = backendFieldByTitle[title];
-      if (!fieldName) return;
-      files.forEach((file) => {
-        fd.append(fieldName, file, file.name);
-      });
-    });
-    const meta = { caseId: sid, source: "react-ui" };
-    fd.append("metadata", JSON.stringify(meta));
 
     try {
-      const res = await fetch(`${host}/upload/docs`, {
-        method: "POST",
-        body: fd,
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Upload failed:", text);
-        showAlert("Some error occurred while uploading documents.", "danger");
-        return;
-      }
-
-      const json = await res.json();
-      console.log("Uploaded:", json);
-      showAlert("Documents uploaded successfully.", "success");
-      navigate("/outcomes", { state: { caseId: json?.data?.caseId } });
+      await uploadDocumentGroup(group.key, files);
     } catch (error) {
-      console.error("Upload error:", error);
-      showAlert("Network error while uploading documents.", "danger");
-    } finally {
-      setLoader(false);
+      console.error(`Upload failed for ${group.key}`, error);
     }
+  };
+
+  const handleProcessDocuments = () => {
+    if (!allUploadsCompleted) {
+      if (typeof showAlert === "function") {
+        showAlert(
+          "Please upload each document before navigating to outcomes.",
+          "warning"
+        );
+      }
+      return;
+    }
+
+    navigate("/outcomes", {
+      state: { caseId: uploadSummary.caseId || caseId },
+    });
   };
 
   return (
@@ -147,13 +86,21 @@ const Task = ({ prop }) => {
           </p>
         </div>
         <div className="row g-4 justify-content-center">
-          {documentGroups.map((item) => {
+          {documentGroups?.map((item) => {
+            const uploadState = uploadStatuses[item.key] || {};
             const formats = item.accept
               .split(",")
               .map((format) => format.replace(".", "").toUpperCase())
               .join(" · ");
+            const isUploading = uploadState.status === "uploading";
+            const isCompleted = uploadState.status === "completed";
+            const hasError = uploadState.status === "error";
+            const hasFiles =
+              Array.isArray(uploadState.filesMeta) &&
+              uploadState.filesMeta.length > 0;
+
             return (
-              <div key={item.title} className="col-12 col-md-6 col-lg-4">
+              <div key={item.key} className="col-12 col-md-6 col-lg-4">
                 <div className="upload-card h-100 shadow-sm">
                   <div className="d-flex align-items-center mb-3">
                     <div className="upload-icon me-3">
@@ -169,28 +116,17 @@ const Task = ({ prop }) => {
                   <label className="form-label text-uppercase small fw-semibold text-muted">
                     Upload Files
                   </label>
-                  <label className="upload-dropzone mt-2">
+                  <label
+                    className="upload-dropzone mt-2"
+                    data-has-files={hasFiles ? "true" : "false"}
+                  >
                     <input
                       type="file"
                       className="upload-input"
                       accept={item.accept}
                       multiple
                       aria-label={`Upload ${item.title}`}
-                      onChange={(event) => {
-                        const files = Array.from(event.target.files || []);
-                        const dropzone =
-                          event.target.closest(".upload-dropzone");
-                        if (dropzone) {
-                          dropzone.setAttribute(
-                            "data-has-files",
-                            files.length > 0 ? "true" : "false"
-                          );
-                        }
-                        setSelectedFiles((prev) => ({
-                          ...prev,
-                          [item.title]: files,
-                        }));
-                      }}
+                      onChange={(event) => handleFileChange(item, event)}
                     />
                     <i className="fa-solid fa-cloud-arrow-up mb-3"></i>
                     <p className="mb-1 fw-semibold text-dark">
@@ -201,26 +137,42 @@ const Task = ({ prop }) => {
                       {formats} · up to 25MB each
                     </small>
                   </label>
+                  <div className="mt-2">
+                    {isUploading && (
+                      <small className="text-info fw-semibold">
+                        Uploading…
+                      </small>
+                    )}
+                    {isCompleted && !hasError && (
+                      <small className="text-success fw-semibold">
+                        Uploaded
+                      </small>
+                    )}
+                    {hasError && (
+                      <small className="text-danger fw-semibold">
+                        Failed to upload. Try again.
+                      </small>
+                    )}
+                  </div>
                   <div className="selected-file-list mt-3">
-                    {selectedFiles[item.title] &&
-                      selectedFiles[item.title].length > 0 && (
-                        <ul className="list-unstyled mb-0">
-                          {selectedFiles[item.title].map((file, index) => (
-                            <li
-                              key={`${item.title}-${file.name}-${index}`}
-                              className="selected-file-entry"
-                            >
-                              <i className="fa-solid fa-file-circle-check me-2 text-success" />
-                              <span className="file-name">{file.name}</span>
-                              <span className="file-size">
-                                {` (${(file.size / (1024 * 1024)).toFixed(
-                                  1
-                                )} MB)`}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                    {hasFiles && (
+                      <ul className="list-unstyled mb-0">
+                        {uploadState.filesMeta.map((file, index) => (
+                          <li
+                            key={`${item.key}-${file.name}-${index}`}
+                            className="selected-file-entry"
+                          >
+                            <i className="fa-solid fa-file-circle-check me-2 text-success" />
+                            <span className="file-name">{file.name}</span>
+                            <span className="file-size">
+                              {` (${(file.size / (1024 * 1024)).toFixed(
+                                1
+                              )} MB)`}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               </div>
@@ -230,12 +182,17 @@ const Task = ({ prop }) => {
         <div className="text-center mt-5">
           <button
             type="button"
-            className="btn btn-primary btn-lg px-4 py-2 fw-semibold shadow"
+            className={`btn btn-${
+              !allUploadsCompleted ? "secondary" : "primary"
+            } btn-lg px-4 py-2 fw-semibold shadow`}
             onClick={handleProcessDocuments}
-            disabled={!filesReady}
+            disabled={!allUploadsCompleted}
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Click to view outcomes once all documents are uploaded"
           >
             Process Documents
-            {loader && <Spinner />}
+            {anyUploadInFlight && <Spinner />}
           </button>
         </div>
       </div>
