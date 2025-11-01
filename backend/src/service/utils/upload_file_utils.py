@@ -29,7 +29,7 @@ async def persist_file_in_local(metadata, file_to_persist, file_type):
     destination = category_dir / filename
     await save_upload_file(file_to_persist, destination)
 
-    return case_id
+    return case_id, folder_name
 
 
 async def save_upload_file(upload_file: UploadFile, destination: Path) -> None:
