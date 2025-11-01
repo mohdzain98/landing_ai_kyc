@@ -1,5 +1,4 @@
 from typing import List, Optional
-from fastapi.responses import PlainTextResponse
 from fastapi import Form, File, UploadFile, APIRouter
 
 from src.model.Response import Response
@@ -11,7 +10,7 @@ router = APIRouter()
 
 
 @router.post("/bank_statement", response_model=Response)
-async def upload_documents(
+async def upload_bank_statement(
     metadata: Optional[str] = Form(None),
     bank_statements: Optional[UploadFile] = File(None)
 ) -> Response:
@@ -33,7 +32,7 @@ async def upload_documents(
 
 
 @router.post("/identity_document", response_model=Response)
-async def upload_documents(
+async def upload_identity_document(
     metadata: Optional[str] = Form(None),
     identity_documents: Optional[UploadFile] = File(None)
 ) -> Response:
@@ -55,7 +54,7 @@ async def upload_documents(
 
 
 @router.post("/credit_report", response_model=Response)
-async def upload_documents(
+async def upload_credit_report(
     metadata: Optional[str] = Form(None),
     credit_reports: Optional[UploadFile] = File(None)
 ) -> Response:
@@ -77,7 +76,7 @@ async def upload_documents(
 
 
 @router.post("/income_proof", response_model=Response)
-async def upload_documents(
+async def upload_income_proof(
     metadata: Optional[str] = Form(None),
     income_proof: Optional[UploadFile] = File(None)
 ) -> Response:
@@ -99,7 +98,7 @@ async def upload_documents(
 
 
 @router.post("/tax_statement", response_model=Response)
-async def upload_documents(
+async def upload_tax_statement(
     metadata: Optional[str] = Form(None),
     tax_statements: Optional[UploadFile] = File(None)
 ) -> Response:
@@ -121,7 +120,7 @@ async def upload_documents(
 
 
 @router.post("/utility_bill", response_model=Response)
-async def upload_documents(
+async def upload_utility_bill(
     metadata: Optional[str] = Form(None),
     utility_bills: Optional[UploadFile] = File(None)
 ) -> Response:
