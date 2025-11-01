@@ -20,7 +20,7 @@ const DOCUMENT_GROUPS = [
     accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/identity_document",
     formField: "identity_documents",
-    successMessage: "Identity documents uploaded successfully.",
+    successMessage: "Identity documents processed successfully.",
     errorMessage: "Unable to upload identity documents.",
   },
   {
@@ -29,10 +29,10 @@ const DOCUMENT_GROUPS = [
     description:
       "Recent bank statements for liquidity verification and cash-flow trends.",
     icon: "fa-solid fa-building-columns",
-    accept: ".pdf,.csv,.xlsx",
+    accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/bank_statement",
     formField: "bank_statements",
-    successMessage: "Bank statements uploaded successfully.",
+    successMessage: "Bank statements processed successfully.",
     errorMessage: "Unable to upload bank statements.",
   },
   {
@@ -41,10 +41,10 @@ const DOCUMENT_GROUPS = [
     description:
       "Latest tax returns or filings to confirm declared income and obligations.",
     icon: "fa-solid fa-file-invoice-dollar",
-    accept: ".pdf",
+    accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/tax_statement",
     formField: "tax_statements",
-    successMessage: "Tax statements uploaded successfully.",
+    successMessage: "Tax statements processed successfully.",
     errorMessage: "Unable to upload tax statements.",
   },
   {
@@ -53,10 +53,10 @@ const DOCUMENT_GROUPS = [
     description:
       "Bureau-rated credit histories to surface existing liabilities and scores.",
     icon: "fa-solid fa-chart-line",
-    accept: ".pdf",
+    accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/credit_report",
     formField: "credit_reports",
-    successMessage: "Credit reports uploaded successfully.",
+    successMessage: "Credit reports processed successfully.",
     errorMessage: "Unable to upload credit reports.",
   },
   {
@@ -68,7 +68,7 @@ const DOCUMENT_GROUPS = [
     accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/income_proof",
     formField: "income_proof",
-    successMessage: "Income proof uploaded successfully.",
+    successMessage: "Income proof processed successfully.",
     errorMessage: "Unable to upload income proof.",
   },
   {
@@ -78,9 +78,9 @@ const DOCUMENT_GROUPS = [
       "Monthly invoice for essential services like water, electricity, gas.",
     icon: "fa-solid fa-money-bills",
     accept: ".pdf,.jpg,.jpeg,.png",
-    endpoint: "upload/utility_bills",
+    endpoint: "upload/utility_bill",
     formField: "utility_bills",
-    successMessage: "Utility bills uploaded successfully.",
+    successMessage: "Utility bills processed successfully.",
     errorMessage: "Unable to upload utility bills.",
   },
 ];
@@ -99,7 +99,18 @@ const createInitialUploadState = () =>
 
 const UserState = ({ children, prop }) => {
   const showAlert = prop?.showAlert;
+  const showToast = prop?.showToast;
   const [uploads, setUploads] = useState(() => createInitialUploadState());
+  const [uploadCount, setUploadCount] = useState(0);
+
+  const changeUploadCount = (value = 10) => {
+    if (value != 10) {
+      setUploadCount(value);
+    } else {
+      setUploadCount((prevCount) => prevCount + 1);
+    }
+  };
+
   const [summary, setSummary] = useState({
     completed: 0,
     total: DOCUMENT_GROUPS.length,
@@ -148,7 +159,7 @@ const UserState = ({ children, prop }) => {
         ...prev,
         [groupKey]: {
           ...prev[groupKey],
-          status: "uploading",
+          status: "processing",
           error: null,
           filesMeta,
           updatedAt: Date.now(),
@@ -192,7 +203,7 @@ const UserState = ({ children, prop }) => {
           caseIdRef.current = data.data.caseId;
         }
 
-        showAlert(group.successMessage, "success");
+        showToast(group.successMessage, false, group.successMessage, "success");
         return data;
       } catch (error) {
         console.error(`Upload error for ${group.key}:`, error);
@@ -244,8 +255,17 @@ const UserState = ({ children, prop }) => {
       uploadDocumentGroup,
       resetUploads,
       caseId: caseIdRef.current,
+      uploadCount: uploadCount,
+      changeUploadCount,
     }),
-    [uploads, summary, uploadDocumentGroup, resetUploads]
+    [
+      uploads,
+      summary,
+      uploadDocumentGroup,
+      resetUploads,
+      uploadCount,
+      changeUploadCount,
+    ]
   );
 
   return <userContext.Provider value={value}>{children}</userContext.Provider>;
