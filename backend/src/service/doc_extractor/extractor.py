@@ -3,7 +3,7 @@ import json
 
 from landingai_ade import LandingAIADE
 from landingai_ade.lib import pydantic_to_json_schema
-from doc_extractor.logger import get_logger
+from src.service.doc_extractor.logger import get_logger
 
 class DocumentExtractor:
     """Small, simple wrapper for parsing, extracting and saving boxes."""

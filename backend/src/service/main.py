@@ -8,21 +8,21 @@ locations with bounding boxes.
 from pathlib import Path
 import json
 from landingai_ade import LandingAIADE
-from doc_extractor.extractor import DocumentExtractor
-from doc_extractor.schemas import (Account,
+from src.service.doc_extractor.extractor import DocumentExtractor
+from src.service.doc_extractor.schemas import (Account,
                                    IdentityDocument,
                                    TaxStatement,
                                    IncomeProof,
                                    UtilityBill,
                                    CreditReport)
 from dotenv import load_dotenv
-from doc_extractor.utils import (
+from src.service.doc_extractor.utils import (
     get_chunk_by_id,
     extract_bbox_from_response,
     draw_bounding_box,
     list_folders_with_files
 )
-from doc_extractor.logger import get_logger
+from src.service.doc_extractor.logger import get_logger
 
 # Initialize logger for this module
 logger = get_logger(__name__)

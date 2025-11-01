@@ -3,7 +3,7 @@ from fastapi import Form, File, UploadFile, APIRouter
 
 from src.model.Response import Response
 from src.service.utils.upload_file_utils import persist_file_in_local
-from src.service.extract_utils.document_data_extractor import extract
+from src.service.main import process_documents
 
 router = APIRouter()
 
@@ -22,7 +22,7 @@ async def upload_documents(
     folder_id = await persist_file_in_local(metadata, identity_documents, bank_statements, tax_statements, credit_reports,
                                           income_proof, utility_bills)
 
-    extract(folder_id)
+    process_documents(folder_id)
 
     return Response(
         status="success",

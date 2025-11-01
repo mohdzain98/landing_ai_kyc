@@ -1,12 +1,10 @@
 pandas
 fastapi
-dotenv
 uvicorn
 typing
 typing_extensions
 pymupdf
 python-multipart
-io
 Pillow
 PyMuPDF
 python-dotenv
