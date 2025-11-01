@@ -1,16 +1,75 @@
-# React + Vite
+# Frontend Setup (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Follow these steps to install prerequisites, install dependencies, and run the React frontend that lives in this `frontend/` directory.
 
-Currently, two official plugins are available:
+## 1. Install Node.js (if needed)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Check whether Node.js is already available:
+   ```bash
+   node -v
+   npm -v
+   ```
+2. If either command is missing, install the Long-Term Support (LTS) release of Node.js (which bundles npm):
+   - **macOS / Windows**: Download the installer from https://nodejs.org/en/download and run it.
+   - **Linux**: Use your package manager (`sudo apt install nodejs npm`, `sudo dnf install nodejs`, etc.) or use `nvm` following the instructions at https://github.com/nvm-sh/nvm.
+3. Restart your terminal and re-run `node -v` and `npm -v` to verify the installation.
 
-## React Compiler
+> Minimum recommended version: **Node.js 18.x** with the npm version that ships alongside it.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+### Install Node.js via nvm (alternative method)
 
-## Expanding the ESLint configuration
+If you prefer managing Node.js versions with nvm:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+source "$NVM_DIR/nvm.sh"
+nvm install --lts
+nvm use --lts
+```
+
+Re-open your terminal or source your shell profile after the install so `nvm` is available in every session.
+
+## 2. Install project dependencies
+
+From the `frontend/` directory run:
+
+```bash
+npm install
+```
+
+This command reads `package.json` and downloads everything into `node_modules/`.
+
+## 3. Run the development server
+
+To start Vite in dev mode with hot module replacement:
+
+```bash
+npm run dev
+```
+
+- Default URL: http://localhost:5173
+- Press `q` or `Ctrl+C` in the terminal to stop the server.
+
+## 4. Build for production
+
+To create an optimized build in `dist/`:
+
+```bash
+npm run build
+```
+
+To preview that build locally:
+
+```bash
+npm run preview
+```
+
+## 5. Optional npm scripts
+
+Additional scripts available (if configured in `package.json`):
+
+- `npm run lint` — run ESLint checks
+- `npm run test` — execute frontend tests
+
+Refer to `package.json` for the complete list and adjust commands as your workflow evolves.
