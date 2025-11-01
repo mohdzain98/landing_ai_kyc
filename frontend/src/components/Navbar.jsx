@@ -1,8 +1,15 @@
-import React from "react";
+import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { userContext } from "../context/userContext";
 
 const Navbar = () => {
   const location = useLocation();
+  const { resetUploads, changeUploadCount } = useContext(userContext);
+
+  const handleReset = () => {
+    resetUploads();
+    changeUploadCount(0);
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
       <div className="container">
@@ -29,6 +36,7 @@ const Navbar = () => {
                 }`}
                 aria-current="page"
                 to="/"
+                onClick={handleReset}
               >
                 Home
               </Link>
