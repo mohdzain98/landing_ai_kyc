@@ -1,0 +1,67 @@
+{
+  "account_holder_name": "MAINI CONSTRUCTIONS EQ PVT LTD",
+  "bank_name": "State Bank of India",
+  "account_number_masked": "00000061031423302",
+  "transactions_table": [
+    {
+      "date": "1 Jun 2017",
+      "description": "DEBIT-: 3131017BC00000 40 01604111000001 TF78117105389-",
+      "amount": "1,150.00",
+      "type": "Debit"
+    },
+    {
+      "date": "1 Jun 2017",
+      "description": "CORR DEBIT--",
+      "amount": "1,150.00",
+      "type": "Credit"
+    },
+    {
+      "date": "1 Jun 2017",
+      "description": "DEBIT-: 3131017BC00000 34 01604111000001 TF78117105389-",
+      "amount": "575.00",
+      "type": "Debit"
+    },
+    {
+      "date": "1 Jun 2017",
+      "description": "TO TRANSFER-: 3131017BC00000 34 01604111000001 TF78117105389-",
+      "amount": "9,749.00",
+      "type": "Debit"
+    },
+    {
+      "date": "2 Jun 2017",
+      "description": "CHQ RET CHARGES-- 225462",
+      "amount": "575.00",
+      "type": "Debit"
+    },
+    {
+      "date": "2 Jun 2017",
+      "description": "CHQ RET CHARGES-- 224651",
+      "amount": "575.00",
+      "type": "Debit"
+    },
+    {
+      "date": "3 Jun 2017",
+      "description": "TO TRANSFER- MAINI BILL REPLY OF NOTICE-",
+      "amount": "5,500.00",
+      "type": "Debit"
+    },
+    {
+      "date": "6 Jun 2017",
+      "description": "CHQ RET CHARGES-- 224653",
+      "amount": "575.00",
+      "type": "Debit"
+    },
+    {
+      "date": "8 Jun 2017",
+      "description": "CHQ RET CHARGES-- 224574",
+      "amount": "575.00",
+      "type": "Debit"
+    },
+    {
+      "date": "8 Jun 2017",
+      "description": "CHQ RET CHARGES-- 225319",
+      "amount": "575.00",
+      "type": "Debit"
+    }
+  ]
+}
