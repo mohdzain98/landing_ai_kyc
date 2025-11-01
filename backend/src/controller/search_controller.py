@@ -8,12 +8,12 @@ router = APIRouter()
 
 
 @router.get("/search-doc", response_model=Response)
-async def search_docs(uuid: str, folder_type: str):
+async def search_docs(uuid: str):
     return Response(
         status=200,
         message="Document Evaluation done",
         data={
-            "content": search(uuid, folder_type),
+            "content": search(uuid),
             "uuid": uuid
         },
         errors=None,
