@@ -66,7 +66,7 @@ function App() {
             ></Route>
             <Route
               exact
-              path="/outcomes"
+              path="/outcomes/:caseid"
               element={<Outcomes prop={{ showAlert, showToast }} />}
             ></Route>
           </Routes>
