@@ -102,6 +102,12 @@ const UserState = ({ children, prop }) => {
   const showToast = prop?.showToast;
   const [uploads, setUploads] = useState(() => createInitialUploadState());
   const [uploadCount, setUploadCount] = useState(0);
+  const [finalVerdict, setFinalVerdict] = useState({
+    status: "idle",
+    data: null,
+    error: null,
+    lastFetched: null,
+  });
 
   const changeUploadCount = (value = 10) => {
     if (value != 10) {
@@ -126,6 +132,12 @@ const UserState = ({ children, prop }) => {
       total: DOCUMENT_GROUPS.length,
       lastUpdated: null,
       caseId: caseIdRef.current,
+    });
+    setFinalVerdict({
+      status: "idle",
+      data: null,
+      error: null,
+      lastFetched: null,
     });
   }, []);
 
@@ -224,6 +236,72 @@ const UserState = ({ children, prop }) => {
     [showAlert]
   );
 
+  const getFinalVerdict = useCallback(
+    async (uuid) => {
+      const targetUuid = uuid || caseIdRef.current;
+
+      if (!targetUuid) {
+        const error = new Error("Case ID is required to fetch verdict.");
+        setFinalVerdict((prev) => ({
+          ...prev,
+          status: "error",
+          error: error.message,
+          lastFetched: Date.now(),
+        }));
+        throw error;
+      }
+
+      setFinalVerdict((prev) => ({
+        ...prev,
+        status: "loading",
+        error: null,
+      }));
+
+      try {
+        const response = await fetch(
+          `${API_HOST}/evaluate/evaluate-doc?uuid=${encodeURIComponent(
+            targetUuid
+          )}`
+        );
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(
+            errorText || "Failed to retrieve final verdict from server."
+          );
+        }
+
+        const payload = await response.json().catch(() => ({}));
+        const verdictData = payload?.data ?? null;
+
+        setFinalVerdict({
+          status: "success",
+          data: verdictData,
+          error: null,
+          lastFetched: Date.now(),
+        });
+
+        return verdictData;
+      } catch (error) {
+        console.error("Error fetching final verdict:", error);
+
+        setFinalVerdict({
+          status: "error",
+          data: null,
+          error: error.message || "Unknown error",
+          lastFetched: Date.now(),
+        });
+
+        if (typeof showAlert === "function") {
+          showAlert("Unable to fetch final verdict.", "danger");
+        }
+
+        throw error;
+      }
+    },
+    [showAlert]
+  );
+
   useEffect(() => {
     const completed = Object.values(uploads).filter(
       (item) => item.status === "completed"
@@ -257,6 +335,8 @@ const UserState = ({ children, prop }) => {
       caseId: caseIdRef.current,
       uploadCount: uploadCount,
       changeUploadCount,
+      finalVerdict,
+      getFinalVerdict,
     }),
     [
       uploads,
@@ -265,6 +345,8 @@ const UserState = ({ children, prop }) => {
       resetUploads,
       uploadCount,
       changeUploadCount,
+      finalVerdict,
+      getFinalVerdict,
     ]
   );
 
