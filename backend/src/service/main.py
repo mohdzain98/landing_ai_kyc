@@ -187,6 +187,12 @@ def run(document_path: str | Path, document_type: str, output_dir: str | Path, m
         output_dir=output_dir,
     )
     
+    # Draw bounding boxes for all chunks
+    try:
+        extractor.draw_bounding_boxes(parse_resp, document_path,document_type, output_dir)
+    except Exception as e:
+        logger.warning(f"Failed to draw bounding boxes: {e}")
+    
     # Calculate bounding boxes for all extracted fields
     field_bboxes = compute_field_bboxes(
         extractor, document_type, parse_resp, extracted_metadata
@@ -274,7 +280,7 @@ def process_documents(folder_id: str,document_type: str, model: str = MODEL) -> 
 
 
 # Main execution block
-# if __name__ == "__main__":
-#     folder_id = 'bc0f8f34-1933-448b-9259-de05b80a0814'
-#     results = process_documents(folder_id=folder_id,document_type='bank-statements')
-#     print(f"Processing complete. Results: {results}")
+if __name__ == "__main__":
+    folder_id = 'bc0f8f34-1933-448b-9259-de05b80a081467'
+    results = process_documents(folder_id=folder_id,document_type='bank-statements')
+    print(f"Processing complete. Results: {results}")
