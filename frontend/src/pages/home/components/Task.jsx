@@ -67,7 +67,7 @@ const Task = (props) => {
       return;
     }
 
-    navigate("/outcomes", {
+    navigate(`/outcomes/${caseId}`, {
       state: { caseId: uploadSummary.caseId || caseId },
     });
   };
