@@ -3,9 +3,9 @@ from fastapi import Form, File, UploadFile, APIRouter
 
 from src.model.Response import Response
 from src.service.utils.upload_file_utils import persist_file_in_local
-from src.service.summariser_module.get_summary import get_markdown
-from src.service.main import process_documents
-from src.service.loan_core.utils import get_document_files
+from src.service.summariser_module.get_summary import get_markdown, get_document_data
+#from src.service.main import process_documents
+#from src.service.loan_core.utils import get_document_files
 from src.service.loan_core.document_kpi_logic.bank_statement_kpi import BankStatementKPIService
 
 router = APIRouter()
@@ -19,6 +19,7 @@ async def upload_bank_statement(
 ) -> Response:
 
     folder_id, folder_name = await persist_file_in_local(metadata, bank_statements, "bank_statements")
+    """
     result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
     files = get_document_files(
                                 document_type=document_type,
@@ -27,8 +28,9 @@ async def upload_bank_statement(
     statement_json = files['json']
     bank_statement_kpis = bankstatement_kpi.calculate_bank_kpis(statement_json)
     bankstatement_kpi.save_json_to_file(bank_statement_kpis,base_path,document_type)
-
-    markdown = get_markdown(folder_id, folder_name)
+    """
+    folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
+    markdown = get_document_data(folder_id, folder_name)
 
     return Response(
         status=200,
@@ -48,8 +50,8 @@ async def upload_identity_document(
 ) -> Response:
 
     folder_id, folder_name = await persist_file_in_local(metadata, identity_documents, "identity_documents")
-    result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    #folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"ts(folder_id, folder_name)
+    # result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
+    folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
     markdown = get_markdown(folder_id, folder_name)
 
     return Response(
@@ -70,8 +72,8 @@ async def upload_credit_report(
 ) -> Response:
 
     folder_id, folder_name = await persist_file_in_local(metadata, credit_reports, "credit_reports")
-    result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    #folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"ts(folder_id, folder_name)
+    # result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
+    folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
     markdown = get_markdown(folder_id, folder_name)
 
     return Response(
@@ -92,8 +94,8 @@ async def upload_income_proof(
 ) -> Response:
 
     folder_id, folder_name = await persist_file_in_local(metadata, income_proof, "income_proof")
-    result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    #folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"ts(folder_id, folder_name)
+    # result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
+    folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
     markdown = get_markdown(folder_id, folder_name)
 
     return Response(
@@ -114,8 +116,8 @@ async def upload_tax_statement(
 ) -> Response:
 
     folder_id, folder_name = await persist_file_in_local(metadata, tax_statements, "tax_statements")
-    result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    #folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"ts(folder_id, folder_name)
+    # result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
+    folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
     markdown = get_markdown(folder_id, folder_name)
 
     return Response(
@@ -136,8 +138,8 @@ async def upload_utility_bill(
 ) -> Response:
 
     folder_id, folder_name = await persist_file_in_local(metadata, utility_bills, "utility_bills")
-    result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    #folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"ts(folder_id, folder_name)
+    # result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
+    folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
     markdown = get_markdown(folder_id, folder_name)
 
     return Response(
