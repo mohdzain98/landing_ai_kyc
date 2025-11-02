@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from ..controller.upload_controller import router as search_router
+from ..controller.upload_controller import router as upload_router
+from ..controller.evaluate_controller import router as evaluate_router
+from ..controller.search_controller import router as search_router
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -12,4 +16,6 @@ app.add_middleware(
 )
 
 # Include all routers
-app.include_router(search_router, prefix="/api/upload")
+app.include_router(upload_router, prefix="/api/upload")
+app.include_router(evaluate_router, prefix="/api/evaluate")
+app.include_router(search_router, prefix="/api/search")
