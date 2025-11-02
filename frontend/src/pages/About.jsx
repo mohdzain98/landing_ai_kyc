@@ -49,7 +49,7 @@ const About = ({ prop }) => {
       focus: "",
     },
     {
-      name: "Abhisek Bannerjee",
+      name: "Abhisek Banerjee",
       role: "Senior Lead Data Scientist",
       focus: "",
     },
@@ -61,10 +61,10 @@ const About = ({ prop }) => {
   ];
 
   const documentTypes = [
-    "Identity proofs (IDs, passports, KYC forms)",
+    "Identity proofs (IDs, passports, Driving License)",
     "Income proofs & payslips",
     "Bank statements and cash-flow exports",
-    "Tax returns (ITR, GST)",
+    "Tax returns",
     "Credit bureau reports & scorecards",
   ];
 
