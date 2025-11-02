@@ -1,0 +1,55 @@
+import json
+
+class DecisionEngine:
+    def __init__(self):
+        pass
+
+    def make_decision(self, loan_metrics, kpis, final_score, fraud_result, hard_rules):
+        """
+        Combine outputs from all modules to decide loan approval status.
+        """
+        # Default decision
+        decision = {
+            "status": "manual_review",
+            "reason": "Unable to determine automatically",
+            "score": final_score.get("score", None),
+        }
+
+        # 1. Hard rejection check
+        if hard_rules.get("rejected", False):
+            decision["status"] = "rejected"
+            decision["reason"] = hard_rules.get("reason", "Hard rule triggered")
+            return decision
+
+        # 2. Fraud detection threshold
+        if fraud_result.get("fraud_score", 0) > 0.8:
+            decision["status"] = "rejected"
+            decision["reason"] = "High fraud risk detected"
+            return decision
+
+        # 3. Credit score or weighted score
+        score = final_score.get("score", 0)
+        if score >= 750:
+            decision["status"] = "approved"
+            decision["reason"] = "Strong financial and credit indicators"
+        elif 600 <= score < 750:
+            decision["status"] = "manual_review"
+            decision["reason"] = "Borderline score; manual verification needed"
+        else:
+            decision["status"] = "rejected"
+            decision["reason"] = "Low creditworthiness"
+
+        return decision
+
+
+if __name__ == "__main__":
+    # Mock input
+    loan_metrics = {"dti_ratio": 0.3, "loan_to_income": 0.25}
+    kpis = {"avg_balance": 20000, "salary_stability": 0.9}
+    final_score = {"score": 720}
+    fraud_result = {"fraud_score": 0.2}
+    hard_rules = {"rejected": False}
+
+    engine = DecisionEngine()
+    output = engine.make_decision(loan_metrics, kpis, final_score, fraud_result, hard_rules)
+    print(json.dumps(output, indent=4))
