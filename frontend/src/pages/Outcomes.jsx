@@ -1,8 +1,28 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import Spinner from "../components/Spinner";
 import { userContext } from "../context/userContext";
+import { defaultSchema } from "hast-util-sanitize";
+
+const schema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    a: [...(defaultSchema.attributes?.a || []), ["id", "className"]],
+    span: [["className"]],
+  },
+};
 
 const STATUS_CONFIG = {
   idle: {
@@ -28,18 +48,28 @@ const STATUS_CONFIG = {
 };
 
 const Outcomes = (props) => {
-  const { showToast } = props.prop;
+  const { showAlert, showToast } = props.prop;
+  const { caseid } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const [page, setPage] = useState("page_1");
   const {
     documentGroups,
     uploadStatuses,
     uploadSummary,
     resetUploads,
     changeUploadCount,
+    finalVerdict,
+    getFinalVerdict,
   } = useContext(userContext);
 
   const caseId = location?.state?.caseId || uploadSummary?.caseId;
+  useEffect(() => {
+    if (caseid != caseId) {
+      navigate("/");
+      showAlert("Not Allowed", "danger");
+    }
+  }, []);
 
   const [activeKey, setActiveKey] = useState(
     () => documentGroups?.[0]?.key ?? null
@@ -78,6 +108,18 @@ const Outcomes = (props) => {
     });
   }, [documentGroups, uploadStatuses]);
 
+  const allDocumentsCompleted = useMemo(
+    () =>
+      cards.length > 0 && cards.every((card) => card.statusKey === "completed"),
+    [cards]
+  );
+
+  const verdictData = finalVerdict?.data ?? null;
+  const verdictUuid = verdictData?.uuid ?? null;
+  const verdictContent = verdictData?.content;
+  const verdictStatus = finalVerdict.status;
+  const verdictError = finalVerdict.error;
+
   const handleCopy = (content, copy, msg) => {
     if (typeof showToast === "function") {
       showToast(content, copy, msg);
@@ -102,22 +144,166 @@ const Outcomes = (props) => {
     }));
   };
 
-  const verdict =
-    cards.length > 0 && cards.every((card) => card.statusKey === "completed")
-      ? "Yes"
-      : "Still Processing";
+  const handlePageChange = () => {
+    setPage((prev) => (prev === "page_1" ? "page_2" : "page_1"));
+  };
 
-  const verdictVariant = verdict === "Yes" ? "success" : "danger";
-  const verdictIcon =
-    verdict === "Yes"
-      ? "fa-solid fa-circle-check fa-beat-fade"
-      : "fa-solid fa-spinner fa-beat";
-  const verdictCopy =
-    verdict === "Yes" ? "You are Eligible for the Loan." : "Processing";
+  useEffect(() => {
+    if (!caseId || !allDocumentsCompleted) {
+      return;
+    }
+
+    if (finalVerdict.status === "loading") {
+      return;
+    }
+
+    if (
+      finalVerdict.status === "idle" ||
+      (finalVerdict.status === "success" && verdictUuid !== caseId)
+    ) {
+      getFinalVerdict(caseId).catch(() => {});
+    }
+  }, [
+    caseId,
+    allDocumentsCompleted,
+    finalVerdict.status,
+    verdictUuid,
+    getFinalVerdict,
+  ]);
+
+  const handleRetryFinalVerdict = useCallback(() => {
+    if (!caseId || finalVerdict.status === "loading") {
+      return;
+    }
+    getFinalVerdict(caseId).catch(() => {});
+  }, [caseId, finalVerdict.status, getFinalVerdict]);
+
+  const verdictDisplay = useMemo(() => {
+    const base = {
+      label: "Waiting for verdict",
+      message:
+        "We will share the final verdict once all documents finish processing.",
+      variant: "warning",
+      icon: "fa-solid fa-hourglass-half fa-beat",
+      showRetry: false,
+    };
+
+    if (!allDocumentsCompleted) {
+      return base;
+    }
+
+    if (verdictStatus === "loading") {
+      return {
+        label: "Fetching verdict...",
+        message: "Please wait while we finalize the assessment.",
+        variant: "info",
+        icon: "fa-solid fa-circle-notch fa-spin",
+        showRetry: false,
+      };
+    }
+
+    if (verdictStatus === "error") {
+      return {
+        label: "Unable to fetch verdict",
+        message:
+          verdictError ||
+          "We couldn't retrieve the final decision. Please try again.",
+        variant: "danger",
+        icon: "fa-solid fa-triangle-exclamation",
+        showRetry: true,
+      };
+    }
+
+    if (verdictStatus === "success") {
+      let primaryText = "";
+      let secondaryText = "";
+
+      if (typeof verdictContent === "string") {
+        primaryText = verdictContent.trim();
+      } else if (verdictContent && typeof verdictContent === "object") {
+        primaryText =
+          verdictContent.verdict ||
+          verdictContent.decision ||
+          verdictContent.status ||
+          verdictContent.label ||
+          "";
+        secondaryText =
+          verdictContent.message ||
+          verdictContent.summary ||
+          verdictContent.reason ||
+          "";
+      }
+
+      if (!primaryText) {
+        primaryText =
+          verdictData?.verdict ||
+          verdictData?.decision ||
+          verdictData?.status ||
+          "Completed";
+      }
+
+      if (!secondaryText) {
+        secondaryText =
+          verdictData?.message ||
+          verdictData?.summary ||
+          verdictData?.reason ||
+          "";
+      }
+
+      if (!secondaryText) {
+        secondaryText =
+          "Review the evaluation summary above for more insights.";
+      }
+
+      const normalized = primaryText.toLowerCase();
+      let variant = "warning";
+      let icon = "fa-solid fa-scale-balanced";
+
+      if (/(yes|approve|eligible|pass|green)/.test(normalized)) {
+        variant = "success";
+        icon = "fa-solid fa-circle-check";
+      } else if (/(no|reject|ineligible|fail|decline|red)/.test(normalized)) {
+        variant = "danger";
+        icon = "fa-solid fa-circle-xmark";
+      } else if (/(pending|review|processing)/.test(normalized)) {
+        variant = "info";
+        icon = "fa-solid fa-hourglass-half";
+      }
+
+      return {
+        label: primaryText,
+        message: secondaryText,
+        variant,
+        icon,
+        showRetry: false,
+      };
+    }
+
+    return base;
+  }, [
+    allDocumentsCompleted,
+    verdictStatus,
+    verdictError,
+    verdictContent,
+    verdictData,
+  ]);
+
+  const verdictVariant = verdictDisplay.variant;
+  const verdictIcon = verdictDisplay.icon;
+  const verdictLabel = verdictDisplay.label;
+  const verdictMessage = verdictDisplay.message;
+  const showVerdictRetry = verdictDisplay.showRetry;
+
   const verdictPanelStyle =
-    verdict === "Yes"
+    verdictVariant === "success"
       ? { backgroundColor: "rgba(25, 135, 84, 0.07)" }
-      : { backgroundColor: "rgba(220, 53, 69, 0.07)" };
+      : verdictVariant === "danger"
+      ? { backgroundColor: "rgba(220, 53, 69, 0.07)" }
+      : verdictVariant === "info"
+      ? { backgroundColor: "rgba(13, 202, 240, 0.12)" }
+      : verdictVariant === "warning"
+      ? { backgroundColor: "rgba(255, 193, 7, 0.12)" }
+      : { backgroundColor: "rgba(108, 117, 125, 0.08)" };
 
   const handleTryOtherDocument = () => {
     changeUploadCount(6);
@@ -209,40 +395,44 @@ const Outcomes = (props) => {
                   <div
                     className="position-relative"
                     style={
-                      !isExpanded
+                      !isExpanded && page === "page_2"
                         ? {
-                            maxHeight: "800px",
+                            maxHeight: "500px",
                             overflow: "hidden",
+                            overflowY: "scroll",
                           }
                         : undefined
                     }
                   >
-                    <div className="result-markdown">
-                      <ReactMarkdown>
-                        {activeCard.response.data.content}
-                      </ReactMarkdown>
-                    </div>
-                    {!isExpanded &&
-                      activeCard.response.data.content.length > 400 && (
-                        <div
-                          className="position-absolute bottom-0 start-0 end-0"
-                          style={{
-                            height: "72px",
-                            background:
-                              "linear-gradient(180deg, rgba(248,249,250,0) 0%, rgba(248,249,250,1) 85%)",
-                          }}
-                        ></div>
+                    <div className="">
+                      {page == "page_1" ? (
+                        <center>
+                          <img
+                            src={`data:image/png;base64,${activeCard.response.data.content["page_1"]}`}
+                            alt="Extracted Annotation Not Found"
+                          />
+                        </center>
+                      ) : (
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[
+                            [rehypeRaw],
+                            [rehypeSanitize, schema],
+                          ]}
+                        >
+                          {activeCard.response.data.content["page_2"]}
+                        </ReactMarkdown>
                       )}
+                    </div>
                   </div>
-                  {activeCard.response.data.content.length > 400 && (
+                  <center>
                     <button
-                      type="button"
-                      className="btn btn-link p-0 mt-2"
-                      onClick={toggleExpanded}
+                      className="btn btn-outline-dark my-3 px-5"
+                      onClick={handlePageChange}
                     >
-                      {isExpanded ? "Show less" : "Show more"}
+                      {page == "page_1" ? "KPIs" : "Extracted Annotations"}
                     </button>
-                  )}
+                  </center>
                 </div>
               )}
 
@@ -298,9 +488,19 @@ const Outcomes = (props) => {
               <div>
                 <h3 className="h5 fw-bold mb-1">The Final Verdict</h3>
                 <p className={`fs-4 fw-semibold text-${verdictVariant} mb-2`}>
-                  {verdict}
+                  {verdictLabel}
                 </p>
-                <p className="mb-0 text-muted">{verdictCopy}</p>
+                <p className="mb-0 text-muted">{verdictMessage}</p>
+                {showVerdictRetry && (
+                  <button
+                    type="button"
+                    className={`btn btn-outline-${verdictVariant} btn-sm mt-3`}
+                    onClick={handleRetryFinalVerdict}
+                    disabled={verdictStatus === "loading"}
+                  >
+                    Try again
+                  </button>
+                )}
               </div>
             </div>
           </div>
