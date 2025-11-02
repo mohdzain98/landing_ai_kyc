@@ -25,5 +25,5 @@ def get_document_data(folder_id, folder_name):
 
     metadata = get_markdown(folder_id, folder_name)
 
-    return {"page_1": img_b64, "page_2": metadata}
+    return {"page_1": img_b64, "page_2": metadata["page_2"]}
 
