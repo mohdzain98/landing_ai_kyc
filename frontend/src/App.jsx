@@ -8,6 +8,7 @@ import Scrolltotop from "./components/Scrolltotop";
 import Home from "./pages/home/Home";
 import About from "./pages/About";
 import Outcomes from "./pages/Outcomes";
+import Wrong from "./pages/Wrong";
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -58,6 +59,11 @@ function App() {
               exact
               path="/"
               element={<Home prop={{ showAlert, showToast }} />}
+            ></Route>
+            <Route
+              exact
+              path="/:wrong"
+              element={<Wrong prop={{ showAlert, showToast }} />}
             ></Route>
             <Route
               exact
