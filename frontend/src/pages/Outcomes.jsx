@@ -6,23 +6,12 @@ import React, {
   useState,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 import { useParams } from "react-router";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
+import Markdown from "./outcome_components/Markdown";
 import Spinner from "../components/Spinner";
 import { userContext } from "../context/userContext";
-import { defaultSchema } from "hast-util-sanitize";
-
-const schema = {
-  ...defaultSchema,
-  attributes: {
-    ...defaultSchema.attributes,
-    a: [...(defaultSchema.attributes?.a || []), ["id", "className"]],
-    span: [["className"]],
-  },
-};
+import "./outcome_components/styling/outcome.css";
 
 const STATUS_CONFIG = {
   idle: {
@@ -121,9 +110,7 @@ const Outcomes = (props) => {
   const verdictError = finalVerdict.error;
 
   const handleCopy = (content, copy, msg) => {
-    if (typeof showToast === "function") {
-      showToast(content, copy, msg);
-    }
+    showToast(content, copy, msg);
   };
 
   const activeCard =
@@ -330,23 +317,20 @@ const Outcomes = (props) => {
           {caseId && (
             <>
               <span className="d-block text-muted small">
-                For any further clarification, please reach out with reference
-                id
+                For any further clarification, please reach out with Reference
+                Id
               </span>
               <span className="text-break" style={{ fontSize: "13px" }}>
                 {caseId}
                 <span
                   style={{ cursor: "pointer" }}
-                  onClick={() => handleCopy(caseId, true, "Case Id")}
+                  onClick={() => handleCopy(caseId, true, "Reference Id")}
                 >
                   <i className="fa-regular fa-copy fa-sm ms-1"></i>
                 </span>
               </span>
             </>
           )}
-          {/* <span className="d-block text-muted small mt-2">
-            {uploadSummary?.completed ?? 0}/{uploadSummary?.total ?? 0} complete
-          </span> */}
         </div>
       </div>
 
@@ -366,7 +350,7 @@ const Outcomes = (props) => {
         ))}
       </div>
 
-      <div className="border rounded-3 p-4 shadow-sm">
+      <div className="border rounded-3 p-4 shadow-sm" id="result">
         {activeCard ? (
           <>
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
@@ -384,7 +368,7 @@ const Outcomes = (props) => {
             {activeCard.statusKey !== "completed" &&
               activeCard.statusKey !== "error" && (
                 <div className="d-flex justify-content-center py-4">
-                  <Spinner color="primary" size="sm" />
+                  <Spinner color="primary" size="md" />
                 </div>
               )}
 
@@ -410,28 +394,29 @@ const Outcomes = (props) => {
                           <img
                             src={`data:image/png;base64,${activeCard.response.data.content["page_1"]}`}
                             alt="Extracted Annotation Not Found"
+                            className="shadow rounded mb-2 animate__animated animate__fadeInLeft"
                           />
                         </center>
                       ) : (
-                        <ReactMarkdown
-                          remarkPlugins={[remarkGfm]}
-                          rehypePlugins={[
-                            [rehypeRaw],
-                            [rehypeSanitize, schema],
-                          ]}
-                        >
-                          {activeCard.response.data.content["page_2"]}
-                        </ReactMarkdown>
+                        <div className="animate__animated animate__fadeInRight">
+                          <Markdown
+                            content={activeCard.response.data.content["page_2"]}
+                          />
+                        </div>
                       )}
                     </div>
+                    {page === "page_2" && (
+                      <div className="scrollbox-fade" aria-hidden="true"></div>
+                    )}
                   </div>
                   <center>
-                    <button
-                      className="btn btn-outline-dark my-3 px-5"
+                    <ScrollLink
+                      className="btn btn-outline-dark my-3 px-5 shadow"
                       onClick={handlePageChange}
+                      to="result"
                     >
                       {page == "page_1" ? "KPIs" : "Extracted Annotations"}
-                    </button>
+                    </ScrollLink>
                   </center>
                 </div>
               )}
