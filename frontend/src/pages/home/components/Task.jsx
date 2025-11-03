@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styling/task.css";
-import Spinner from "../../../components/Spinner";
-import ProcessingBlink from "../../../components/ProcessingBlink";
+import ProcessingBlink from "../../../components/Blink";
 import { userContext } from "../../../context/userContext";
 
 const Task = (props) => {
@@ -133,7 +132,7 @@ const Task = (props) => {
                     <small className="text-dark-50">{formats}</small>
                   </label>
                   <div className="mt-2">
-                    {isUploading && <ProcessingBlink />}
+                    {isUploading && <ProcessingBlink tag="Processing" />}
                     {isCompleted && !hasError && (
                       <small className="text-success fw-semibold">
                         Processed
