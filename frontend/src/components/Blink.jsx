@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function ProcessingBlink() {
+function ProcessingBlink({ tag = "Processing" }) {
   const [dots, setDots] = useState("");
 
   useEffect(() => {
@@ -11,7 +11,12 @@ function ProcessingBlink() {
     return () => clearInterval(interval); // cleanup on unmount
   }, []);
 
-  return <div className="text-info fw-semibold">Processing{dots}</div>;
+  return (
+    <div className="text-info fw-semibold">
+      {tag}
+      {dots}
+    </div>
+  );
 }
 
 export default ProcessingBlink;
