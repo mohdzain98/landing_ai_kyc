@@ -167,6 +167,14 @@ const UserState = ({ children, prop }) => {
           size: primaryFile.size,
         },
       ];
+
+      // const filesMeta = fileList.map((file) => ({
+      //   name: file.name,
+      //   size: file.size,
+      //   type: file.type,
+      //   lastModified: file.lastModified,
+      // }));
+
       setUploads((prev) => ({
         ...prev,
         [groupKey]: {
@@ -179,9 +187,14 @@ const UserState = ({ children, prop }) => {
       }));
 
       const fd = new FormData();
+
       const formField = group.formField || group.key;
+      // for (const file of fileList) {
+      //   fd.append(formField, file, file.name);
+      // }
       fd.append(formField, primaryFile, primaryFile.name);
       const meta = {
+        n_docs: fileList.length,
         caseId: caseIdRef.current,
         documentType: group.key,
         source: "react-ui",
