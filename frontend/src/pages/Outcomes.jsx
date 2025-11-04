@@ -11,6 +11,7 @@ import { useParams } from "react-router";
 import Markdown from "./outcome_components/Markdown";
 import Spinner from "../components/Spinner";
 import { userContext } from "../context/userContext";
+import Slider from "./outcome_components/Slider";
 import "./outcome_components/styling/outcome.css";
 
 const STATUS_CONFIG = {
@@ -390,17 +391,27 @@ const Outcomes = (props) => {
                   >
                     <div className="">
                       {page == "page_1" ? (
-                        <center>
-                          <img
-                            src={`data:image/png;base64,${activeCard.response.data.content["page_1"]}`}
-                            alt="Extracted Annotation Not Found"
-                            className="shadow rounded mb-2 animate__animated animate__fadeInLeft"
-                          />
-                        </center>
+                        (() => {
+                          const images =
+                            activeCard.response.data.content["images"];
+                          if (images && images.length === 1) {
+                            return (
+                              <center>
+                                <img
+                                  src={`data:image/png;base64,${images[0]}`}
+                                  alt="Extracted Annotation Not Found"
+                                  className="shadow rounded mb-2 animate__animated animate__fadeInLeft"
+                                  style={{ maxWidth: "100%", height: "auto" }}
+                                />
+                              </center>
+                            );
+                          }
+                          return <Slider images={images} />;
+                        })()
                       ) : (
                         <div className="animate__animated animate__fadeInRight">
                           <Markdown
-                            content={activeCard.response.data.content["page_2"]}
+                            content={activeCard.response.data.content["kpis"]}
                           />
                         </div>
                       )}
