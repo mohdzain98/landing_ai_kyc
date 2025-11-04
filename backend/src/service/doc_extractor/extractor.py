@@ -126,7 +126,7 @@ class DocumentExtractor:
 
                 # Create and save annotated image
                 annotated_img = create_annotated_image(img, parse_response.grounding, page_num)
-                annotated_path = output_dir / f"{document_type}_page_{page_num + 1}_annotated.png"
+                annotated_path = output_dir / f"{document_type}_page_{page_num + 1}.png"
                 annotated_img.save(annotated_path)
                 self.logger.info(f"Annotated image saved to: {annotated_path}")
 
