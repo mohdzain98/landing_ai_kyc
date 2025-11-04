@@ -32,8 +32,6 @@ const Task = (props) => {
     });
   }, [location.pathname == "/"]);
 
-  console.log(uploadCount);
-
   const anyUploadInFlight = useMemo(() => {
     if (!documentGroups || documentGroups.length === 0) {
       return false;
@@ -45,6 +43,7 @@ const Task = (props) => {
 
   const handleFileChange = async (group, event) => {
     const files = Array.from(event.target.files || []);
+
     if (files.length === 0) {
       return;
     }
