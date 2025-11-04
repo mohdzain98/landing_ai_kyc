@@ -15,15 +15,26 @@ def get_markdown(folder_id, folder_name):
 def get_document_data(folder_id, folder_name):
 
     base_dir = os.getcwd()
-    image_path = base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}_annotated.png"
+    output_path = Path(base_dir + f"/resources/{folder_id}/{folder_name}/output/")
 
-    image_path = Path(image_path)
-    with open(image_path, "rb") as f:
-        img_bytes = f.read()
+    matched_files = [f for f in output_path.iterdir() if
+                     f.is_file() and f.name.endswith((".png", ".PNG")) and "page_" in f.name]
 
-    img_b64 = base64.b64encode(img_bytes).decode("utf-8")
+    matched_files.sort(key=lambda f: int(f.stem.split("_")[-1]))
+
+    images = list()
+
+    for image_path in matched_files:
+
+        image_path = Path(image_path)
+        with open(image_path, "rb") as f:
+            img_bytes = f.read()
+
+        img_b64 = base64.b64encode(img_bytes).decode("utf-8")
+
+        images.append(img_b64)
 
     metadata = get_markdown(folder_id, folder_name)
 
-    return {"page_1": img_b64, "page_2": metadata["page_2"]}
+    return {"images": images, "kpis": metadata["page_2"]}
 
