@@ -1,0 +1,23 @@
+{
+  "company_name": "Acme Hospitality LLC",
+  "employee_name": "Arnold John",
+  "employee_id": "AJ-2023-001",
+  "department": "Operations",
+  "pay_date": "07/31/2023",
+  "pay_period": "07/01/2023 - 07/31/2023",
+  "payment_method": "Direct Deposit",
+  "gross_earnings_current": "$7,600.00",
+  "gross_earnings_ytd": "$53,200.00",
+  "federal_income_tax_current": "$1,400.00",
+  "federal_income_tax_ytd": "$9,800.00",
+  "state_income_tax_current": "$400.00",
+  "state_income_tax_ytd": "$2,800.00",
+  "fica_social_security_current": "$300.00",
+  "fica_social_security_ytd": "$2,100.00",
+  "fica_medicare_current": "$0.00",
+  "fica_medicare_ytd": "$0.00",
+  "total_deductions_current": "$2,100.00",
+  "total_deductions_ytd": "$14,700.00",
+  "net_pay_current": "$5,500.00",
+  "net_pay_ytd": "$38,500.00"
+}
