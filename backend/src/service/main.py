@@ -193,24 +193,24 @@ def run(document_path: str | Path, document_type: str, output_dir: str | Path, m
     except Exception as e:
         logger.warning(f"Failed to draw bounding boxes: {e}")
     
-    # Calculate bounding boxes for all extracted fields
-    field_bboxes = compute_field_bboxes(
-        extractor, document_type, parse_resp, extracted_metadata
-    )
+    # # Calculate bounding boxes for all extracted fields
+    # field_bboxes = compute_field_bboxes(
+    #     extractor, document_type, parse_resp, extracted_metadata
+    # )
     
-    # Generate visualization images with bounding boxes for each field
-    for key, bbox in (field_bboxes or {}).items():
-        output_path = output_dir / f"{key}_box.jpg"
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+    # # Generate visualization images with bounding boxes for each field
+    # for key, bbox in (field_bboxes or {}).items():
+    #     output_path = output_dir / f"{key}_box.jpg"
+    #     output_path.parent.mkdir(parents=True, exist_ok=True)
         
-        # Draw red bounding box on the document image
-        draw_bounding_box(
-            str(document_path),
-            str(output_path),
-            bbox,
-            color=(255, 0, 0),  # Red color
-            width=4
-        )
+    #     # Draw red bounding box on the document image
+    #     draw_bounding_box(
+    #         str(document_path),
+    #         str(output_path),
+    #         bbox,
+    #         color=(255, 0, 0),  # Red color
+    #         width=4
+    #     )
     
     # Save extracted data as JSON file
     json_output_path = output_dir / f"{document_type}.json"
