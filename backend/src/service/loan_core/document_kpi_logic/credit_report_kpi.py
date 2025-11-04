@@ -1,183 +1,249 @@
-from typing import Optional, Dict, Any
+from __future__ import annotations
+from typing import Dict, Any, Optional, Tuple
+from dataclasses import dataclass
+from datetime import datetime
+import json
+import re
 
 
-def _to_float(val: Optional[str]) -> Optional[float]:
+@dataclass
+class ScoreBands:
+    excellent_min: int = 750
+    good_min: int = 700
+    fair_min: int = 650
+
+    def band(self, score: Optional[int]) -> str:
+        if score is None:
+            return "unknown"
+        if score >= self.excellent_min:
+            return "excellent"
+        if score >= self.good_min:
+            return "good"
+        if score >= self.fair_min:
+            return "fair"
+        return "poor"
+
+
+class CreditReportKPIs:
     """
-    Convert string value to float, handling common formatting.
-    
-    Args:
-        val: String value that may contain commas, dollar signs, etc.
-    
-    Returns:
-        Float value or None if conversion fails
+    Compute underwriting KPIs from a credit report payload,
+    EXCLUDING employment and identity.
+
+    Public API:
+      - calculate(report: Dict[str, Any], reference_date: Optional[str]) -> Dict[str, Any]
+
+    reference_date:
+      ISO date ("YYYY-MM-DD"). If omitted, uses today's date for recency calcs.
     """
-    if not val:
+
+    def __init__(self, bands: ScoreBands | None = None) -> None:
+        self.bands = bands or ScoreBands()
+
+    # ------------------------
+    # Parsing helpers
+    # ------------------------
+    @staticmethod
+    def _to_float(val: Optional[str]) -> Optional[float]:
+        if val is None:
+            return None
+        try:
+            cleaned = str(val).replace("$", "").replace(",", "").strip()
+            return float(cleaned)
+        except ValueError:
+            return None
+
+    @staticmethod
+    def _to_int(val: Optional[str]) -> Optional[int]:
+        if val is None:
+            return None
+        try:
+            cleaned = str(val).replace(",", "").strip()
+            return int(float(cleaned))
+        except ValueError:
+            return None
+
+    @staticmethod
+    def _parse_age_to_months(text: Optional[str]) -> Optional[int]:
+        """
+        Parse strings like "8 years and 9 months" or "5 years 8 months" to total months.
+        """
+        if not text:
+            return None
+        s = text.lower()
+        years = 0
+        months = 0
+        y_match = re.search(r"(\d+)\s*year", s)
+        m_match = re.search(r"(\d+)\s*month", s)
+        if y_match:
+            years = int(y_match.group(1))
+        if m_match:
+            months = int(m_match.group(1))
+        total = years * 12 + months
+        return total if total > 0 else None
+
+    @staticmethod
+    def _parse_mm_yyyy(text: str) -> Optional[Tuple[int, int]]:
+        """
+        Extract (month, year) from strings like "STUDENT LOAN (09/2010)" or "06/2023".
+        """
+        if not text:
+            return None
+        m = re.search(r"\b(0?[1-9]|1[0-2])\s*/\s*(\d{4})\b", text)
+        if not m:
+            return None
+        month = int(m.group(1))
+        year = int(m.group(2))
+        return month, year
+
+    @staticmethod
+    def _months_between(d1: datetime, d2: datetime) -> int:
+        """Absolute month difference between two dates."""
+        ydiff = d2.year - d1.year
+        mdiff = d2.month - d1.month
+        total = ydiff * 12 + mdiff
+        # If day of d2 is earlier than day of d1, treat as not a full month yet
+        if d2.day < d1.day:
+            total -= 1
+        return abs(total)
+
+    @staticmethod
+    def _parse_date_any(text: Optional[str]) -> Optional[datetime]:
+        """
+        Parse dates like "5/11/2024", "7/1/2021", or "2024-05-11".
+        """
+        if not text:
+            return None
+        text = text.strip()
+        fmts = ["%m/%d/%Y", "%m/%d/%y", "%Y-%m-%d"]
+        for fmt in fmts:
+            try:
+                return datetime.strptime(text, fmt)
+            except ValueError:
+                continue
         return None
-    try:
-        # Remove common formatting characters
-        cleaned = val.replace(",", "").replace("$", "").replace(" ", "").strip()
-        return float(cleaned)
-    except (ValueError, AttributeError):
-        return None
 
+    # ------------------------
+    # Main calculation
+    # ------------------------
+    def calculate(
+        self,
+        report: Dict[str, Any],
+        reference_date: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        # Scores
+        vantage = self._to_int(report.get("vantage_score_3_0"))
+        insight = self._to_int(report.get("insight_score"))
+        representative = vantage if vantage is not None else insight
+        band = self.bands.band(representative)
 
-def _to_int(val: Optional[str]) -> Optional[int]:
-    """
-    Convert string value to integer.
-    
-    Args:
-        val: String value to convert
-    
-    Returns:
-        Integer value or None if conversion fails
-    """
-    if not val:
-        return None
-    try:
-        cleaned = val.replace(",", "").replace(" ", "").strip()
-        return int(float(cleaned))  # Convert via float to handle decimals
-    except (ValueError, AttributeError):
-        return None
+        # Credit history / mix
+        total_accounts = self._to_int(report.get("total_accounts"))
+        open_tradelines = self._to_int(report.get("current_tradelines"))
+        revolving = self._to_int(report.get("revolving_accounts")) or 0
+        installment = self._to_int(report.get("installment_accounts")) or 0
+        mortgage = self._to_int(report.get("mortgage_accounts")) or 0
 
+        credit_mix_strength = "unknown"
+        if (revolving + installment + mortgage) >= 3 and revolving >= 1 and installment >= 1:
+            credit_mix_strength = "adequate_mix"
+        elif (revolving + installment + mortgage) >= 1:
+            credit_mix_strength = "limited_mix"
 
-def _has_delinquency(delinquencies_str: Optional[str]) -> Optional[bool]:
-    """
-    Check if delinquencies/defaults/collections are present.
-    
-    Args:
-        delinquencies_str: String describing delinquencies
-    
-    Returns:
-        True if delinquencies found, False if explicitly none, None if unknown
-    """
-    if not delinquencies_str or not delinquencies_str.strip():
-        return None
-    
-    s = delinquencies_str.lower().strip()
-    
-    # Check for explicit "none" or "no" indicators
-    none_indicators = ["none", "no", "nil", "zero", "0", "n/a", "na"]
-    if any(indicator in s for indicator in none_indicators):
-        return False
-    
-    # Check for presence of delinquencies
-    delinquency_indicators = [
-        "delinquent", "delinquency", "default", "collection", 
-        "overdue", "late payment", "past due", "charge-off"
-    ]
-    
-    if any(indicator in s for indicator in delinquency_indicators):
-        return True
-    
-    return None
+        # Credit age
+        avg_age_months = self._parse_age_to_months(report.get("average_account_age"))
+        file_age_months = self._parse_age_to_months(report.get("account_length"))
+        file_age_years = round((file_age_months or 0) / 12.0, 2) if file_age_months else None
 
+        oldest_open = report.get("oldest_open_account")  # e.g., "STUDENT LOAN (09/2010)"
+        old_mm_yyyy = self._parse_mm_yyyy(oldest_open) if oldest_open else None
+        oldest_open_account_open_date = None
+        if old_mm_yyyy:
+            oldest_open_account_open_date = f"{old_mm_yyyy[1]:04d}-{old_mm_yyyy[0]:02d}"
 
-def _has_bankruptcy(bankruptcy_str: Optional[str]) -> Optional[bool]:
-    """
-    Check if bankruptcy history is present.
-    
-    Args:
-        bankruptcy_str: String describing bankruptcy history
-    
-    Returns:
-        True if bankruptcy found, False if explicitly none, None if unknown
-    """
-    if not bankruptcy_str or not bankruptcy_str.strip():
-        return None
-    
-    s = bankruptcy_str.lower().strip()
-    
-    # Check for explicit "none" or "no" indicators
-    none_indicators = ["none", "no", "nil", "zero", "0", "n/a", "na"]
-    if any(indicator in s for indicator in none_indicators):
-        return False
-    
-    # Check for bankruptcy indicators
-    bankruptcy_indicators = [
-        "bankruptcy", "chapter 7", "chapter 11", "chapter 13",
-        "filed", "discharged", "foreclosure"
-    ]
-    
-    if any(indicator in s for indicator in bankruptcy_indicators):
-        return True
-    
-    return None
+        most_recent = report.get("most_recent_account")  # e.g., "Auto Loan (06/2023)"
+        mr_mm_yyyy = self._parse_mm_yyyy(most_recent) if most_recent else None
 
+        # Choose reference date for "months ago"
+        ref_dt = None
+        if reference_date:
+            ref_dt = self._parse_date_any(reference_date)
+        if ref_dt is None:
+            ref_dt = datetime.today()
 
-def calculate_credit_report_kpis(
-    credit_report: Dict[str, str],
-    monthly_income: Optional[float] = None
-) -> Dict[str, Any]:
-    """
-    Calculate all credit report KPIs from a credit report document.
-    
-    Args:
-        credit_report: Dictionary containing credit report fields:
-            - credit_score: Credit score (FICO)
-            - total_debt: Total outstanding debt
-            - open_credit_lines: Number of open credit lines
-            - monthly_debt_payments: Total monthly debt payments
-            - delinquencies_defaults_collections: Summary of delinquencies
-            - bankruptcy_history: Bankruptcy history details
-            - hard_inquiries_last_12_months: Number of hard inquiries
-        monthly_income: Optional monthly income for DTI calculation
-    
-    Returns:
-        Dictionary containing calculated KPIs:
-            - credit_score: Parsed credit score as integer
-            - total_debt: Total debt as float
-            - open_credit_lines: Number of open credit lines as integer
-            - monthly_debt_payments: Monthly debt payments as float
-            - debt_to_income_ratio: DTI ratio (if monthly_income provided)
-            - has_delinquencies: Boolean indicating presence of delinquencies
-            - has_bankruptcy: Boolean indicating bankruptcy history
-            - hard_inquiries_count: Number of hard inquiries as integer
-            - credit_health_score: Categorical score ("excellent", "good", "fair", "poor", "unknown")
-    """
-    credit_score_str = credit_report.get("credit_score")
-    total_debt_str = credit_report.get("total_debt")
-    open_credit_lines_str = credit_report.get("open_credit_lines")
-    monthly_debt_payments_str = credit_report.get("monthly_debt_payments")
-    delinquencies_str = credit_report.get("delinquencies_defaults_collections")
-    bankruptcy_str = credit_report.get("bankruptcy_history")
-    hard_inquiries_str = credit_report.get("hard_inquiries_last_12_months")
-    
-    # Parse numeric values
-    credit_score = _to_int(credit_score_str)
-    total_debt = _to_float(total_debt_str)
-    open_credit_lines = _to_int(open_credit_lines_str)
-    monthly_debt_payments = _to_float(monthly_debt_payments_str)
-    hard_inquiries_count = _to_int(hard_inquiries_str)
-    
-    # Check for delinquencies and bankruptcy
-    has_delinquencies = _has_delinquency(delinquencies_str)
-    has_bankruptcy = _has_bankruptcy(bankruptcy_str)
-    
-    # Calculate debt-to-income ratio if monthly income is provided
-    debt_to_income_ratio = None
-    if monthly_income and monthly_income > 0 and monthly_debt_payments:
-        debt_to_income_ratio = round(monthly_debt_payments / monthly_income, 4)
-    
-    # Calculate credit health score based on credit score
-    credit_health_score = "unknown"
-    if credit_score is not None:
-        if credit_score >= 750:
-            credit_health_score = "excellent"
-        elif credit_score >= 700:
-            credit_health_score = "good"
-        elif credit_score >= 650:
-            credit_health_score = "fair"
-        else:
-            credit_health_score = "poor"
-    
-    return {
-        "credit_score": credit_score,
-        "total_debt": round(total_debt, 2) if total_debt is not None else None,
-        "open_credit_lines": open_credit_lines,
-        "monthly_debt_payments": round(monthly_debt_payments, 2) if monthly_debt_payments is not None else None,
-        "debt_to_income_ratio": debt_to_income_ratio,
-        "has_delinquencies": has_delinquencies,
-        "has_bankruptcy": has_bankruptcy,
-        "hard_inquiries_count": hard_inquiries_count,
-        "credit_health_score": credit_health_score,
-    }
+        recent_months_ago = None
+        if mr_mm_yyyy:
+            acc_dt = datetime(year=mr_mm_yyyy[1], month=mr_mm_yyyy[0], day=1)
+            recent_months_ago = self._months_between(acc_dt, ref_dt)
+
+        # Delinquency profile
+        d30 = self._to_int(report.get("thirty_day_delinquencies")) or 0
+        d60 = self._to_int(report.get("sixty_day_delinquencies")) or 0
+        d90 = self._to_int(report.get("ninety_day_delinquencies")) or 0
+        has_recent_delinquency = (d30 + d60 + d90) > 0
+        overall_delinquency_risk = (
+            "minor_recent_issue" if d30 == 1 and d60 == 0 and d90 == 0
+            else "elevated" if (d60 + d90) > 0 or d30 >= 2
+            else "clean"
+        )
+
+        # Negative events
+        bankruptcies = self._to_int(report.get("bankruptcies")) or 0
+        collections = self._to_int(report.get("collections")) or 0
+        is_clean_from_major_derogatory = (bankruptcies == 0 and collections == 0)
+
+        # Inquiry profile (may be missing)
+        recent_inquiries_180d = self._to_int(report.get("application_inquiries_180_days"))
+        inquiry_risk = "unknown"
+        if recent_inquiries_180d is not None:
+            inquiry_risk = "high" if recent_inquiries_180d >= 4 else "moderate" if recent_inquiries_180d >= 2 else "low"
+
+        # Exposure
+        max_total_principal = self._to_float(report.get("maximum_total_principal"))
+        current_principal = self._to_float(report.get("current_principal"))
+
+        kpis: Dict[str, Any] = {
+            "representative_credit_score": representative,
+            "secondary_score": insight if representative == vantage else vantage,
+            "credit_score_band": band,
+
+            "credit_history": {
+                "total_accounts": total_accounts,
+                "open_tradelines": open_tradelines,
+                "revolving_accounts": revolving,
+                "installment_accounts": installment,
+                "mortgage_accounts": mortgage,
+                "credit_mix_strength": credit_mix_strength
+            },
+
+            "credit_age": {
+                "average_account_age_months": avg_age_months,
+                "file_age_years": file_age_years,
+                "oldest_account_open_date": oldest_open_account_open_date,
+                "recent_account_open_months_ago": recent_months_ago
+            },
+
+            "delinquency_profile": {
+                "30_day_delinquencies": d30,
+                "60_day_delinquencies": d60,
+                "90_day_delinquencies": d90,
+                "has_recent_delinquency": has_recent_delinquency,
+                "overall_delinquency_risk": overall_delinquency_risk
+            },
+
+            "negative_events": {
+                "bankruptcies": bankruptcies,
+                "collections": collections,
+                "is_clean_from_major_derogatory": is_clean_from_major_derogatory
+            },
+
+            "inquiry_profile": {
+                "recent_hard_inquiries_180d": recent_inquiries_180d,
+                "inquiry_risk": inquiry_risk
+            },
+
+            "exposure_profile": {
+                "maximum_total_principal": max_total_principal,
+                "current_principal_balance": current_principal
+            }
+        }
+        return kpis

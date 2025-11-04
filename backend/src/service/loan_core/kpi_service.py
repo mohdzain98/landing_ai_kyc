@@ -13,7 +13,7 @@ class KPIService:
             elif doc['doc_id']=="doc_2":
                 credit_card_kpi.calculate_credit_card_kpis(doc['credit_card'])
             elif doc['doc_id']=="doc_3":
-                loan_kpi.calculate_loan_kpis(doc['loan'])
+                Salary_kpi.calculate_salary_kpis(doc['salary'])
 
         # Return JSON (dict)
         return {

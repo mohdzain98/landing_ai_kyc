@@ -1,103 +1,103 @@
-{
-  "account_holder_name": "ARNOLD JOHN",
-  "bank_name": "FIRST TRUST BANK",
-  "account_number_masked": "123-498-7",
-  "transactions_table": [
-    {
-      "date": "Apr-01-00",
-      "description": "Previous balance",
-      "amount": "6.55",
-      "type": ""
-    },
-    {
-      "date": "Apr-01-14",
-      "description": "Payroll Deposit - HOTEL",
-      "amount": "694.81",
-      "type": "Credit"
-    },
-    {
-      "date": "Apr-01-14",
-      "description": "Web Bill Payment - MASTERCARD",
-      "amount": "200.00",
-      "type": "Debit"
-    },
-    {
-      "date": "Apr-01-16",
-      "description": "ATM Withdrawal - INTERAC",
-      "amount": "1.50",
-      "type": "Debit"
-    },
-    {
-      "date": "Apr-01-20",
-      "description": "Feea - Interac",
-      "amount": "1.50",
-      "type": "Debit"
-    },
-    {
-      "date": "Apr-01-20",
-      "description": "Interac Purchase - ELECTRONICS",
-      "amount": "2.99",
-      "type": "Debit"
-    },
-    {
-      "date": "Apr-01-21",
-      "description": "Web Bill Payment - AMEX",
-      "amount": "300.00",
-      "type": "Debit"
-    },
-    {
-      "date": "Apr-01-22",
-      "description": "Interac Purchase - ELECTR/N#",
-      "amount": "100.00",
-      "type": "Debit"
-    },
-    {
-      "date": "Apr-01-23",
-      "description": "Interact Refund - SUPER MARKET",
-      "amount": "29.08",
-      "type": "Credit"
-    },
-    {
-      "date": "Apr-01-24",
-      "description": "Telephone Bill Payment - VISA",
-      "amount": "6.77",
-      "type": "Credit"
-    },
-    {
-      "date": "Apr-01-30",
-      "description": "Payroll Deposit - HOTEL",
-      "amount": "38.30",
-      "type": "Credit"
-    },
-    {
-      "date": "Apr-01-30",
-      "description": "Web Fund Transfer- FromSAVINGS",
-      "amount": "66.77",
-      "type": "Credit"
-    },
-    {
-      "date": "Sep-03-00",
-      "description": "Cheque No, - 409",
-      "amount": "100.00",
-      "type": "Debit"
-    },
-    {
-      "date": "Sep-03-08",
-      "description": "Mortgage Payment",
-      "amount": "710.49",
-      "type": "Debit"
-    },
-    {
-      "date": "Sep-03-07",
-      "description": "Feea - Overdraft",
-      "amount": "5.00",
-      "type": "Debit"
-    },
-    {
-      "date": "Sep-11-11",
-      "description": "Fees - Monthly",
-      "amount": "5.00",
-      "type": "Debit"
-    }
-  ]
-}
+  {
+    "account_holder_name": "ARNOLD JOHN",
+    "bank_name": "FIRST TRUST BANK",
+    "account_number_masked": "123-498-7",
+    "transactions_table": [
+      {
+        "date": "Apr-01-00",
+        "description": "Previous balance",
+        "amount": "6.55",
+        "type": ""
+      },
+      {
+        "date": "Apr-01-14",
+        "description": "Payroll Deposit - HOTEL",
+        "amount": "694.81",
+        "type": "Credit"
+      },
+      {
+        "date": "Apr-01-14",
+        "description": "Web Bill Payment - MASTERCARD",
+        "amount": "200.00",
+        "type": "Debit"
+      },
+      {
+        "date": "Apr-01-16",
+        "description": "ATM Withdrawal - INTERAC",
+        "amount": "1.50",
+        "type": "Debit"
+      },
+      {
+        "date": "Apr-01-20",
+        "description": "Feea - Interac",
+        "amount": "1.50",
+        "type": "Debit"
+      },
+      {
+        "date": "Apr-01-20",
+        "description": "Interac Purchase - ELECTRONICS",
+        "amount": "2.99",
+        "type": "Debit"
+      },
+      {
+        "date": "Apr-01-21",
+        "description": "Web Bill Payment - AMEX",
+        "amount": "300.00",
+        "type": "Debit"
+      },
+      {
+        "date": "Apr-01-22",
+        "description": "Interac Purchase - ELECTR/N#",
+        "amount": "100.00",
+        "type": "Debit"
+      },
+      {
+        "date": "Apr-01-23",
+        "description": "Interact Refund - SUPER MARKET",
+        "amount": "29.08",
+        "type": "Credit"
+      },
+      {
+        "date": "Apr-01-24",
+        "description": "Telephone Bill Payment - VISA",
+        "amount": "6.77",
+        "type": "Credit"
+      },
+      {
+        "date": "Apr-01-30",
+        "description": "Payroll Deposit - HOTEL",
+        "amount": "38.30",
+        "type": "Credit"
+      },
+      {
+        "date": "Apr-01-30",
+        "description": "Web Fund Transfer- FromSAVINGS",
+        "amount": "66.77",
+        "type": "Credit"
+      },
+      {
+        "date": "Sep-03-00",
+        "description": "Cheque No, - 409",
+        "amount": "100.00",
+        "type": "Debit"
+      },
+      {
+        "date": "Sep-03-08",
+        "description": "Mortgage Payment",
+        "amount": "710.49",
+        "type": "Debit"
+      },
+      {
+        "date": "Sep-03-07",
+        "description": "Feea - Overdraft",
+        "amount": "5.00",
+        "type": "Debit"
+      },
+      {
+        "date": "Sep-11-11",
+        "description": "Fees - Monthly",
+        "amount": "5.00",
+        "type": "Debit"
+      }
+    ]
+  }
