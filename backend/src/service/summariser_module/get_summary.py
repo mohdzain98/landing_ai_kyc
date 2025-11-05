@@ -1,4 +1,5 @@
 import os
+import json
 import base64
 from pathlib import Path
 
@@ -6,16 +7,25 @@ from pathlib import Path
 def get_markdown(folder_id, folder_name):
 
     base_dir = os.getcwd()
-    folder_path = base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}_parsed.md"
-    text = Path(folder_path).resolve().read_text(encoding="utf-8")
+    kpi_path = base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}.json"
+    kpi_path = Path(kpi_path).resolve()
 
-    return {"page_1": text, "page_2": text}
+    with open(kpi_path) as fp:
+        kpi_data = json.load(fp)
+
+    summary_file_path = base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}_summary.txt"
+    summary_file_path = Path(summary_file_path).resolve()
+
+    with open(summary_file_path) as fp:
+        summary = fp.read()
+
+    return {"kpis": kpi_data, "summary": summary}
 
 
 def get_document_data(folder_id, folder_name):
 
     base_dir = os.getcwd()
-    output_path = Path(base_dir + f"/resources/{folder_id}/{folder_name}/output/")
+    output_path = Path(base_dir + f"/resources/{folder_id}/{folder_name}/output/").resolve()
 
     matched_files = [f for f in output_path.iterdir() if
                      f.is_file() and f.name.endswith((".png", ".PNG")) and "page_" in f.name]
@@ -36,5 +46,7 @@ def get_document_data(folder_id, folder_name):
 
     metadata = get_markdown(folder_id, folder_name)
 
-    return {"images": images, "kpis": metadata["page_2"]}
+    resp = {"images": images}
+    resp.update(metadata)
 
+    return resp
