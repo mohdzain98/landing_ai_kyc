@@ -9,3 +9,5 @@ Pillow
 PyMuPDF
 python-dotenv
 landingai-ade
+langchain-google-genai
+langchain
