@@ -1,5 +1,5 @@
 from pathlib import Path
-from src.service.loan_core.utils import get_document_kpis_files
+from src.service.loan_core.utils import get_document_kpis_files,save_responses_to_folder
 from src.service.loan_core.loan_metrics import LoanUnderwritingScorerSimple
 from src.service.loan_core.decision import DecisionEngine
 from src.service.doc_extractor.logger import get_logger
@@ -33,7 +33,8 @@ def evaluate(folder_id):
     }
     logger.info(f"The combined kpis dict is- {combined_flat}")
     response_dict = loan_metrics.score(combined_flat)
-    final_descision =decision_engine.make_decision(final_score=response_dict)
+    final_descision = decision_engine.make_decision(final_score=response_dict)
+    save_responses_to_folder(response_dict,final_descision,base_path)
     
 
-    return str(response_dict)+"\n\n"+str(final_descision)
+    return str(final_descision['status'])

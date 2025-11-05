@@ -1,0 +1,39 @@
+{
+    "representative_credit_score": 609,
+    "secondary_score": 586,
+    "credit_score_band": "poor",
+    "credit_history": {
+        "total_accounts": 29,
+        "open_tradelines": 4,
+        "revolving_accounts": 2,
+        "installment_accounts": 2,
+        "mortgage_accounts": 0,
+        "credit_mix_strength": "adequate_mix"
+    },
+    "credit_age": {
+        "average_account_age_months": 68,
+        "file_age_years": 8.75,
+        "oldest_account_open_date": "2010-09",
+        "recent_account_open_months_ago": 29
+    },
+    "delinquency_profile": {
+        "30_day_delinquencies": 1,
+        "60_day_delinquencies": 0,
+        "90_day_delinquencies": 0,
+        "has_recent_delinquency": true,
+        "overall_delinquency_risk": "minor_recent_issue"
+    },
+    "negative_events": {
+        "bankruptcies": 0,
+        "collections": 0,
+        "is_clean_from_major_derogatory": true
+    },
+    "inquiry_profile": {
+        "recent_hard_inquiries_180d": null,
+        "inquiry_risk": "unknown"
+    },
+    "exposure_profile": {
+        "maximum_total_principal": 750000.0,
+        "current_principal_balance": 6200.0
+    }
+}

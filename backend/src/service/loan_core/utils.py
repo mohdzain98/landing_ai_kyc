@@ -99,3 +99,24 @@ def get_document_kpis_files(document_type: str, base_path: str):
     return result
 
 
+def save_responses_to_folder(response_dict, final_decision, folder_path):
+    """
+    Save response_dict and final_decision as separate JSON files in the given folder.
+    """
+    folder = Path(folder_path) / "final_output"
+    folder.mkdir(parents=True, exist_ok=True)  # create folder if it doesn't exist
+
+    # Define file paths
+    response_path = folder / "kpis_final.json"
+    decision_path = folder / "final_decision.json"
+
+    # Save response_dict
+    with open(response_path, 'w') as f:
+        json.dump(response_dict, f, indent=4)
+
+    # Save final_decision
+    with open(decision_path, 'w') as f:
+        json.dump(final_decision, f, indent=4)
+
+    logger.info(f"✅ Saved response_dict at: {response_path}")
+    logger.info(f"✅ Saved final_decision at: {decision_path}")
