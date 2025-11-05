@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, Optional
 import json
 import argparse
+import json
 
 
 sample_input = bank_statement_kpis = {
@@ -99,7 +100,7 @@ all_kpis = {
 @dataclass
 class Weights:
     income: float = 0.28
-    credit_score: float = 0.23
+    credit: float = 0.23
     delinquency_risk: float = 0.18
     dti: float = 0.17
     liquidity: float = 0.09
@@ -138,6 +139,7 @@ class LoanUnderwritingScorerSimple:
         return 20
 
     def _score_credit(self, cs):
+        print(f"Credit score - {cs}")
         if cs is None: return None
         if cs >= 750: return 100
         if cs >= 700: return 80 + (cs-700)*0.4
@@ -186,6 +188,30 @@ class LoanUnderwritingScorerSimple:
         if not recency_label: return None
         if "recent" in recency_label.lower(): return 100
         return 60
+    
+    def json_to_python_dict(self,json_like):
+        """
+        Converts JSON-like string (with true/false/null) into a valid Python dict.
+        Converts null → "None" (string), true/false → True/False.
+        Works for both str and dict inputs.
+        """
+        if isinstance(json_like, str):
+            data = json.loads(json_like)
+        elif isinstance(json_like, dict):
+            data = json_like
+        else:
+            return {}
+
+        def replace_none(obj):
+            if isinstance(obj, dict):
+                return {k: replace_none(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [replace_none(v) for v in obj]
+            elif obj is None:
+                return "None"
+            return obj
+
+        return replace_none(data)
 
     # Main scoring function
     def score(self, f: Dict[str, Any]) -> Dict[str, Any]:

@@ -13,8 +13,21 @@ class UtilityKPI:
         """Convert '$89.14' -> 89.14 safely"""
         try:
             return float(str(val).replace("$", "").replace(",", "").strip()) if val else 0.0
-        except:
+        except Exception:
             return 0.0
+
+    @staticmethod
+    def _parse_date(date_str):
+        """Try parsing date with multiple possible formats"""
+        if not date_str:
+            raise ValueError("Missing statement_date in input data")
+
+        for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y"):
+            try:
+                return datetime.strptime(date_str.strip(), fmt)
+            except ValueError:
+                continue
+        raise ValueError(f"Unrecognized date format: {date_str}")
 
     def calculate(self, data: dict) -> dict:
         # Extract values
@@ -32,7 +45,7 @@ class UtilityKPI:
             payment_stability = "Possible late or outstanding balance"
 
         # KPI 3 — Billing Recency
-        bill_date = datetime.strptime(data["statement_date"], "%Y-%m-%d")
+        bill_date = self._parse_date(data.get("statement_date"))
         days_old = (datetime.today() - bill_date).days
         billing_recency = "Recent bill" if days_old <= 90 else "Old bill — request latest bill"
 

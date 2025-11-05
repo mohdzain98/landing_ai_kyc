@@ -37,7 +37,7 @@ async def upload_bank_statement(
     bank_statement_kpis = bankstatement_kpi.calculate(statement_json)
     save_json_to_file(bank_statement_kpis,base_path,document_type)
 
-    # folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
+    # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     
     markdown = get_document_data(folder_id, folder_name)
 
@@ -68,7 +68,7 @@ async def upload_identity_document(
     identity_kpis = calculate_identity_verification_kpis(statement_json)
     save_json_to_file(identity_kpis,base_path,document_type)
 
-    # folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
+    # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
     return Response(
         status=200,
@@ -89,7 +89,7 @@ async def upload_credit_report(
 
     folder_id, folder_name = await persist_file_in_local(metadata, credit_reports, "credit_reports")
     result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    # folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
+ 
 
     files = get_document_files(
                                 document_type=document_type,
@@ -98,6 +98,7 @@ async def upload_credit_report(
     statement_json = files['json']
     credit_kpis = creditreportkpis.calculate(statement_json)
     save_json_to_file(credit_kpis,base_path,document_type)
+    # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 
     return Response(
@@ -119,7 +120,7 @@ async def upload_income_proof(
 
     folder_id, folder_name = await persist_file_in_local(metadata, income_proof, "income_proof")
     result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    # folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
+
     files = get_document_files(
                                 document_type=document_type,
                                 base_path=base_path
@@ -127,6 +128,7 @@ async def upload_income_proof(
     statement_json = files['json']
     salary_kpis = salaryslipkpis.calculate(statement_json)
     save_json_to_file(salary_kpis ,base_path,document_type)
+    # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 
     return Response(
@@ -148,7 +150,7 @@ async def upload_tax_statement(
 
     folder_id, folder_name = await persist_file_in_local(metadata, tax_statements, "tax_statements")
     result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    # folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
+
     files = get_document_files(
                                 document_type=document_type,
                                 base_path=base_path
@@ -156,6 +158,7 @@ async def upload_tax_statement(
     statement_json = files['json']
     income_kpis = incomekpis.calculate(statement_json)
     save_json_to_file(income_kpis ,base_path,document_type)
+    # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 
 
@@ -178,7 +181,7 @@ async def upload_utility_bill(
 
     folder_id, folder_name = await persist_file_in_local(metadata, utility_bills, "utility_bills")
     result, folder_id, document_type, base_path = process_documents(folder_id, folder_name)
-    # folder_id = "bc0f8f34-1933-448b-9259-de05b80a0814"
+
     files = get_document_files(
                                 document_type=document_type,
                                 base_path=base_path
@@ -186,6 +189,7 @@ async def upload_utility_bill(
     statement_json = files['json']
     utility_kpis = utilitykpis.calculate(statement_json)
     save_json_to_file(utility_kpis ,base_path,document_type)
+    # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 
 
