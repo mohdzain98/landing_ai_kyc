@@ -465,7 +465,18 @@ const Outcomes = (props) => {
             {activeCard.statusKey === "completed" &&
               activeCard.response?.data?.content && (
                 <div className="bg-light border rounded-3 p-3 mb-3">
-                  <p className="small fw-semibold mb-2 text-success">Result</p>
+                  {/* <p className="small fw-semibold mb-2 text-success">Result</p> */}
+                  <div className="mb-4">
+                    <center>
+                      <ScrollLink
+                        className="btn btn-outline-dark mt-3 px-5 shadow"
+                        onClick={handlePageChange}
+                        to="result"
+                      >
+                        {page == "page_1" ? "KPIs" : "Extracted Annotations"}
+                      </ScrollLink>
+                    </center>
+                  </div>
                   <div
                     className="position-relative"
                     style={
@@ -490,7 +501,10 @@ const Outcomes = (props) => {
                                   src={`data:image/png;base64,${images[0]}`}
                                   alt="Extracted Annotation Not Found"
                                   className="shadow rounded mb-2 animate__animated animate__fadeInLeft"
-                                  style={{ maxWidth: "100%", height: "auto" }}
+                                  style={{
+                                    maxWidth: "100%",
+                                    height: "620px",
+                                  }}
                                 />
                               </center>
                             );
@@ -507,15 +521,6 @@ const Outcomes = (props) => {
                       <div className="scrollbox-fade" aria-hidden="true"></div>
                     )}
                   </div>
-                  <center>
-                    <ScrollLink
-                      className="btn btn-outline-dark my-3 px-5 shadow"
-                      onClick={handlePageChange}
-                      to="result"
-                    >
-                      {page == "page_1" ? "KPIs" : "Extracted Annotations"}
-                    </ScrollLink>
-                  </center>
                 </div>
               )}
 
@@ -613,7 +618,7 @@ const Outcomes = (props) => {
           </button>
         </div>
         <div>
-          {chatBox && <ChatBox showAlert={showAlert} />}
+          {chatBox && <ChatBox case_id={caseId} showAlert={showAlert} />}
           {allDocumentsCompleted && (
             <button
               className={`btn btn-${

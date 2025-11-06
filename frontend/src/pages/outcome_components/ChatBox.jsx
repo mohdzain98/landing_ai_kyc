@@ -126,7 +126,7 @@ const ChatBox = ({
                     className={`chatbox-bubble ${
                       message.role === "user"
                         ? "chatbox-bubble-user"
-                        : "chatbox-bubble-assistant"
+                        : "chatbox-bubble-assistant text-secondary"
                     }`}
                   >
                     {/* {message.animated ? (

@@ -54,7 +54,7 @@ const Slider = ({ images }) => {
               alt={`Slide ${idx + 1}`}
               style={{
                 maxWidth: "100%",
-                height: "auto", // fits natural image height
+                height: "620px",
                 margin: "0 auto",
                 borderRadius: "8px",
               }}
