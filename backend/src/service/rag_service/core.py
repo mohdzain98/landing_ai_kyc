@@ -2,14 +2,23 @@ from __future__ import annotations
 
 from functools import lru_cache
 from pathlib import Path
-
-from langchain_community.embeddings import HuggingFaceEmbeddings
-
 from src.service.rag_service.utils import Logger
 
-DEFAULT_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-
 logger = Logger.get_logger(__name__)
+try:
+    from langchain_huggingface import HuggingFaceEmbeddings
+except ImportError:
+    logger.warning(
+        "⚠️ The package 'langchain-huggingface' is not installed. "
+        "Please install it using: pip install -U langchain-huggingface"
+    )
+    logger.warning(
+        "⚠️ Falling back to 'langchain_community.embeddings.HuggingFaceEmbeddings'"
+    )
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+
+
+DEFAULT_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 @lru_cache(maxsize=4)
