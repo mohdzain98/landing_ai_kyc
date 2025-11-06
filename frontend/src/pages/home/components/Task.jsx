@@ -186,7 +186,6 @@ const Task = (props) => {
               } me-2`}
             ></i>
             See Results
-            {/* {anyUploadInFlight && <Spinner />} */}
           </button>
         </div>
       </div>
