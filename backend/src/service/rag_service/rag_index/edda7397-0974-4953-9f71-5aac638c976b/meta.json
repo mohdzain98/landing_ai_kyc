@@ -1,0 +1,750 @@
+{
+  "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+  "summaries": {},
+  "ids": {},
+  "chunks": {
+    "bank-statements-0": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "Based on the data provided, the account shows an average of 1.23 transactions per month. The average monthly credit is 56.2, and the average monthly debit is 114.87. This results in an average monthly debit-to-credit ratio of 2.04. The average monthly balance for the period is -170.74.",
+      "metadata": {
+        "document_type": "bank-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/bank-statements/output/bank-statements_summary.txt",
+        "chunk_index": 0
+      }
+    },
+    "bank-statements-1": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "ement period</td><td id=\"0-3\">Account No.</td></tr> <tr><td id=\"0-4\">2023-04-01 to 2023-08-3</td><td id=\"0-5\">123-498-7</td></tr> </table> <a id='3205d381-779f-47fb-b3d1-c59210b31c8a'></a> <table id=\"0-6\"> <tr><td id=\"0-7\">Date</td><td id=\"0-8\">Description</td><td id=\"0-9\">Ref.</td><td id=\"0-a\">Withdrawals</td><td id=\"0-b\">Deposits</td><td id=\"0-c\">Balance</td></tr> <tr><td id=\"0-d\">Apr-01-00</td><td id=\"0-e\">Previous balance</td><td id=\"0-f\"></td><td id=\"0-g\"></td><td id=\"0-h\"></td><td id=\"0-i\">6.55</td></tr> <tr><td id=\"0-j\">Apr-01-14</td><td id=\"0-k\">Payroll Deposit - HOTEL</td><td id=\"0-l\"></td><td id=\"0-m\"></td><td id=\"0-n\">694.81</td><td id=\"0-o\">694.81</td></tr> <tr><td id=\"0-p\">Apr-01-14</td><td id=\"0-q\">Web Bill Payment - MASTERCARD</td><td id=\"0-r\">688.81</td><td id=\"0-s\">200.00<",
+      "metadata": {
+        "document_type": "bank-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/bank-statements/output/bank-statements_parsed.txt",
+        "chunk_index": 1
+      }
+    },
+    "bank-statements-2": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ".81</td><td id=\"0-o\">694.81</td></tr> <tr><td id=\"0-p\">Apr-01-14</td><td id=\"0-q\">Web Bill Payment - MASTERCARD</td><td id=\"0-r\">688.81</td><td id=\"0-s\">200.00</td><td id=\"0-t\"></td><td id=\"0-u\">498.31</td></tr> <tr><td id=\"0-v\">Apr-01-16</td><td id=\"0-w\">ATM Withdrawal - INTERAC</td><td id=\"0-x\">399.00</td><td id=\"0-y\">1.50</td><td id=\"0-z\"></td><td id=\"0-A\">474-11</td></tr> <tr><td id=\"0-B\">Apr-01-20</td><td id=\"0-C\">Feea - Interac</td><td id=\"0-D\"></td><td id=\"0-E\">1.50</td><td id=\"0-F\"></td><td id=\"0-G\">473.61</td></tr> <tr><td id=\"0-H\">Apr-01-20</td><td id=\"0-I\">Interac Purchase - ELECTRONICS</td><td id=\"0-J\">1075</td><td id=\"0-K\">2.99</td><td id=\"0-L\"></td><td id=\"0-M\">468.69</td></tr> <tr><td id=\"0-N\">Apr-01-21</td><td id=\"0-O\">Web Bill Payment - AMEX</td><td id=\"0-P\">3214</td><td i",
+      "metadata": {
+        "document_type": "bank-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/bank-statements/output/bank-statements_parsed.txt",
+        "chunk_index": 2
+      }
+    },
+    "bank-statements-3": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "-K\">2.99</td><td id=\"0-L\"></td><td id=\"0-M\">468.69</td></tr> <tr><td id=\"0-N\">Apr-01-21</td><td id=\"0-O\">Web Bill Payment - AMEX</td><td id=\"0-P\">3214</td><td id=\"0-Q\">300.00</td><td id=\"0-R\"></td><td id=\"0-S\">159.60</td></tr> <tr><td id=\"0-T\">Apr-01-22</td><td id=\"0-U\">Interac Purchase - ELECTR/N#</td><td id=\"0-V\">0684</td><td id=\"0-W\">100.00</td><td id=\"0-X\"></td><td id=\"0-Y\">69.62</td></tr> <tr><td id=\"0-Z\">Apr-01-23</td><td id=\"0-10\">Interact Refund - SUPER MARKET</td><td id=\"0-11\">1359</td><td id=\"0-12\">29.08</td><td id=\"0-13\"></td><td id=\"0-14\">49.67</td></tr> <tr><td id=\"0-15\">Apr-01-24</td><td id=\"0-16\">Telephone Bill Payment - VISA</td><td id=\"0-17\">1975</td><td id=\"0-18\"></td><td id=\"0-19\">6.77</td><td id=\"0-1a\">43.24</td></tr> <tr><td id=\"0-1b\">Apr-01-30</td><td id=\"0-1c\">Payrol",
+      "metadata": {
+        "document_type": "bank-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/bank-statements/output/bank-statements_parsed.txt",
+        "chunk_index": 3
+      }
+    },
+    "bank-statements-4": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "t - VISA</td><td id=\"0-17\">1975</td><td id=\"0-18\"></td><td id=\"0-19\">6.77</td><td id=\"0-1a\">43.24</td></tr> <tr><td id=\"0-1b\">Apr-01-30</td><td id=\"0-1c\">Payroll Deposit - HOTEL</td><td id=\"0-1d\">2620</td><td id=\"0-1e\"></td><td id=\"0-1f\"></td><td id=\"0-1g\">38.30</td></tr> <tr><td id=\"0-1h\">Apr-01-30</td><td id=\"0-1i\">Web Fund Transfer- FromSAVINGS</td><td id=\"0-1j\"></td><td id=\"0-1k\">66.77</td><td id=\"0-1l\"></td><td id=\"0-1m\">715.66</td></tr> <tr><td id=\"0-1n\">Sep-03-00</td><td id=\"0-1o\">Cheque No, - 409</td><td id=\"0-1p\"></td><td id=\"0-1q\">100.00</td><td id=\"0-1r\"></td><td id=\"0-1s\">648.03</td></tr> <tr><td id=\"0-1t\">Sep-03-08</td><td id=\"0-1u\">Mortgage Payment</td><td id=\"0-1v\"></td><td id=\"0-1w\">710.49</td><td id=\"0-1x\"></td><td id=\"0-1y\">-62.47</td></tr> <tr><td id=\"0-1z\">Sep-03-07</td",
+      "metadata": {
+        "document_type": "bank-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/bank-statements/output/bank-statements_parsed.txt",
+        "chunk_index": 4
+      }
+    },
+    "bank-statements-5": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "<td id=\"0-1u\">Mortgage Payment</td><td id=\"0-1v\"></td><td id=\"0-1w\">710.49</td><td id=\"0-1x\"></td><td id=\"0-1y\">-62.47</td></tr> <tr><td id=\"0-1z\">Sep-03-07</td><td id=\"0-1A\">Feea - Overdraft</td><td id=\"0-1B\"></td><td id=\"0-1C\">5.00</td><td id=\"0-1D\"></td><td id=\"0-1E\">-87.47</td></tr> <tr><td id=\"0-1F\">Sep-11-11</td><td id=\"0-1G\">Fees - Monthly</td><td id=\"0-1H\"></td><td id=\"0-1I\">5.00</td><td id=\"0-1J\"></td><td id=\"0-1K\">-72.47</td></tr> <tr><td id=\"0-1L\"></td><td id=\"0-1M\">*** Totals ***</td><td id=\"0-1N\"></td><td id=\"0-1O\">1,515 63</td><td id=\"0-1P\">1,442.51</td><td id=\"0-1Q\"></td></tr> </table>",
+      "metadata": {
+        "document_type": "bank-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/bank-statements/output/bank-statements_parsed.txt",
+        "chunk_index": 5
+      }
+    },
+    "credit-reports-0": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "The credit score is not available. The report shows 4 open tradelines. The current principal balance is $62,000 against a maximum of $750,000. Payment history indicates 0 delinquencies at 30, 60, or 90 days. The record is clear of major derogatory marks, with 0 bankruptcies and 0 collections. There have been 2 hard inquiries within the last 180 days. Information on account types and credit age is not provided.",
+      "metadata": {
+        "document_type": "credit-reports",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/credit-reports/output/credit-reports_summary.txt",
+        "chunk_index": 0
+      }
+    },
+    "credit-reports-1": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "<td id=\"1-9\">Employement Status:</td><td id=\"1-a\">Active</td><td id=\"1-b\" rowspan=\"2\">$750000</td></tr> <tr><td id=\"1-c\">Job Title:</td><td id=\"1-d\">Software Engineer</td></tr> <tr><td id=\"1-e\">Total Time with</td><td id=\"1-f\">6 years, 4 months</td><td id=\"1-g\">PaidOff: Last Payment</td><td id=\"1-h\">$13000</td></tr> <tr><td id=\"1-i\">Employer: Pay Amount:</td><td id=\"1-j\">$2850.00</td><td id=\"1-k\">Disposition:</td><td id=\"1-l\">Current</td></tr> <tr><td id=\"1-m\">Pay Cycle:</td><td id=\"1-n\">Biweekly</td><td id=\"1-o\" rowspan=\"2\">Total Current Principal:</td><td id=\"1-p\">$62000.00</td></tr> <tr><td id=\"1-q\">Most recent Start Date:</td><td id=\"1-r\">03/15/2018</td><td id=\"1-s\" rowspan=\"2\">2</td></tr> <tr><td id=\"1-t\" rowspan=\"3\" colspan=\"2\">** - The Work Number is sourced by TALX Corporation, pro",
+      "metadata": {
+        "document_type": "credit-reports",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/credit-reports/output/credit-reports_parsed.txt",
+        "chunk_index": 1
+      }
+    },
+    "credit-reports-2": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "d id=\"1-r\">03/15/2018</td><td id=\"1-s\" rowspan=\"2\">2</td></tr> <tr><td id=\"1-t\" rowspan=\"3\" colspan=\"2\">** - The Work Number is sourced by TALX Corporation, provider of Equifax Workforce Solutions. View All Income & Employment Details</td><td id=\"1-u\">Application Inquiries 180 Days:</td></tr> <tr><td id=\"1-v\">Charges Offs 1 Year:</td><td id=\"1-w\">$0</td></tr> <tr><td id=\"1-x\">View All DataX</td><td id=\"1-y\"></td></tr> <tr><td id=\"1-z\"></td><td id=\"1-A\"></td><td id=\"1-B\">Decals *** - Data sourced by DataX</td><td id=\"1-C\">1 of 18</td></tr> </table> <a id='bf926520-cd77-4f9b-a843-83a7568e792e'></a> 1 of 18",
+      "metadata": {
+        "document_type": "credit-reports",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/credit-reports/output/credit-reports_parsed.txt",
+        "chunk_index": 2
+      }
+    },
+    "identity-documents-0": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "The applicant is 40 years old. The provided document, issued by the United States of America, has a 'valid' verification status and indicates a passport number is present. No address was provided in the report. The document expires in 3295 days.",
+      "metadata": {
+        "document_type": "identity-documents",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/identity-documents/output/identity-documents_summary.txt",
+        "chunk_index": 0
+      }
+    },
+    "identity-documents-1": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "Nacionalidad: UNITED STATES OF AMERICA Date of birth/Date de naissance/Fecha de nacimiento: 09 JUN 85 Sex/Sexe/Sexo: M Place of birth/Lieu de naissance/Lugar de nacimiento: PORT NICOLECHESTER, OK, U.S.A. Date of issue/Date de d\u00e9livrance/Fecha de expedici\u00f3n: 15 NOV 24 Date of expiration/Date d'expiration/Fecha de caducidad: 15 NOV 34 Authority/Autorite/Autoridad: UNITED STATES DEPARTMENT OF STATE [Small photo of a man with a beard and glasses, with '05 05 97' below] P<USAARNOLD<<<JOHN<<<<<<<<<<<<<<<<<<<<<<<<<<< 3501728884USA8506092M341115940960867234<<<54 <a id='7d16fd12-2744-4f8e-8388-13dc0670e7f0'></a> f birth/Lieu de naissance/Lugar de nacimiento FORT NICOLECHESTER, OK, issue/Date de d'\u00e9livrance/Fecha de expedici\u00f3n NOV 24 expiration/Date d'expiration/Fecha de caducidad NOV 34",
+      "metadata": {
+        "document_type": "identity-documents",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/identity-documents/output/identity-documents_parsed.txt",
+        "chunk_index": 1
+      }
+    },
+    "income-proof-0": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "The income document shows a Gross Monthly Income of $7,600.00. Total deductions are listed as $2,100.00. The income frequency is specified as monthly. Information regarding the employer, employment type, net income, or the specific income period covered is not present.",
+      "metadata": {
+        "document_type": "income-proof",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/income-proof/output/income-proof_summary.txt",
+        "chunk_index": 0
+      }
+    },
+    "income-proof-1": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "id=\"0-6\">$7,600.00</td><td id=\"0-7\">$68,400.00</td></tr> </table> <a id='28172a2e-dad8-4518-bb6b-56d83080928c'></a> # Deductions <table id=\"0-8\"> <tr><td id=\"0-9\">Description</td><td id=\"0-a\">Current Period</td><td id=\"0-b\">Year-to-Date (YTD)</td></tr> <tr><td id=\"0-c\">Federal Income Tax</td><td id=\"0-d\">$1,400.00</td><td id=\"0-e\">$12,600.00</td></tr> <tr><td id=\"0-f\">State Income Tax</td><td id=\"0-g\">$400.00</td><td id=\"0-h\">$3,600.00</td></tr> <tr><td id=\"0-i\">FICA - Social Security</td><td id=\"0-j\">$300.00</td><td id=\"0-k\">$2,700.00</td></tr> <tr><td id=\"0-l\">FICA - Medicare</td><td id=\"0-m\">$0.00</td><td id=\"0-n\">$0.00</td></tr> <tr><td id=\"0-o\">Total Deductions</td><td id=\"0-p\">$2,100.00</td><td id=\"0-q\">$18,900.00</td></tr> </table> <a id='9f74a6e4-edb1-476a-a38d-3e51457b5219'></a>",
+      "metadata": {
+        "document_type": "income-proof",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/income-proof/output/income-proof_parsed.txt",
+        "chunk_index": 1
+      }
+    },
+    "income-proof-2": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "> <tr><td id=\"0-o\">Total Deductions</td><td id=\"0-p\">$2,100.00</td><td id=\"0-q\">$18,900.00</td></tr> </table> <a id='9f74a6e4-edb1-476a-a38d-3e51457b5219'></a> <table id=\"0-r\"> <tr><td id=\"0-s\"></td><td id=\"0-t\">Current Period</td><td id=\"0-u\">Year-to-Date (YTD)</td></tr> <tr><td id=\"0-v\">Net Pay</td><td id=\"0-w\">$5,500.00</td><td id=\"0-x\">$49,500.00</td></tr> </table> <a id='e49d59aa-5c20-4450-acdd-674ce8c8545a'></a> Year-to-date values are cumulative for the calendar year. <a id='f85b23cf-fea5-4088-90a8-329ad392b730'></a> This is a fictional sample payslip generated for demonstration purposes only. <a id='b16982c0-fae9-4dba-b9d8-5f922616ca2c'></a> Acme Hospitality LLC - 700 West Commerce Drive, Metropolis, USA",
+      "metadata": {
+        "document_type": "income-proof",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/income-proof/output/income-proof_parsed.txt",
+        "chunk_index": 2
+      }
+    },
+    "tax-statements-0": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "The financial data indicates a Gross Monthly Income of $5,700.00 from a salaried (W-2) source, with an estimated monthly take-home pay of $4,446.00. The document also reports a taxable-income ratio of 0.79 and classifies the income as stable. Information regarding the specific tax year, filing status, employer, total tax paid, or any dependents and deductions is not provided in the data.",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_summary.txt",
+        "chunk_index": 0
+      }
+    },
+    "tax-statements-1": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "a> <table id=\"0-6\"> <tr><td id=\"0-7\">Your first name and middle initial Arnold</td><td id=\"0-8\">Last name John</td></tr> <tr><td id=\"0-9\">If joint return, spouse's first name and middle initial</td><td id=\"0-a\">Last name</td></tr> </table> <a id='4ca0426e-9257-43be-844d-3420981fbec1'></a> <table id=\"0-b\"> <tr><td id=\"0-c\" colspan=\"3\">Your social security number 9 8 7 6 5 1 9 8 7</td></tr> <tr><td id=\"0-d\">Spouse's</td><td id=\"0-e\">social</td><td id=\"0-f\">security number</td></tr> </table> <a id='7a19ed31-a7b5-41fc-96ef-d25879d262f6'></a> Home address (number and street). If you have a P.O. box, see instructions. PORT NICOLECHESTER Apt. no. <a id='61ba6afb-4ecc-4f18-b334-925494e3a0f3'></a> <table id=\"0-g\"> <tr><td id=\"0-h\">City, town, or post office. If you have a foreign address, also comp",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 1
+      }
+    },
+    "tax-statements-2": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "pt. no. <a id='61ba6afb-4ecc-4f18-b334-925494e3a0f3'></a> <table id=\"0-g\"> <tr><td id=\"0-h\">City, town, or post office. If you have a foreign address, also complete spaces below.</td><td id=\"0-i\">State</td><td id=\"0-j\">ZIP code</td></tr> <tr><td id=\"0-k\">Oklahoma City</td><td id=\"0-l\">OK</td><td id=\"0-m\">60657</td></tr> </table> <a id='5699f6b5-df48-4692-9359-6a1052ea521e'></a> <table id=\"0-n\"> <tr><td id=\"0-o\"></td><td id=\"0-p\"></td><td id=\"0-q\"></td></tr> <tr><td id=\"0-r\">Foreign country name</td><td id=\"0-s\">Foreign province/state/county</td><td id=\"0-t\">Foreign postal code</td></tr> </table> <a id='9a958f04-7ee1-48f7-a4bc-85b4976a0d44'></a> **Presidential Election Campaign** Check here if you, or your spouse if filing jointly, want $3 to go to this fund. Checking a box below will not c",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 2
+      }
+    },
+    "tax-statements-3": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "6a0d44'></a> **Presidential Election Campaign** Check here if you, or your spouse if filing jointly, want $3 to go to this fund. Checking a box below will not change your tax or refund. option You: [ ] option Spouse: [ ] <a id='935db57d-4581-45c4-88f8-40350129a319'></a> Filing Status Check only one box. option Single: [x] option Married filing jointly (even if only one had income): [ ] option Married filing separately (MFS): [ ] option Head of household (HOH): [ ] option Qualifying surviving spouse (QSS): [ ] If you checked the MFS box, enter the name of your spouse. If you checked the HOH or QSS box, enter the child's name if the qualifying person is a child but not your dependent: --- option If treating a nonresident alien or dual-status alien spouse as a U.S. resident for the entire tax",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 3
+      }
+    },
+    "tax-statements-4": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "ualifying person is a child but not your dependent: --- option If treating a nonresident alien or dual-status alien spouse as a U.S. resident for the entire tax year, check the box and enter their name (see instructions and attach statement if required): [ ] --- <a id='01bd4714-7a1b-416a-ae86-5ec022b0497a'></a> Digital Assets At any time during 2024, did you: (a) receive (as a reward, award, or payment for property or services); or (b) sell, exchange, or otherwise dispose of a digital asset (or a financial interest in a digital asset)? (See instructions.) option Yes: [ ] option No: [x] <a id='cb94ce45-f6d2-445b-ba86-466aa42750f6'></a> Standard Deduction Someone can claim: option You as a dependent: [ ] option Your spouse as a dependent: [ ] option Spouse itemizes on a separate return or yo",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 4
+      }
+    },
+    "tax-statements-5": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "a> Standard Deduction Someone can claim: option You as a dependent: [ ] option Your spouse as a dependent: [ ] option Spouse itemizes on a separate return or you were a dual-status alien: [ ] <a id='a2e52141-fb02-4938-940f-2aa7e30bbe3e'></a> Age/Blindness You: option Were born before January 2, 1960: [ ] option Are blind: [ ] Spouse: option Was born before January 2, 1960: [ ] option Is blind: [ ] <a id='e88d9594-1808-4b81-8b53-b0233ecff9e9'></a> <table id=\"0-u\"> <tr><td id=\"0-v\" rowspan=\"5\">Dependents If more than four dependents, see instructions and check here (checkbox)</td><td id=\"0-w\">(see instructions): (1) First name Last name</td><td id=\"0-x\" colspan=\"3\">(2) Social security number</td><td id=\"0-y\">(3) Relationship to you</td><td id=\"0-z\" colspan=\"2\">(4) Check the box if qualifies",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 5
+      }
+    },
+    "tax-statements-6": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "me</td><td id=\"0-x\" colspan=\"3\">(2) Social security number</td><td id=\"0-y\">(3) Relationship to you</td><td id=\"0-z\" colspan=\"2\">(4) Check the box if qualifies for (see instructions): Child tax credit Credit for other dependents</td></tr> <tr><td id=\"0-A\"></td><td id=\"0-B\"></td><td id=\"0-C\"></td><td id=\"0-D\"></td><td id=\"0-E\"></td><td id=\"0-F\">empty checkbox</td><td id=\"0-G\">empty checkbox</td></tr> <tr><td id=\"0-H\"></td><td id=\"0-I\"></td><td id=\"0-J\"></td><td id=\"0-K\"></td><td id=\"0-L\"></td><td id=\"0-M\">empty checkbox</td><td id=\"0-N\">empty checkbox</td></tr> <tr><td id=\"0-O\"></td><td id=\"0-P\"></td><td id=\"0-Q\"></td><td id=\"0-R\"></td><td id=\"0-S\"></td><td id=\"0-T\">empty checkbox</td><td id=\"0-U\">empty checkbox</td></tr> <tr><td id=\"0-V\"></td><td id=\"0-W\"></td><td id=\"0-X\"></td><td id=\"0-Y",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 6
+      }
+    },
+    "tax-statements-7": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "td><td id=\"0-S\"></td><td id=\"0-T\">empty checkbox</td><td id=\"0-U\">empty checkbox</td></tr> <tr><td id=\"0-V\"></td><td id=\"0-W\"></td><td id=\"0-X\"></td><td id=\"0-Y\"></td><td id=\"0-Z\"></td><td id=\"0-10\">empty checkbox</td><td id=\"0-11\">empty checkbox</td></tr> </table> <a id='96bb44de-3e96-4441-89bf-9f08e87826a1'></a> <table id=\"0-12\"> <tr><td id=\"0-13\" rowspan=\"6\">Income Attach Form(s) W-2 here. Also attach Forms W-2G and 1099-R if tax was withheld.</td><td id=\"0-14\">1a</td><td id=\"0-15\" colspan=\"2\">Total amount from Form(s) W-2, box 1 (see instructions)</td><td id=\"0-16\">five asterisks on light blue background</td><td id=\"0-17\" colspan=\"3\">......... (dots in light blue box)</td><td id=\"0-18\">1a</td><td id=\"0-19\">68,400</td></tr> <tr><td id=\"0-1a\">b</td><td id=\"0-1b\" colspan=\"3\">Household emp",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 7
+      }
+    },
+    "tax-statements-8": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "n=\"3\">......... (dots in light blue box)</td><td id=\"0-18\">1a</td><td id=\"0-19\">68,400</td></tr> <tr><td id=\"0-1a\">b</td><td id=\"0-1b\" colspan=\"3\">Household employee wages not reported on Form(s) W-2.</td><td id=\"0-1c\">...</td><td id=\"0-1d\">...</td><td id=\"0-1e\">.</td><td id=\"0-1f\">1b</td><td id=\"0-1g\">0</td></tr> <tr><td id=\"0-1h\">c</td><td id=\"0-1i\" colspan=\"3\">Tip income not reported on line 1a (see instructions)</td><td id=\"0-1j\">...</td><td id=\"0-1k\">...</td><td id=\"0-1l\">.</td><td id=\"0-1m\">1c</td><td id=\"0-1n\">0</td></tr> <tr><td id=\"0-1o\">d</td><td id=\"0-1p\" colspan=\"3\">Medicaid waiver payments not reported on Form(s) W-2 (see instructions)</td><td id=\"0-1q\">...</td><td id=\"0-1r\">...</td><td id=\"0-1s\">.</td><td id=\"0-1t\">1d</td><td id=\"0-1u\">0</td></tr> <tr><td id=\"0-1v\">e</td><td",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 8
+      }
+    },
+    "tax-statements-9": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "ee instructions)</td><td id=\"0-1q\">...</td><td id=\"0-1r\">...</td><td id=\"0-1s\">.</td><td id=\"0-1t\">1d</td><td id=\"0-1u\">0</td></tr> <tr><td id=\"0-1v\">e</td><td id=\"0-1w\" colspan=\"2\">Taxable dependent care benefits from Form 2441, line 26</td><td id=\"0-1x\">five asterisks on light blue background</td><td id=\"0-1y\">...</td><td id=\"0-1z\">...</td><td id=\"0-1A\">.</td><td id=\"0-1B\">1e</td><td id=\"0-1C\">0</td></tr> <tr><td id=\"0-1D\">f</td><td id=\"0-1E\" colspan=\"3\">Employer-provided adoption benefits from Form 8839, line 29</td><td id=\"0-1F\"></td><td id=\"0-1G\"></td><td id=\"0-1H\"></td><td id=\"0-1I\">1f</td><td id=\"0-1J\">0</td></tr> <tr><td id=\"0-1K\" rowspan=\"19\">If you did not get a Form W-2, see instructions. Attach Sch. B if required. Standard Deduction for\u2014 Single or Married filing separately, $14",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 9
+      }
+    },
+    "tax-statements-10": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "\"0-1K\" rowspan=\"19\">If you did not get a Form W-2, see instructions. Attach Sch. B if required. Standard Deduction for\u2014 Single or Married filing separately, $14,600 Married filing jointly or Qualifying surviving spouse, $29,200 Head of household, $21,900 If you checked any box under Standard Deduction, see instructions.</td><td id=\"0-1L\">g</td><td id=\"0-1M\" colspan=\"2\">Wages from Form 8919, line 6 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 10
+      }
+    },
+    "tax-statements-11": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 11
+      }
+    },
+    "tax-statements-12": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 12
+      }
+    },
+    "tax-statements-13": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"0-1N\">six dots</td><td id=\"0-1O\"></td><td id=\"0-1P\"></td><td id=\"0-1Q\"></td><td id=\"0-1R\">1g</td><td id=\"0-1S\">0</td></tr> <tr><td id=\"0-1T\">h</td><td id=\"0-1U\" colspan=\"2\">Other earned income (see instructions)</td><td id=\"0-1V\"",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 13
+      }
+    },
+    "tax-statements-14": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "\"></td><td id=\"0-1R\">1g</td><td id=\"0-1S\">0</td></tr> <tr><td id=\"0-1T\">h</td><td id=\"0-1U\" colspan=\"2\">Other earned income (see instructions)</td><td id=\"0-1V\">six dots</td><td id=\"0-1W\"></td><td id=\"0-1X\"></td><td id=\"0-1Y\"></td><td id=\"0-1Z\">1h</td><td id=\"0-20\">0</td></tr> <tr><td id=\"0-21\">i</td><td id=\"0-22\" colspan=\"2\">Nontaxable combat pay election (see instructions)</td><td id=\"0-23\">six dots</td><td id=\"0-24\">1i</td><td id=\"0-25\"></td><td id=\"0-26\"></td><td id=\"0-27\">(gray square)</td><td id=\"0-28\"></td></tr> <tr><td id=\"0-29\">Z</td><td id=\"0-2a\" colspan=\"4\">Add lines 1a through 1h</td><td id=\"0-2b\"></td><td id=\"0-2c\"></td><td id=\"0-2d\">1z</td><td id=\"0-2e\">68400</td></tr> <tr><td id=\"0-2f\">2a</td><td id=\"0-2g\">Tax-exempt interest</td><td id=\"0-2h\">2a</td><td id=\"0-2i\" colspan=\"2",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 14
+      }
+    },
+    "tax-statements-15": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "><td id=\"0-2d\">1z</td><td id=\"0-2e\">68400</td></tr> <tr><td id=\"0-2f\">2a</td><td id=\"0-2g\">Tax-exempt interest</td><td id=\"0-2h\">2a</td><td id=\"0-2i\" colspan=\"2\">b Taxable interest</td><td id=\"0-2j\">...</td><td id=\"0-2k\">.</td><td id=\"0-2l\">2b</td><td id=\"0-2m\">0</td></tr> <tr><td id=\"0-2n\">3a</td><td id=\"0-2o\">Qualified dividends</td><td id=\"0-2p\">3a</td><td id=\"0-2q\" colspan=\"3\">b Ordinary dividends . . . . .</td><td id=\"0-2r\">.</td><td id=\"0-2s\">3b</td><td id=\"0-2t\">0</td></tr> <tr><td id=\"0-2u\">4a</td><td id=\"0-2v\">IRA distributions</td><td id=\"0-2w\">4a</td><td id=\"0-2x\" colspan=\"3\">b Taxable amount . . . . . . . .</td><td id=\"0-2y\">.</td><td id=\"0-2z\">4b</td><td id=\"0-2A\">0</td></tr> <tr><td id=\"0-2B\">5a</td><td id=\"0-2C\">Pensions and annuities</td><td id=\"0-2D\">5a</td><td id=\"0-2E\" c",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 15
+      }
+    },
+    "tax-statements-16": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "-2y\">.</td><td id=\"0-2z\">4b</td><td id=\"0-2A\">0</td></tr> <tr><td id=\"0-2B\">5a</td><td id=\"0-2C\">Pensions and annuities</td><td id=\"0-2D\">5a</td><td id=\"0-2E\" colspan=\"3\">b Taxable amount . . . . . .</td><td id=\"0-2F\">.</td><td id=\"0-2G\">5b</td><td id=\"0-2H\">0</td></tr> <tr><td id=\"0-2I\">6a</td><td id=\"0-2J\">Social security benefits</td><td id=\"0-2K\">6a</td><td id=\"0-2L\" colspan=\"3\">b Taxable amount . . . . . . .</td><td id=\"0-2M\">.</td><td id=\"0-2N\">6b</td><td id=\"0-2O\">0</td></tr> <tr><td id=\"0-2P\">C</td><td id=\"0-2Q\" colspan=\"5\">If you elect to use the lump-sum election method, check here (see instructions)</td><td id=\"0-2R\">empty checkbox</td><td id=\"0-2S\"></td><td id=\"0-2T\"></td></tr> <tr><td id=\"0-2U\">7</td><td id=\"0-2V\" colspan=\"4\">Capital gain or (loss). Attach Schedule D if requir",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 16
+      }
+    },
+    "tax-statements-17": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "y checkbox</td><td id=\"0-2S\"></td><td id=\"0-2T\"></td></tr> <tr><td id=\"0-2U\">7</td><td id=\"0-2V\" colspan=\"4\">Capital gain or (loss). Attach Schedule D if required. If not required, check here</td><td id=\"0-2W\">...</td><td id=\"0-2X\">empty checkbox</td><td id=\"0-2Y\">7</td><td id=\"0-2Z\">0</td></tr> <tr><td id=\"0-30\">8</td><td id=\"0-31\" colspan=\"2\">Additional income from Schedule 1, line 10 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 17
+      }
+    },
+    "tax-statements-18": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 18
+      }
+    },
+    "tax-statements-19": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 19
+      }
+    },
+    "tax-statements-20": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"0-32\" colspan=\"2\">light blue rectangle with dots</td><td id=\"0-33\">...</td><td id=\"0-34\">.</td><td id=\"0-35\">8</td><td id=\"0-36\">0</td></tr> <tr><td id=\"0-37\">9</td><td id=\"0-38\" colspan=\"4\">Add lines 1z, 2b, 3b, 4b, 5b, 6b, 7, and 8. This is your total income . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 20
+      }
+    },
+    "tax-statements-21": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "><td id=\"0-37\">9</td><td id=\"0-38\" colspan=\"4\">Add lines 1z, 2b, 3b, 4b, 5b, 6b, 7, and 8. This is your total income . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 21
+      }
+    },
+    "tax-statements-22": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 22
+      }
+    },
+    "tax-statements-23": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 23
+      }
+    },
+    "tax-statements-24": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"0-39\">...</td><td id=\"0-3a\">.</td><td id=\"0-3b\">9</td><td id=\"0-3c\">68400</td></tr> <tr><td id=\"0-3d\">10</td><td id=\"0-3e\" colspan=\"3\">Adjustments to income from Schedule 1, line 26</td><td id=\"0-3f\"></td><td id=\"0-3g\">...</td><td id=\"0-3h\">.</td><td id=\"0-3i\">10</td><td id=\"0-3j\">0</td></tr> <tr><td id=\"0-3k\">11</td><td id=\"0-3l\" colspan=\"3\">Subtract line 10 from line 9. This is your adjusted gross income</td><td id=\"0-3m\">(two dots)</td><td id=\"0-3n\">(three dots)</td><td id=\"0-3o\">(one dot)</",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 24
+      }
+    },
+    "tax-statements-25": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "n=\"3\">Subtract line 10 from line 9. This is your adjusted gross income</td><td id=\"0-3m\">(two dots)</td><td id=\"0-3n\">(three dots)</td><td id=\"0-3o\">(one dot)</td><td id=\"0-3p\">11</td><td id=\"0-3q\">68400</td></tr> <tr><td id=\"0-3r\">12</td><td id=\"0-3s\" colspan=\"3\">Standard deduction or itemized deductions (from Schedule A)</td><td id=\"0-3t\">(two dots)</td><td id=\"0-3u\">(three dots)</td><td id=\"0-3v\">(one dot)</td><td id=\"0-3w\">12</td><td id=\"0-3x\">14600</td></tr> <tr><td id=\"0-3y\">13</td><td id=\"0-3z\" colspan=\"3\">Qualified business income deduction from Form 8995 or Form 8995-A</td><td id=\"0-3A\">(two dots)</td><td id=\"0-3B\">(three dots)</td><td id=\"0-3C\">(one dot)</td><td id=\"0-3D\">13</td><td id=\"0-3E\">0</td></tr> <tr><td id=\"0-3F\">14</td><td id=\"0-3G\">Add lines 12 and 13 . .</td><td id=\"0",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 25
+      }
+    },
+    "tax-statements-26": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "ots)</td><td id=\"0-3C\">(one dot)</td><td id=\"0-3D\">13</td><td id=\"0-3E\">0</td></tr> <tr><td id=\"0-3F\">14</td><td id=\"0-3G\">Add lines 12 and 13 . .</td><td id=\"0-3H\" colspan=\"3\">........................</td><td id=\"0-3I\">(three dots)</td><td id=\"0-3J\">(one dot)</td><td id=\"0-3K\">14</td><td id=\"0-3L\">14600</td></tr> <tr><td id=\"0-3M\">15</td><td id=\"0-3N\" colspan=\"4\">Subtract line 14 from line 11. If zero or less, enter -0-. This is your taxable income</td><td id=\"0-3O\">(three dots)</td><td id=\"0-3P\">(one dot)</td><td id=\"0-3Q\">15</td><td id=\"0-3R\">53800</td></tr> </table> <a id='86152aff-423b-4cc6-886b-2fa695b96e7c'></a> For Disclosure, Privacy Act, and Paperwork Reduction Act Notice, see separate instructions. Cat. No. 11320B <a id='cc4d2f56-efd9-430d-b042-e50a4ca7337c'></a> --- Form **1040",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 26
+      }
+    },
+    "tax-statements-27": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "e, Privacy Act, and Paperwork Reduction Act Notice, see separate instructions. Cat. No. 11320B <a id='cc4d2f56-efd9-430d-b042-e50a4ca7337c'></a> --- Form **1040** (2024) <a id='d85d9880-e5c5-41a6-b743-cac845c0dd80'></a> Form 1040 (2024) Page **2** <table id=\"1-1\"> <tr><td id=\"1-2\" rowspan=\"9\">Tax and Credits</td><td id=\"1-3\">16</td><td id=\"1-4\">Tax (see instructions). Check if any from Form(s): 1 \\u2514 8814 2 \\u2514 4972 3 \\u2514</td><td id=\"1-5\"></td><td id=\"1-6\"></td></tr> <tr><td id=\"1-7\">17</td><td id=\"1-8\">Amount from Schedule 2, line 3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 27
+      }
+    },
+    "tax-statements-28": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 28
+      }
+    },
+    "tax-statements-29": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 29
+      }
+    },
+    "tax-statements-30": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"1-9\"></td><td id=\"1-a\"></td></tr> <tr><td id=\"1-b\">18</td><td id=\"1-c\"></td><td",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 30
+      }
+    },
+    "tax-statements-31": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"1-9\"></td><td id=\"1-a\"></td></tr> <tr><td id=\"1-b\">18</td><td id=\"1-c\"></td><td id=\"1-d\"></td><td id=\"1-e\"></td></tr> <tr><td id=\"1-f\">19</td><td id=\"1-g\"></td><td id=\"1-h\"></td><td id=\"1-i\"></td></tr> <tr><td id=\"1-j\">20</td><td id=\"1-k\"></td><td id=\"1-l\"></td><td id=\"1-m\"></td></tr> <tr><td id=\"1-n\">21</td><td id=\"1-o\">Add lines 19 and 20 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 31
+      }
+    },
+    "tax-statements-32": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 32
+      }
+    },
+    "tax-statements-33": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 33
+      }
+    },
+    "tax-statements-34": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"1-p\"></td><td id=\"1-q\"></td></tr> <tr><td id=\"1-r\">22</td><td id=\"1-s\"></td><td id=\"1-t\"></td><td id=\"1-u\"></td></tr> <tr><td id=\"1-v\">23</td><td id=\"1-w\"></td><td id=\"1-x\"></td><td id=\"1-y\"></td></tr> <tr><td id=\"1-z\">24</td><td id=\"1-A\"></t",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 34
+      }
+    },
+    "tax-statements-35": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "=\"1-t\"></td><td id=\"1-u\"></td></tr> <tr><td id=\"1-v\">23</td><td id=\"1-w\"></td><td id=\"1-x\"></td><td id=\"1-y\"></td></tr> <tr><td id=\"1-z\">24</td><td id=\"1-A\"></td><td id=\"1-B\"></td><td id=\"1-C\"></td></tr> </table> <a id='c6480ac6-bde6-489e-8524-034b666705f4'></a> <table id=\"1-D\"> <tr><td id=\"1-E\">Payments</td><td id=\"1-F\">25 Federal income tax withheld from:</td><td id=\"1-G\" colspan=\"2\">(light blue rectangle)</td><td id=\"1-H\" rowspan=\"4\">gray rectangle</td><td id=\"1-I\"></td></tr> <tr><td id=\"1-J\"></td><td id=\"1-K\">a Form(s) W-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 35
+      }
+    },
+    "tax-statements-36": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 36
+      }
+    },
+    "tax-statements-37": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 37
+      }
+    },
+    "tax-statements-38": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"1-L\"></td><td id=\"1-M\"></td><td id=\"1-N\"></td></tr> <tr><td id=\"1-O\"></td><td id=\"1-P\"></td><",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 38
+      }
+    },
+    "tax-statements-39": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"1-L\"></td><td id=\"1-M\"></td><td id=\"1-N\"></td></tr> <tr><td id=\"1-O\"></td><td id=\"1-P\"></td><td id=\"1-Q\"></td><td id=\"1-R\"></td><td id=\"1-S\"></td></tr> <tr><td id=\"1-T\"></td><td id=\"1-U\"></td><td id=\"1-V\"></td><td id=\"1-W\"></td><td id=\"1-X\"></td></tr> <tr><td id=\"1-Y\"></td><td id=\"1-Z\"></td><td id=\"1-10\" colspan=\"2\">......</td><td id=\"1-11\"></td><td id=\"1-12\"></td></tr> <tr><td id=\"1-13\" rowspan=\"3\">If you have a qualifying child, attach Sch. EIC.</td><td id=\"1-14\" colspan=\"2\">26 2024 estimated tax payments and amount applied from 2023 return</td><td id=\"1-15\"></td><td id=\"1-16\"></td><td id=\"1-17\"></td></tr> <tr><td id=\"1-18\">27 Earned income credit (EIC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 39
+      }
+    },
+    "tax-statements-40": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "td id=\"1-16\"></td><td id=\"1-17\"></td></tr> <tr><td id=\"1-18\">27 Earned income credit (EIC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 40
+      }
+    },
+    "tax-statements-41": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 41
+      }
+    },
+    "tax-statements-42": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 42
+      }
+    },
+    "tax-statements-43": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"1-19\"></td><td id=\"1-1a\"></td><td id=\"1-1b\" rowspan=\"5\">gray rectangle</td><td id=\"1-1c\" rowspan=\"3\"></td></tr> <tr><td id=\"1-1d\"></td><td id=\"1-1e\"></td><td id=\"1-1f\"></td></tr> <tr><td id=\"1-1g\"></td><td id=\"1-1h\"></td><td id=\"1-1i\"></td><td id=\"1-1j\"></td></tr> <tr><td id=\"1-1k\"></td><td id=\"1-1l\"></td><td id=\"1-1m\"></td><td id=\"1-1n\"></td><td id=\"1-1o\"></td></tr> <tr><td id=\"1-1p\"></td><td id=\"1-1q\">31 Amount from Schedule 3, line 15 . . . . . . . . . .</td><td id=\"1-1r\">31</td><td id=\"1-1s\"></td><td id=\"1-1t\"></td></tr> <tr><td id=\"1-1u\"></td><td id=\"1-1v\" colspan=\"3\">32 Add lines 27, 28, 29, and 31.",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 43
+      }
+    },
+    "tax-statements-44": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . .</td><td id=\"1-1r\">31</td><td id=\"1-1s\"></td><td id=\"1-1t\"></td></tr> <tr><td id=\"1-1u\"></td><td id=\"1-1v\" colspan=\"3\">32 Add lines 27, 28, 29, and 31. These are your total other payments and refundable credits</td><td id=\"1-1w\">32</td><td id=\"1-1x\"></td></tr> <tr><td id=\"1-1y\"></td><td id=\"1-1z\" colspan=\"3\">33 Add lines 25d, 26, and 32. These are your total payments</td><td id=\"1-1A\">33</td><td id=\"1-1B\"></td></tr> </table> <a id='5dc37a94-35ba-468c-909b-ff4cddee1522'></a> <table id=\"1-1C\"> <tr><td id=\"1-1D\">Refund</td><td id=\"1-1E\">34</td><td id=\"1-1F\" colspan=\"12\">If line 33 is more than line 24, subtract line 24 from line 33. This is the amount you overpaid</td><td id=\"1-1G\">34</td><td id=\"1-1H\"></td></tr> <tr><td id=\"1-1I\"></td><td id=\"1-1J\">35a</td><td id=\"1-1K\" colspan=\"12\">",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 44
+      }
+    },
+    "tax-statements-45": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "e 33. This is the amount you overpaid</td><td id=\"1-1G\">34</td><td id=\"1-1H\"></td></tr> <tr><td id=\"1-1I\"></td><td id=\"1-1J\">35a</td><td id=\"1-1K\" colspan=\"12\">Amount of line 34 you want refunded to you. If Form 8888 is attached, check here (checkbox)</td><td id=\"1-1L\">35a</td><td id=\"1-1M\"></td></tr> <tr><td id=\"1-1N\">Direct deposit? See instructions.</td><td id=\"1-1O\">b d</td><td id=\"1-1P\">Routing number Account number</td><td id=\"1-1Q\">two blank boxes with dotted lines</td><td id=\"1-1R\"></td><td id=\"1-1S\"></td><td id=\"1-1T\">(dotted lines)</td><td id=\"1-1U\">(dotted lines)</td><td id=\"1-1V\">c Type:</td><td id=\"1-1W\">(empty checkbox)</td><td id=\"1-1X\" colspan=\"2\">Checking (text with dashed lines)</td><td id=\"1-1Y\">\u2610</td><td id=\"1-1Z\">Savings</td><td id=\"1-20\">(gray box)</td><td id=\"1-21\"><",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 45
+      }
+    },
+    "tax-statements-46": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ")</td><td id=\"1-1X\" colspan=\"2\">Checking (text with dashed lines)</td><td id=\"1-1Y\">\u2610</td><td id=\"1-1Z\">Savings</td><td id=\"1-20\">(gray box)</td><td id=\"1-21\"></td></tr> <tr><td id=\"1-22\"></td><td id=\"1-23\">36</td><td id=\"1-24\" colspan=\"8\">Amount of line 34 you want applied to your 2025 estimated tax . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 46
+      }
+    },
+    "tax-statements-47": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 47
+      }
+    },
+    "tax-statements-48": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 48
+      }
+    },
+    "tax-statements-49": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</td><td id=\"1-25\">36</td><td id=\"1-26\"></td><td id=\"1-27\"></td><td id=\"1-28\"></td><td id=\"1-29\">(gray box)</td><td id=\"1-2a\"></td></tr> </table> <a id='11cae247-c0e3-4b8d-af9e-deb55abd1a9a'></a> <table id=\"1-2b\"> <tr><td id=\"1-2c\">Amount You Owe</td><td id=\"1-2d\">37</td><td id=\"1-2e\" colspan=\"3\">Subtract line 33 from line 24. This is the",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 49
+      }
+    },
+    "tax-statements-50": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "5abd1a9a'></a> <table id=\"1-2b\"> <tr><td id=\"1-2c\">Amount You Owe</td><td id=\"1-2d\">37</td><td id=\"1-2e\" colspan=\"3\">Subtract line 33 from line 24. This is the amount you owe. For details on how to pay, go to www.irs.gov/Payments or see instructions.</td><td id=\"1-2f\">37</td><td id=\"1-2g\"></td></tr> <tr><td id=\"1-2h\"></td><td id=\"1-2i\">38</td><td id=\"1-2j\">Estimated tax penalty (see instructions)</td><td id=\"1-2k\">38</td><td id=\"1-2l\"></td><td id=\"1-2m\">(gray rectangle)</td><td id=\"1-2n\">(gray rectangle)</td></tr> </table> <a id='7093e004-5631-4ff0-a582-3f579c18877b'></a> Third Party Designee Do you want to allow another person to discuss this return with the IRS? See instructions Yes. Complete below. : [ ] No : [ ] Designee's name Phone no. Personal identification number (PIN) <a id='2e6b",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 50
+      }
+    },
+    "tax-statements-51": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "iscuss this return with the IRS? See instructions Yes. Complete below. : [ ] No : [ ] Designee's name Phone no. Personal identification number (PIN) <a id='2e6b71d1-7b0b-4afb-88c0-762036479f64'></a> <table id=\"1-2o\"> <tr><td id=\"1-2p\" rowspan=\"4\">Sign Here Joint return? See instructions. Keep a copy for your records.</td><td id=\"1-2q\" colspan=\"4\">Under penalties of perjury, I declare that I have examined this return and accompanying schedules and statements, and to the best of my knowledge and belief, they are true, correct, and complete. Declaration of preparer (other than taxpayer) is based on all information of which preparer has any knowledge.</td></tr> <tr><td id=\"1-2r\">Your signature Arnold John</td><td id=\"1-2s\">Date</td><td id=\"1-2t\">Your occupation</td><td id=\"1-2u\">If the IRS sen",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 51
+      }
+    },
+    "tax-statements-52": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "any knowledge.</td></tr> <tr><td id=\"1-2r\">Your signature Arnold John</td><td id=\"1-2s\">Date</td><td id=\"1-2t\">Your occupation</td><td id=\"1-2u\">If the IRS sent you an Identity Protection PIN, enter it here (see inst.)</td></tr> <tr><td id=\"1-2v\">Spouse's signature. If a joint return, both must sign. 02/10/2025</td><td id=\"1-2w\">Date</td><td id=\"1-2x\">Spouse's occupation</td><td id=\"1-2y\">If the IRS sent your spouse an Identity Protection PIN, enter it here (see inst.)</td></tr> <tr><td id=\"1-2z\">Phone no.</td><td id=\"1-2A\">Email address</td><td id=\"1-2B\"></td><td id=\"1-2C\"></td></tr> </table> <a id='26b3bbae-7bb3-4756-b33b-f045d569060f'></a> <table id=\"1-2D\"> <tr><td id=\"1-2E\" rowspan=\"3\">Paid Preparer Use Only</td><td id=\"1-2F\">Preparer's name</td><td id=\"1-2G\">Preparer's signature</td>",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 52
+      }
+    },
+    "tax-statements-53": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "9060f'></a> <table id=\"1-2D\"> <tr><td id=\"1-2E\" rowspan=\"3\">Paid Preparer Use Only</td><td id=\"1-2F\">Preparer's name</td><td id=\"1-2G\">Preparer's signature</td><td id=\"1-2H\">Date</td><td id=\"1-2I\">PTIN</td><td id=\"1-2J\">Check if: (checkbox) Self-employed</td></tr> <tr><td id=\"1-2K\" colspan=\"5\">Firm's name</td></tr> <tr><td id=\"1-2L\" colspan=\"5\">Firm's address</td></tr> </table> <a id='25f8c1e8-9184-42d4-9f7f-7b8385fec04a'></a> Go to www.irs.gov/Form1040 for instructions and the latest information. Form 1040 (2024)",
+      "metadata": {
+        "document_type": "tax-statements",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/tax-statements/output/tax-statements_parsed.txt",
+        "chunk_index": 53
+      }
+    },
+    "utility-bills-0": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "The provided utility data shows a payment amount of $89.14. The payment status is recorded as \"On-time payer\". A recency check indicates this is an \"Old bill\" and recommends requesting a more current document. The record does not specify the utility type, service provider, account number, billing period, consumption details, or customer address.",
+      "metadata": {
+        "document_type": "utility-bills",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/utility-bills/output/utility-bills_summary.txt",
+        "chunk_index": 0
+      }
+    },
+    "utility-bills-1": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "o Pay <a id='cfd6a762-fb3c-4bc6-85ad-707a6924fec9'></a> <table id=\"0-1\"> <tr><td id=\"0-2\">Your Account Summary</td><td id=\"0-3\"></td></tr> <tr><td id=\"0-4\">Amount Due on Previous Statemen</td><td id=\"0-5\">$0.00</td></tr> <tr><td id=\"0-6\">Payment(s) Received Since Lat Satemnt</td><td id=\"0-7\">$0.00</td></tr> <tr><td id=\"0-8\">Current Unpaid Balance</td><td id=\"0-9\">$0.00</td></tr> <tr><td id=\"0-a\">Current PGE Electric Delivery Charges</td><td id=\"0-b\">$6.66</td></tr> <tr><td id=\"0-c\">Silicon Valley Clean Energy Electric Generation</td><td id=\"0-d\">$32.46</td></tr> <tr><td id=\"0-e\">Total Amount Due by 04/27/2024</td><td id=\"0-f\">$89.14</td></tr> </table> <a id='a9c3e89f-f0a6-4df1-ba81-a73eb6d59be6'></a> Monthly Billing History<::chart: A bar chart showing monthly billing history. The y-axis i",
+      "metadata": {
+        "document_type": "utility-bills",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/utility-bills/output/utility-bills_parsed.txt",
+        "chunk_index": 1
+      }
+    },
+    "utility-bills-2": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "</td></tr> </table> <a id='a9c3e89f-f0a6-4df1-ba81-a73eb6d59be6'></a> Monthly Billing History<::chart: A bar chart showing monthly billing history. The y-axis is labeled $0, $100, $200. The x-axis has labels '13, '18, '19, '14, '18, '16, '23, '24, corresponding to a series of vertical bars of varying heights. To the right of the chart is a section titled \"Daily Usage Compar\" with the following details: Current Perool, Last PG7, with two boxes containing '22' and '24'. Below that is Elearic RWlv/, also with two boxes containing '22' and '24'. Below these are the words Elective and Gas.ll'hurle.::>www.pge.com/MyEnergy for more <a id='2abc1323-337f-4b1e-ba01-cdf5527e3cdd'></a> ## Important Messages The California Alternate Rates Energy providing a monthiy discount on electric bills for income",
+      "metadata": {
+        "document_type": "utility-bills",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/utility-bills/output/utility-bills_parsed.txt",
+        "chunk_index": 2
+      }
+    },
+    "utility-bills-3": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "2abc1323-337f-4b1e-ba01-cdf5527e3cdd'></a> ## Important Messages The California Alternate Rates Energy providing a monthiy discount on electric bills for income quallified households. To call 1-800-743-5000 or apply online at pge com/care. <a id='1c337a1e-132a-465d-97b9-c7b9bd07b8af'></a> For hearn more about California's califora for more billing details. <a id='0327d8c1-d1e7-46f3-8147-8a4dc24113d7'></a> *Continued arplp'se see-pare.ge.* <a id='2d9a4e3e-78c8-4f43-b6af-33f9bd1b1062'></a> Please return this portion with your payment, No staples or paper clips. Do not fold. Thank you. <a id='ba674fdd-9871-4c19-9489-ee24c885b2cf'></a> <::logo: PGGE PGGE A black square with a white triangular shape cutting through it, and the letters \"PGGE\" in white.::> <a id='80d1b707-d5f5-43c5-9a43-676ef1877",
+      "metadata": {
+        "document_type": "utility-bills",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/utility-bills/output/utility-bills_parsed.txt",
+        "chunk_index": 3
+      }
+    },
+    "utility-bills-4": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "<::logo: PGGE PGGE A black square with a white triangular shape cutting through it, and the letters \"PGGE\" in white.::> <a id='80d1b707-d5f5-43c5-9a43-676ef1877df1'></a> Account Number: 9876543210 Due Date: 04/27/2024 Total Amount Due: $89.14 <a id='0c94c5c3-05ae-4aa5-b996-6d8cc112c77e'></a> Amount Enclosed: $ <a id='da074907-7b14-4a10-bbb9-3ee7d5522287'></a> PGE P.O. Box 997500 SACRAMENTO, CA 9589-7500 <a id='a1805bd8-e7df-42d9-a421-98db7e99b1eb'></a> Page 1 of 6",
+      "metadata": {
+        "document_type": "utility-bills",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/utility-bills/output/utility-bills_parsed.txt",
+        "chunk_index": 4
+      }
+    },
+    "final_output-0": {
+      "case_id": "edda7397-0974-4953-9f71-5aac638c976b",
+      "text": "{ \"sub_scores\": { \"income_score\": 84.66666666666667, \"credit_score_score\": null, \"delinquency_risk_score\": 100, \"dti_score\": null, \"liquidity_score\": 20, \"income_consistency_score\": 100, \"employment_stability_score\": null, \"residency_stability_score\": 60 }, \"final_weighted_score\": 80.18 }",
+      "metadata": {
+        "document_type": "final_output",
+        "source": "/Users/mohdzain/Documents/GitHub/landing_ai_kyc/backend/resources/edda7397-0974-4953-9f71-5aac638c976b/final_output/kpis_final.json",
+        "chunk_index": 0
+      }
+    }
+  },
+  "id_to_chunk": {
+    "2640210386461644260": "bank-statements-0",
+    "4287355683986191542": "bank-statements-1",
+    "72107810693234366": "bank-statements-2",
+    "9059588842024287823": "bank-statements-3",
+    "9077287759207761664": "bank-statements-4",
+    "5329516367242570315": "bank-statements-5",
+    "477318855835402553": "credit-reports-0",
+    "7084721802265755429": "credit-reports-1",
+    "5298865345635597895": "credit-reports-2",
+    "8590323912150171617": "identity-documents-0",
+    "7396802089759509559": "identity-documents-1",
+    "1970630188987715809": "income-proof-0",
+    "2729290384252781167": "income-proof-1",
+    "6335283960973056260": "income-proof-2",
+    "1132015434376113211": "tax-statements-0",
+    "3550912011595180528": "tax-statements-1",
+    "3818512352391189794": "tax-statements-2",
+    "3846178406829365641": "tax-statements-3",
+    "8346326232056976212": "tax-statements-4",
+    "6308727253491955059": "tax-statements-5",
+    "772956081435253864": "tax-statements-6",
+    "6947075146530870150": "tax-statements-7",
+    "155011494503112152": "tax-statements-8",
+    "5062499876656673152": "tax-statements-9",
+    "6630214247725123177": "tax-statements-10",
+    "7465530087675606959": "tax-statements-11",
+    "8087493809266689307": "tax-statements-12",
+    "6527672827868936963": "tax-statements-13",
+    "5475236023884329588": "tax-statements-14",
+    "1898947557156489864": "tax-statements-15",
+    "5770125811370909165": "tax-statements-16",
+    "6724619951103063731": "tax-statements-17",
+    "3279815567192349732": "tax-statements-18",
+    "9110039440769248747": "tax-statements-19",
+    "5727419666963605937": "tax-statements-20",
+    "2595543780245399786": "tax-statements-21",
+    "216894561577463350": "tax-statements-22",
+    "2965315331731799002": "tax-statements-23",
+    "7300456589674787581": "tax-statements-24",
+    "6812678677967689779": "tax-statements-25",
+    "5643208508951455022": "tax-statements-26",
+    "7831509366146086319": "tax-statements-27",
+    "3170891602647540590": "tax-statements-28",
+    "9012032189200028743": "tax-statements-29",
+    "2511669032792232847": "tax-statements-30",
+    "9072925054222072077": "tax-statements-31",
+    "6307129045118325112": "tax-statements-32",
+    "7822039865583542506": "tax-statements-33",
+    "4441939870049403098": "tax-statements-34",
+    "1187649442357833682": "tax-statements-35",
+    "5366038743240808252": "tax-statements-36",
+    "3404409782978742787": "tax-statements-37",
+    "3804272358957468795": "tax-statements-38",
+    "8674317517295851354": "tax-statements-39",
+    "8324156114193290025": "tax-statements-40",
+    "4228472953473424017": "tax-statements-41",
+    "7236884900491110148": "tax-statements-42",
+    "3025757730428660755": "tax-statements-43",
+    "7482686179154918499": "tax-statements-44",
+    "2737387915821948498": "tax-statements-45",
+    "9044426711310935700": "tax-statements-46",
+    "6810152259328506421": "tax-statements-47",
+    "3073291584454550377": "tax-statements-48",
+    "6495959590688637836": "tax-statements-49",
+    "8532094055210055657": "tax-statements-50",
+    "1487744027351400236": "tax-statements-51",
+    "2134198310966475954": "tax-statements-52",
+    "2957249764681344591": "tax-statements-53",
+    "4946013330865108747": "utility-bills-0",
+    "2762419534494911197": "utility-bills-1",
+    "1518612702859116406": "utility-bills-2",
+    "4742391689462268420": "utility-bills-3",
+    "415762633453181193": "utility-bills-4",
+    "6989969150462085819": "final_output-0"
+  },
+  "case_id": "edda7397-0974-4953-9f71-5aac638c976b"
+}

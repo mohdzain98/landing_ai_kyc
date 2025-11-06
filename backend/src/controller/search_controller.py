@@ -35,7 +35,7 @@ async def search_docs(uuid: str):
 
 
 @router.post("/ask", response_model=Response)
-async def ask_question(request: AskRequest):
+async def ask(request: AskRequest):
     try:
         rag_agent = RAGAgent(case_id=request.case_id)
         response = rag_agent.ask(query=request.query)

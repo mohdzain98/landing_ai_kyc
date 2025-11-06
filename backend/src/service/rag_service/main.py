@@ -9,7 +9,7 @@ from src.service.rag_service.models import RawDocument, AllDocument
 from src.service.rag_service.utils import Logger
 
 SUPPORTED_TEXT_EXTENSIONS = {".txt", ".md", ".json", ".csv", ".log"}
-logger = Logger.get_logger()
+logger = Logger.get_logger(__name__)
 
 
 class CaseDocumentLoader:

@@ -12,7 +12,7 @@ from src.service.rag_service.memory import ConversationMemory
 from src.service.rag_service.models import AllDocument, RawDocument, RetrievedChunk
 from src.service.rag_service.utils import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(__name__)
 
 
 class RAGAgent:
@@ -53,7 +53,6 @@ class RAGAgent:
             len(raw_docs),
             self.case_id,
         )
-
         chunks = self.chunker.chunk_documents(raw_docs)
         logger.info("Generated %d chunks for case %s", len(chunks), self.case_id)
         if not chunks:
@@ -69,6 +68,7 @@ class RAGAgent:
 
     # ------------------------------------------------------------------ #
     def ask(self, query: str, *, top_k: Optional[int] = None) -> Dict[str, object]:
+        logger.info("Processing query for case %s: %s", self.case_id, query)
         query = (query or "").strip()
         if not query:
             raise ValueError("Query must not be blank.")
@@ -85,7 +85,7 @@ class RAGAgent:
             wanted=["final_decision.json", "kpis_final.json"],
             document_type="final_output",
         )
-
+        logger.info("Reading Final KPIs and Decision documents for context.")
         final_kpis = final_decision = dict()
         if final:
             if os.path.basename(final[0].path) == "final_decision.json":
@@ -97,6 +97,7 @@ class RAGAgent:
         contexts = [match.chunk.text for match in matches]
         memory_contexts = self.memory.as_context()
         responder = self._ensure_llm()
+        logger.info("Answering query using LLM with %d context chunks.", len(contexts))
         answer_payload = responder.answer(
             query,
             contexts,

@@ -4,7 +4,7 @@ from typing import Dict, Iterable, List, Optional
 from google import genai
 from src.service.rag_service.utils import Config, Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(__name__)
 
 
 class LLMResponder:

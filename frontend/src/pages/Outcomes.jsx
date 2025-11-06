@@ -153,7 +153,9 @@ const Outcomes = (props) => {
     const summaryText = content.summary;
 
     if (activeKey === "bank_statements" && kpis && typeof kpis === "object") {
-      return <BankStatementDashboard transaction={kpis} />;
+      return (
+        <BankStatementDashboard transaction={kpis} summary={summaryText} />
+      );
     }
 
     if (activeKey === "tax_statements") {

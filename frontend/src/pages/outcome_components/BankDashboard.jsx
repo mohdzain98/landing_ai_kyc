@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   PieChart,
   Pie,
@@ -19,9 +19,13 @@ import {
   TrendingDown,
   TrendingUp,
   AlertCircle,
+  FileText,
 } from "lucide-react";
 
-const BankStatementDashboard = ({ transaction }) => {
+const BankStatementDashboard = ({
+  transaction,
+  summary = "Unable to get summary",
+}) => {
   const [activeView, setActiveView] = useState("summary");
   console.log("transactions", transaction);
   const styles = `
@@ -123,6 +127,16 @@ const BankStatementDashboard = ({ transaction }) => {
     month: lastDate.toLocaleString("en-US", { month: "short" }),
     year: lastDate.getFullYear(),
   };
+
+  const summaryParagraphs = useMemo(() => {
+    if (!summary || typeof summary !== "string") {
+      return [];
+    }
+    return summary
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+  }, [summary]);
 
   return (
     <>
@@ -420,6 +434,25 @@ const BankStatementDashboard = ({ transaction }) => {
                       ))}
                     </tbody>
                   </table>
+                </div>
+              </div>
+            </div>
+          )}
+          {summaryParagraphs.length > 0 && (
+            <div className="card shadow-sm mb-0 mt-3">
+              <div className="card-body p-4">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h2 className="h6 fw-bold text-dark mb-0">
+                    Narrative Summary
+                  </h2>
+                  <FileText size={18} className="text-primary" />
+                </div>
+                <div className="text-muted">
+                  {summaryParagraphs.map((paragraph, idx) => (
+                    <p key={idx} className="mb-3">
+                      {paragraph}
+                    </p>
+                  ))}
                 </div>
               </div>
             </div>

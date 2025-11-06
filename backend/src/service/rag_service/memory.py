@@ -8,7 +8,7 @@ from typing import List, Dict, Any
 
 from src.service.rag_service.utils import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(__name__)
 
 
 @dataclass

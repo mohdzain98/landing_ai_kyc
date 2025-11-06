@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
@@ -6,9 +7,28 @@ from dotenv import load_dotenv
 
 class Logger:
     @staticmethod
-    def get_logger():
-        logging.basicConfig(level=logging.INFO, format="%(levelname)-8s | %(message)s")
-        logger = logging.getLogger(__name__)
+    def get_logger(name: str | None = None) -> logging.Logger:
+        """Return a configured logger.
+
+        - Logs to stdout
+        - Simple, beginner-friendly format
+        - Default level INFO (override via LOG_LEVEL env or code if needed)
+        """
+        logger = logging.getLogger(name if name else __name__)
+        if logger.handlers:
+            return logger
+
+        logger.setLevel(logging.INFO)
+
+        handler = logging.StreamHandler(sys.stdout)
+        formatter = logging.Formatter(
+            fmt="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+            datefmt="%H:%M:%S",
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+        logger.propagate = False
         return logger
 
 
@@ -22,7 +42,7 @@ class Config:
         else:
             logger.warning(".env file not found in current or parent directories.")
 
-        self.gemini_api_key = os.getenv("GEMINI_API_KEY", "")
+        self.gemini_api_key = os.getenv("GOOGLE_API_KEY", "")
 
     def _find_env_file(self, filename: str) -> str | None:
         """Search current and parent directories for the .env file."""

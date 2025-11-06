@@ -7,6 +7,9 @@ import numpy as np
 
 from src.service.rag_service.core import Faiss
 from src.service.rag_service.models import DocumentChunk, RetrievedChunk
+from src.service.rag_service.utils import Logger
+
+logger = Logger.get_logger(__name__)
 
 
 class ChunkFaissStore(Faiss):
@@ -64,7 +67,9 @@ class ChunkFaissStore(Faiss):
         meta.setdefault("id_to_chunk", {})
         meta["model_name"] = self.model_name
         meta["case_id"] = self.case_id
-
+        logger.info(
+            f"Upserting {len(chunk_list)} chunks into FAISS index at {self.index_path}"
+        )
         # Remove any records for this case (fresh rebuild) before re-adding.
         if meta["id_to_chunk"]:
             self._remove_ids(index, meta["id_to_chunk"].keys())
@@ -112,7 +117,18 @@ class ChunkFaissStore(Faiss):
             index = faiss.IndexIDMap(index)
 
         vector = self.model.encode([query], normalize_embeddings=True).astype("float32")
-        scores, ids = index.search(vector, min(top_k, index.ntotal))
+        limit = min(top_k, index.ntotal)
+        if limit <= 0:
+            return []
+        try:
+            scores, ids = index.search(vector, limit)
+        except AttributeError:
+            index = faiss.IndexIDMap(index)
+            scores, ids = index.search(vector, limit)
+        except Exception as exc:
+            logger.error("FAISS search failed: %s", exc)
+            return []
+
         if ids.size == 0:
             return []
 
