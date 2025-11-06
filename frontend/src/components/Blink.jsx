@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function ProcessingBlink({ tag = "Processing" }) {
+function ProcessingBlink({ tag = "Processing", text_color = "info" }) {
   const [dots, setDots] = useState("");
 
   useEffect(() => {
@@ -12,10 +12,10 @@ function ProcessingBlink({ tag = "Processing" }) {
   }, []);
 
   return (
-    <div className="text-info fw-semibold">
+    <p className={`text-${text_color} fw-semibold`}>
       {tag}
       {dots}
-    </div>
+    </p>
   );
 }
 
