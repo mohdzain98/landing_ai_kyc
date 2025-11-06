@@ -7,17 +7,24 @@ from pathlib import Path
 def get_markdown(folder_id, folder_name):
 
     base_dir = os.getcwd()
-    kpi_path = base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}.json"
+    kpi_path = (
+        base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}.json"
+    )
     kpi_path = Path(kpi_path).resolve()
 
     with open(kpi_path) as fp:
         kpi_data = json.load(fp)
 
-    summary_file_path = base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}_summary.txt"
+    summary_file_path = (
+        base_dir
+        + f"/resources/{folder_id}/{folder_name}/output/{folder_name}_summary.txt"
+    )
     summary_file_path = Path(summary_file_path).resolve()
 
-    with open(summary_file_path) as fp:
-        summary = fp.read()
+    summary = "not implemented"
+    # Uncomment below to enable summary reading, commenting it as summary generation is not implemented yet, breaking whole flow
+    # with open(summary_file_path) as fp:
+    #     summary = fp.read()
 
     return {"kpis": kpi_data, "summary": summary}
 
@@ -25,10 +32,15 @@ def get_markdown(folder_id, folder_name):
 def get_document_data(folder_id, folder_name):
 
     base_dir = os.getcwd()
-    output_path = Path(base_dir + f"/resources/{folder_id}/{folder_name}/output/").resolve()
+    output_path = Path(
+        base_dir + f"/resources/{folder_id}/{folder_name}/output/"
+    ).resolve()
 
-    matched_files = [f for f in output_path.iterdir() if
-                     f.is_file() and f.name.endswith((".png", ".PNG")) and "page_" in f.name]
+    matched_files = [
+        f
+        for f in output_path.iterdir()
+        if f.is_file() and f.name.endswith((".png", ".PNG")) and "page_" in f.name
+    ]
 
     matched_files.sort(key=lambda f: int(f.stem.split("_")[-1]))
 
