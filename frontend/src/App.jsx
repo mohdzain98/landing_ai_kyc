@@ -11,6 +11,7 @@ import Outcomes from "./pages/Outcomes";
 import Wrong from "./pages/Wrong";
 
 function App() {
+  const host = "http://127.0.0.1:8000/api";
   const [alert, setAlert] = useState(null);
   const [toast, setToast] = useState(null);
 
@@ -40,7 +41,7 @@ function App() {
 
   return (
     <>
-      <UserState prop={{ showAlert, showToast }}>
+      <UserState prop={{ showAlert, showToast, host }}>
         <Router>
           <Navbar />
           <Scrolltotop />
@@ -73,7 +74,7 @@ function App() {
             <Route
               exact
               path="/outcomes/:caseid"
-              element={<Outcomes prop={{ showAlert, showToast }} />}
+              element={<Outcomes prop={{ showAlert, showToast, host }} />}
             ></Route>
           </Routes>
         </Router>
