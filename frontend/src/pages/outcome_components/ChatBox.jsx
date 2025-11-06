@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState, useEffect } from "react";
 import "./styling/chatbox.css";
-import TypingEffect from "../home/components/TypingEffect";
 import ProcessingBlink from "../../components/Blink";
 
 const makeMessageId = () =>
@@ -19,6 +18,27 @@ const ChatBox = ({
   const [messages, setMessages] = useState([]);
   const [loading, setLoader] = useState(false);
   const messageListRef = useRef(null);
+  const skipNextPersist = useRef(true);
+
+  useEffect(() => {
+    if (!case_id) return;
+    skipNextPersist.current = true;
+    const storedMessages = localStorage.getItem(`chat_messages_${case_id}`);
+    if (storedMessages) {
+      setMessages(JSON.parse(storedMessages));
+    } else {
+      setMessages([]);
+    }
+  }, [case_id]);
+
+  useEffect(() => {
+    if (!case_id) return;
+    if (skipNextPersist.current) {
+      skipNextPersist.current = false;
+      return;
+    }
+    localStorage.setItem(`chat_messages_${case_id}`, JSON.stringify(messages));
+  }, [messages, case_id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
