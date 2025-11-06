@@ -1,0 +1,42 @@
+[
+  {
+    "query": "hii",
+    "answer": "I see that your final weighted score is 69.8, which has resulted in a \"manual_review\" status because it's a borderline score that requires manual verification. The sub-scores that contributed to this final score include an income score of 84.67, a credit score score of 43.6, a delinquency risk score of 100, a liquidity score of 20, an income consistency score of 100, and a residency stability score of 60. Your DTI and employment stability scores are not available.",
+    "timestamp": "2025-11-06T15:20:02.584106Z"
+  },
+  {
+    "query": "what is the reason for manual review",
+    "answer": "Your application is under manual review because you have a borderline score of 69.8.",
+    "timestamp": "2025-11-06T15:21:01.657605Z"
+  },
+  {
+    "query": "what is the meaning of Manual review",
+    "answer": "You are undergoing a manual review because your final weighted score is 69.8, which is considered a borderline score that necessitates a manual verification.",
+    "timestamp": "2025-11-06T15:29:38.100311Z"
+  },
+  {
+    "query": "can you give some more insights",
+    "answer": "Your final weighted score is 69.8, placing you in \"manual_review\" status because it's a borderline score needing manual verification. This score is based on several factors, including an income score of 84.67, a credit score of 43.6, a delinquency risk score of 100, a liquidity score of 20, an income consistency score of 100, and a residency stability score of 60. Your DTI and employment stability scores are not available.",
+    "timestamp": "2025-11-06T15:39:15.844882Z"
+  },
+  {
+    "query": "hellow",
+    "answer": "Hello! Your final weighted score is 69.8, which has resulted in a \"manual_review\" status because it's a borderline score that requires manual verification. The sub-scores that contributed to this final score include an income score of 84.67, a credit score score of 43.6, a delinquency risk score of 100, a liquidity score of 20, an income consistency score of 100, and a residency stability score of 60. Your DTI and employment stability scores are not available.",
+    "timestamp": "2025-11-06T15:40:18.730162Z"
+  },
+  {
+    "query": "hii",
+    "answer": "Hello, how can I help you with your documents?",
+    "timestamp": "2025-11-06T15:43:22.307479Z"
+  },
+  {
+    "query": "why this manual review means",
+    "answer": "You are undergoing a manual review because your final weighted score is 69.8, which is considered a borderline score that necessitates manual verification.",
+    "timestamp": "2025-11-06T15:43:46.077255Z"
+  },
+  {
+    "query": "can you give me some insights",
+    "answer": "Your final weighted score is 69.8, and this has placed you in \"manual_review\" status because it's a borderline score that requires manual verification. This score is based on factors such as an income score of 84.67, a credit score of 43.6, a delinquency risk score of 100, a liquidity score of 20, an income consistency score of 100, and a residency stability score of 60. It's worth noting that your DTI and employment stability scores are not available.",
+    "timestamp": "2025-11-06T15:45:20.681568Z"
+  }
+]
