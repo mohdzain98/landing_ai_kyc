@@ -102,11 +102,13 @@ const UserState = ({ children, prop }) => {
   const showToast = prop?.showToast;
   const [uploads, setUploads] = useState(() => createInitialUploadState());
   const [uploadCount, setUploadCount] = useState(0);
+  const [processedCount, setProcessedCount] = useState(0);
   const [finalVerdict, setFinalVerdict] = useState({
     status: "idle",
     data: null,
     error: null,
     lastFetched: null,
+    uuid: null,
   });
 
   const changeUploadCount = (value = 10) => {
@@ -133,11 +135,13 @@ const UserState = ({ children, prop }) => {
       lastUpdated: null,
       caseId: caseIdRef.current,
     });
+    setProcessedCount(0);
     setFinalVerdict({
       status: "idle",
       data: null,
       error: null,
       lastFetched: null,
+      uuid: null,
     });
   }, []);
 
@@ -229,6 +233,7 @@ const UserState = ({ children, prop }) => {
         }
 
         showToast(group.successMessage, false, group.successMessage, "success");
+        setProcessedCount((prev) => prev + 1);
         return data;
       } catch (error) {
         console.error(`Upload error for ${group.key}:`, error);
@@ -260,6 +265,7 @@ const UserState = ({ children, prop }) => {
           status: "error",
           error: error.message,
           lastFetched: Date.now(),
+          uuid: null,
         }));
         throw error;
       }
@@ -268,6 +274,7 @@ const UserState = ({ children, prop }) => {
         ...prev,
         status: "loading",
         error: null,
+        uuid: targetUuid,
       }));
 
       try {
@@ -292,6 +299,7 @@ const UserState = ({ children, prop }) => {
           data: verdictData,
           error: null,
           lastFetched: Date.now(),
+          uuid: targetUuid,
         });
 
         return verdictData;
@@ -303,6 +311,7 @@ const UserState = ({ children, prop }) => {
           data: null,
           error: error.message || "Unknown error",
           lastFetched: Date.now(),
+          uuid: targetUuid,
         });
 
         if (typeof showAlert === "function") {
@@ -347,6 +356,7 @@ const UserState = ({ children, prop }) => {
       resetUploads,
       caseId: caseIdRef.current,
       uploadCount: uploadCount,
+      processedCount,
       changeUploadCount,
       finalVerdict,
       getFinalVerdict,
@@ -357,6 +367,7 @@ const UserState = ({ children, prop }) => {
       uploadDocumentGroup,
       resetUploads,
       uploadCount,
+      processedCount,
       changeUploadCount,
       finalVerdict,
       getFinalVerdict,
