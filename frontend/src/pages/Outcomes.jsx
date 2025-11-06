@@ -13,6 +13,10 @@ import Spinner from "../components/Spinner";
 import { userContext } from "../context/userContext";
 import Slider from "./outcome_components/Slider";
 import "./outcome_components/styling/outcome.css";
+import ChatBox from "./outcome_components/ChatBox";
+import BankStatementDashboard from "./outcome_components/BankDashboard";
+import TaxReturnDashboard from "./outcome_components/TaxDashboard";
+import DocumentDetailsDashboard from "./outcome_components/DocumentDetailsDashboard";
 
 const STATUS_CONFIG = {
   idle: {
@@ -43,6 +47,7 @@ const Outcomes = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [page, setPage] = useState("page_1");
+  const [chatBox, setChatBox] = useState(false);
   const {
     documentGroups,
     uploadStatuses,
@@ -105,7 +110,7 @@ const Outcomes = (props) => {
   );
 
   const verdictData = finalVerdict?.data ?? null;
-  const verdictUuid = verdictData?.uuid ?? null;
+  const verdictUuid = finalVerdict?.uuid ?? verdictData?.uuid ?? null;
   const verdictContent = verdictData?.content;
   const verdictStatus = finalVerdict.status;
   const verdictError = finalVerdict.error;
@@ -134,6 +139,68 @@ const Outcomes = (props) => {
 
   const handlePageChange = () => {
     setPage((prev) => (prev === "page_1" ? "page_2" : "page_1"));
+  };
+
+  const renderKpiView = () => {
+    const content = activeCard?.response?.data?.content;
+    if (!content) {
+      return (
+        <Markdown content="No structured data available for this document." />
+      );
+    }
+
+    const kpis = content.kpis;
+    const summaryText = content.summary;
+
+    if (activeKey === "bank_statements" && kpis && typeof kpis === "object") {
+      return <BankStatementDashboard transaction={kpis} />;
+    }
+
+    if (activeKey === "tax_statements") {
+      return (
+        <TaxReturnDashboard
+          report={typeof kpis === "object" ? kpis : {}}
+          summary={summaryText}
+        />
+      );
+    }
+
+    if (
+      [
+        "credit_reports",
+        "identity_documents",
+        "income_proof",
+        "utility_bills",
+      ].includes(activeKey)
+    ) {
+      return (
+        <DocumentDetailsDashboard
+          data={typeof kpis === "object" ? kpis : {}}
+          summary={summaryText}
+          documentKey={activeKey}
+        />
+      );
+    }
+
+    if (kpis && typeof kpis === "object") {
+      return (
+        <DocumentDetailsDashboard
+          data={kpis}
+          summary={summaryText}
+          documentKey={activeKey}
+        />
+      );
+    }
+
+    if (typeof kpis === "string") {
+      return <Markdown content={kpis} />;
+    }
+
+    if (summaryText) {
+      return <Markdown content={summaryText} />;
+    }
+
+    return <Markdown content="No KPIs available for this document." />;
   };
 
   useEffect(() => {
@@ -165,6 +232,21 @@ const Outcomes = (props) => {
     }
     getFinalVerdict(caseId).catch(() => {});
   }, [caseId, finalVerdict.status, getFinalVerdict]);
+
+  function formatTitle(text) {
+    if (!text) return "";
+
+    const lower = text.toLowerCase();
+
+    // Handle special cases
+    if (lower === "yes") return "Yes";
+    if (lower === "no") return "NO";
+
+    return text
+      .replace(/_/g, " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  }
 
   const verdictDisplay = useMemo(() => {
     const base = {
@@ -253,13 +335,16 @@ const Outcomes = (props) => {
       } else if (/(no|reject|ineligible|fail|decline|red)/.test(normalized)) {
         variant = "danger";
         icon = "fa-solid fa-circle-xmark";
-      } else if (/(pending|review|processing)/.test(normalized)) {
+      } else if (/(pending|processing)/.test(normalized)) {
         variant = "info";
         icon = "fa-solid fa-hourglass-half";
+      } else if (/(review|manual)/.test(normalized)) {
+        variant = "primary";
+        icon = "fa-solid fa-user-pen";
       }
 
       return {
-        label: primaryText,
+        label: formatTitle(primaryText),
         message: secondaryText,
         variant,
         icon,
@@ -291,6 +376,8 @@ const Outcomes = (props) => {
       ? { backgroundColor: "rgba(13, 202, 240, 0.12)" }
       : verdictVariant === "warning"
       ? { backgroundColor: "rgba(255, 193, 7, 0.12)" }
+      : verdictVariant === "primary"
+      ? { backgroundColor: "rgba(13, 110, 253, 0.07)" }
       : { backgroundColor: "rgba(108, 117, 125, 0.08)" };
 
   const handleTryOtherDocument = () => {
@@ -410,9 +497,7 @@ const Outcomes = (props) => {
                         })()
                       ) : (
                         <div className="animate__animated animate__fadeInRight">
-                          <Markdown
-                            content={activeCard.response.data.content["kpis"]}
-                          />
+                          {renderKpiView()}
                         </div>
                       )}
                     </div>
@@ -483,10 +568,15 @@ const Outcomes = (props) => {
               </div>
               <div>
                 <h3 className="h5 fw-bold mb-1">The Final Verdict</h3>
-                <p className={`fs-4 fw-semibold text-${verdictVariant} mb-2`}>
+                <p className={`fs-4 fw-semibold text-${verdictVariant} mb-1`}>
                   {verdictLabel}
                 </p>
                 <p className="mb-0 text-muted">{verdictMessage}</p>
+                {allDocumentsCompleted && (
+                  <p className="text-muted">
+                    Use the chat box for any additional queries.
+                  </p>
+                )}
                 {showVerdictRetry && (
                   <button
                     type="button"
@@ -503,21 +593,39 @@ const Outcomes = (props) => {
         </section>
       )}
 
-      <div className="d-flex flex-column flex-md-row justify-content-center gap-3 mt-5">
-        <button
-          type="button"
-          className="btn btn-outline-secondary px-4"
-          onClick={handleTryOtherDocument}
-        >
-          <i class="fa-solid fa-rotate me-2"></i>Try with other document
-        </button>
-        <button
-          type="button"
-          className="btn btn-outline-danger px-4"
-          onClick={handleRestart}
-        >
-          <i class="fa-solid fa-power-off me-2"></i>Restart
-        </button>
+      <div className="d-flex flex-column flex-md-row justify-content-between gap-3 mt-5">
+        <div>
+          <button
+            type="button"
+            className="btn btn-outline-secondary px-4 me-2"
+            onClick={handleTryOtherDocument}
+          >
+            <i class="fa-solid fa-rotate me-2"></i>Try with other document
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-danger px-4 ms-2"
+            onClick={handleRestart}
+          >
+            <i class="fa-solid fa-power-off me-2"></i>Restart
+          </button>
+        </div>
+        <div>
+          {chatBox && <ChatBox showAlert={showAlert} />}
+          {allDocumentsCompleted && (
+            <button
+              className={`btn btn-${
+                chatBox ? "outline-primary" : "primary"
+              } px-4`}
+              onClick={() => setChatBox(!chatBox)}
+            >
+              <i
+                className={`fa-solid fa-${chatBox ? "xmark" : "comments"} me-2`}
+              ></i>
+              {chatBox ? "Close" : "Chat"}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
