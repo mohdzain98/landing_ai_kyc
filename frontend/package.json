@@ -18,6 +18,7 @@
     "react-router-dom": "^7.9.5",
     "react-scroll": "^1.9.3",
     "rechart": "^0.0.1",
+    "recharts": "^3.3.0",
     "rehype-katex": "^7.0.1",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",

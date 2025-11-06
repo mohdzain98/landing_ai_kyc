@@ -42,7 +42,7 @@ const ChatBox = ({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          case_id: case_id || "01f35ee0-ed9d-4508-8a08-53da2c147331",
+          case_id: case_id,
           query: trimmed,
         }),
       });
@@ -78,7 +78,7 @@ const ChatBox = ({
   const emptyState = useMemo(
     () => ({
       headline: "How can I help?",
-      body: "Use the chat to ask follow-up questions about the extracted documents.",
+      body: "Use the chat to ask follow-up questions.",
     }),
     []
   );

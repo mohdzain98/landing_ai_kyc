@@ -442,9 +442,7 @@ const BankStatementDashboard = ({
             <div className="card shadow-sm mb-0 mt-3">
               <div className="card-body p-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h2 className="h6 fw-bold text-dark mb-0">
-                    Narrative Summary
-                  </h2>
+                  <h2 className="h6 fw-bold text-dark mb-0">Summary</h2>
                   <FileText size={18} className="text-primary" />
                 </div>
                 <div className="text-muted">
