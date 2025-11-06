@@ -21,10 +21,8 @@ def get_markdown(folder_id, folder_name):
     )
     summary_file_path = Path(summary_file_path).resolve()
 
-    summary = "not implemented"
-    # Uncomment below to enable summary reading, commenting it as summary generation is not implemented yet, breaking whole flow
-    # with open(summary_file_path) as fp:
-    #     summary = fp.read()
+    with open(summary_file_path) as fp:
+        summary = fp.read()
 
     return {"kpis": kpi_data, "summary": summary}
 
