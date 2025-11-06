@@ -1,0 +1,179 @@
+from __future__ import annotations
+
+import os
+import json
+from pathlib import Path
+from typing import Dict, List, Optional
+from src.service.rag_service.chunker import ChunkingConfig, TextChunker
+from src.service.rag_service.embedding_store import ChunkFaissStore
+from src.service.rag_service.llm_responder import LLMResponder
+from src.service.rag_service.main import CaseDocumentLoader
+from src.service.rag_service.memory import ConversationMemory
+from src.service.rag_service.models import AllDocument, RawDocument, RetrievedChunk
+from src.service.rag_service.utils import Logger
+
+logger = Logger.get_logger()
+
+
+class RAGAgent:
+    """
+    High-level helper that ingests case documents into a per-case FAISS index
+    and answers questions by retrieving relevant chunks and delegating to the LLM.
+    """
+
+    def __init__(
+        self,
+        case_id: str,
+        *,
+        chunk_size: int = 800,
+        chunk_overlap: int = 160,
+        top_k: int = 5,
+    ) -> None:
+        self.case_id = case_id
+        self.top_k = top_k
+        self.loader = CaseDocumentLoader()
+        self.chunker = TextChunker(
+            config=ChunkingConfig(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        )
+        self.store = ChunkFaissStore(case_id)
+        self.llm = None  # Lazily initialised to honour API key validation
+        self.memory = ConversationMemory(case_id=case_id)
+
+    # ------------------------------------------------------------------ #
+    def ingest(self) -> Dict[str, int]:
+        """
+        Load all documents for the case, chunk them, and persist embeddings.
+        Returns bookkeeping info about the number of documents/chunks indexed.
+        """
+        # all_docs = self.loader.load_case_all_documents(self.case_id)
+        # raw_docs = self._build_raw_documents(all_docs)
+        raw_docs = self.loader.load_case_documents(self.case_id)
+        logger.info(
+            "Prepared %d combined documents for case %s",
+            len(raw_docs),
+            self.case_id,
+        )
+
+        chunks = self.chunker.chunk_documents(raw_docs)
+        logger.info("Generated %d chunks for case %s", len(chunks), self.case_id)
+        if not chunks:
+            raise ValueError(f"No text chunks produced for case {self.case_id}.")
+
+        self.store.reset()
+        stored = self.store.upsert_chunks(chunks)
+        return {
+            "case_id": self.case_id,
+            "documents_indexed": len(raw_docs),
+            "chunks_indexed": stored,
+        }
+
+    # ------------------------------------------------------------------ #
+    def ask(self, query: str, *, top_k: Optional[int] = None) -> Dict[str, object]:
+        query = (query or "").strip()
+        if not query:
+            raise ValueError("Query must not be blank.")
+
+        k = top_k or self.top_k
+        matches = self.store.similarity_search(query, top_k=k)
+        if not matches:
+            raise ValueError(
+                "No indexed context available. Build the index for this case first."
+            )
+        raw_docs = self.loader.load_case_documents(self.case_id)
+        final = self.loader.select_named_documents(
+            raw_docs,
+            wanted=["final_decision.json", "kpis_final.json"],
+            document_type="final_output",
+        )
+
+        final_kpis = final_decision = dict()
+        if final:
+            if os.path.basename(final[0].path) == "final_decision.json":
+                final_decision = final[0].text
+                final_kpis = final[1].text
+            else:
+                final_decision = final[1].text
+                final_kpis = final[0].text
+        contexts = [match.chunk.text for match in matches]
+        memory_contexts = self.memory.as_context()
+        responder = self._ensure_llm()
+        answer_payload = responder.answer(
+            query,
+            contexts,
+            final_kpis=final_kpis,
+            final_decision=final_decision,
+            memory=memory_contexts,
+        )
+
+        self.memory.append(query, answer_payload.get("answer", ""))
+
+        return {
+            "case_id": self.case_id,
+            "query": query,
+            "answer": answer_payload.get("answer", ""),
+            "used_context": answer_payload.get("used_context", ""),
+            "matches": [self._format_match(match) for match in matches],
+            "memory": self.memory.as_list(),
+        }
+
+    # ------------------------------------------------------------------ #
+    def _ensure_llm(self) -> LLMResponder:
+        if self.llm is None:
+            self.llm = LLMResponder()
+        return self.llm
+
+    def _format_match(self, match: RetrievedChunk) -> Dict[str, object]:
+        data = {
+            "chunk_id": match.chunk.chunk_id,
+            "score": match.score,
+            "text": match.chunk.text,
+            "metadata": match.chunk.metadata,
+        }
+        return data
+
+    def _build_raw_documents(self, all_docs: AllDocument) -> List[RawDocument]:
+        documents: List[RawDocument] = []
+
+        base_path: Path
+        if all_docs.path and isinstance(all_docs.path, Path):
+            base_path = all_docs.path
+        elif all_docs.path:
+            base_path = Path(all_docs.path)
+        else:
+            try:
+                base_path = self.loader.resolve_case_dir(self.case_id)
+            except FileNotFoundError:
+                base_path = Path(".")
+
+        for doc_type, payload in all_docs.docs.items():
+            kpis_payload = payload.get("kpis")
+            md_payload = payload.get("md")
+
+            parts: List[str] = []
+            if kpis_payload:
+                if isinstance(kpis_payload, (dict, list)):
+                    parts.append(json.dumps(kpis_payload, indent=2))
+                else:
+                    parts.append(str(kpis_payload))
+
+            if md_payload:
+                if isinstance(md_payload, (dict, list)):
+                    parts.append(json.dumps(md_payload, indent=2))
+                else:
+                    parts.append(str(md_payload))
+
+            combined = "\n\n".join(p.strip() for p in parts if str(p).strip())
+            if not combined:
+                continue
+
+            fake_path = base_path / f"{doc_type}.txt"
+            documents.append(
+                RawDocument(
+                    case_id=self.case_id,
+                    document_type=doc_type,
+                    path=fake_path,
+                    text=combined,
+                )
+            )
+
+        return documents
