@@ -13,7 +13,7 @@ class LLMResponder:
         *,
         model: str = "gemini-2.0-flash",
         style: str = "concise",
-        max_context_chars: int = 12_000,
+        max_context_chars: int = 12000,
         api_key: Optional[str] = None,
     ) -> None:
         self.model = model
@@ -37,22 +37,29 @@ class LLMResponder:
         stitched = self._build_context(contexts)
         memory_block = self._build_memory(memory)
         instruction = (
-            "You are an intelligent retrieval-augmented assistant. "
-            "Always speak directly to the user as if the information in the context belongs to them. "
-            "Use a natural, second-person tone (use 'you', 'your', etc.), not third-person phrasing. "
-            "Use both the provided context and the final KPIs and decision as your main sources of truth. Give priority to the context when answering. If there is less information in the context, rely more with the final KPIs and decision. "
-            "If the user greets you (e.g., 'hi', 'hello', 'hey'), respond exactly with:"
+            "You are an intelligent retrieval-augmented assistant."
+            "STYLE & TONE"
+            "- Speak directly to the user as if the information in the context belongs to them (use “you”, “your”)."
+            f"- Respond in a single, clear {self.style} paragraph."
+            "GREETING OVERRIDE"
+            "- If the user greets you (e.g., 'hi', 'hello', 'hey'), respond EXACTLY with:"
             "Hello, how can I help you with your documents?"
-            "Otherwise, respond normally to their question."
-            "If details are implied, infer them logically from these sources without inventing facts. "
-            "If neither the context nor the final KPIs contain enough information, politely say you couldn't find the answer. "
-            f"Respond in a single, clear {self.style} paragraph.\n\n"
-            "--- CONTEXT START ---\n"
-            f"{stitched}\n"
+            "- When you do this, do not add any other text."
+            "SOURCES & PRIORITY"
+            "- You have three sources: CONTEXT, FINAL KPIs, FINAL DECISION."
+            "- Primary: Use CONTEXT as the first source of truth."
+            "- If the user’s question is about a final outcome, recommendation, approval/rejection, or “what should I do?”, use the FINAL DECISION (and KPIs as needed)."
+            "- If CONTEXT lacks relevant details, rely on FINAL KPIs and FINAL DECISION."
+            "- Never invent facts beyond these sources."
+            "OUTPUT CONTENT RULES"
+            "- Answer the question using the prioritized sources above."
+            "- If neither CONTEXT nor FINAL KPIs/DECISION contain enough info to answer, say you couldn’t find the answer and suggest what is missing; still provide any available KPI highlights if relevant."
+            "- Keep the whole response to one paragraph\n"
+            "--- CONTEXT START ---\n\n"
+            f"context:\n{stitched}\n"
             "--- CONTEXT END ---\n\n"
-            "These are the final KPIs and final decision made by the process.\n"
             "--- FINAL KPIs START ---\n"
-            f"{final_kpis}\n"
+            f"{final_kpis}\n\n"
             "--- FINAL KPIs END ---\n\n"
             "--- FINAL DECISION START ---\n"
             f"{final_decision}\n"
@@ -67,6 +74,8 @@ class LLMResponder:
                 "--- MEMORY END ---\n\n"
             )
         instruction += f"User question: {query}\n"
+
+        print("LLM Instruction:", instruction)
         client = genai.Client(api_key=self.api_key)
         response = client.models.generate_content(
             model=self.model,
