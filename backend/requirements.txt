@@ -11,3 +11,8 @@ python-dotenv
 landingai-ade
 langchain-google-genai
 langchain
+
+## rag service dependencies
+sentence_transformers
+faiss-cpu
+google-genai
