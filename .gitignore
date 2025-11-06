@@ -8,9 +8,12 @@ __pycache__/
 
 .idea/
 .DS_Store
+.notebook/
+.vscode/
 frontend/node_modules/
 backend/landing_ai
 backend/resources/*
+backend/src/service/rag_service/*.ipynb
 
 # Distribution / packaging
 .Python
