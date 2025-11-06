@@ -14,6 +14,7 @@ frontend/node_modules/
 backend/landing_ai
 backend/resources/*
 backend/src/service/rag_service/*.ipynb
+backend/src/service/rag_service/rag_index/*
 
 # Distribution / packaging
 .Python
