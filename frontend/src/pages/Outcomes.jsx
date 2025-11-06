@@ -503,7 +503,7 @@ const Outcomes = (props) => {
                                   className="shadow rounded mb-2 animate__animated animate__fadeInLeft"
                                   style={{
                                     maxWidth: "100%",
-                                    height: "620px",
+                                    height: "710px",
                                   }}
                                 />
                               </center>

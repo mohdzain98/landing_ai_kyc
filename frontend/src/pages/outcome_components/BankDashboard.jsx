@@ -30,7 +30,6 @@ const BankStatementDashboard = ({
   console.log("transactions", transaction);
   const styles = `
     <style>
-      body { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); }
       .insight-card { border-left: 4px solid; padding-left: 1rem; padding-top: 0.5rem; padding-bottom: 0.5rem; }
       .insight-blue { border-color: #0d6efd; }
       .insight-red { border-color: #dc3545; }
@@ -141,7 +140,10 @@ const BankStatementDashboard = ({
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: styles }} />
-      <div className="min-vh-100 py-4 px-3">
+      <div
+        className="min-vh-100 py-4 px-3"
+        style={{ background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)" }}
+      >
         <div className="container" style={{ maxWidth: "1400px" }}>
           {/* Header */}
           <div className="card shadow-sm mb-4">
