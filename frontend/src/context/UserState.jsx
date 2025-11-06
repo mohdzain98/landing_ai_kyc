@@ -8,8 +8,6 @@ import React, {
 import { v4 as uuidv4 } from "uuid";
 import { userContext } from "./userContext";
 
-const API_HOST = "http://127.0.0.1:8000/api";
-
 const DOCUMENT_GROUPS = [
   {
     key: "identity_documents",
@@ -100,6 +98,7 @@ const createInitialUploadState = () =>
 const UserState = ({ children, prop }) => {
   const showAlert = prop?.showAlert;
   const showToast = prop?.showToast;
+  const host = prop?.host;
   const [uploads, setUploads] = useState(() => createInitialUploadState());
   const [uploadCount, setUploadCount] = useState(0);
   const [processedCount, setProcessedCount] = useState(0);
@@ -205,7 +204,7 @@ const UserState = ({ children, prop }) => {
       };
       fd.append("metadata", JSON.stringify(meta));
       try {
-        const response = await fetch(`${API_HOST}/${group.endpoint}`, {
+        const response = await fetch(`${host}/${group.endpoint}`, {
           method: "POST",
           body: fd,
         });
@@ -279,9 +278,7 @@ const UserState = ({ children, prop }) => {
 
       try {
         const response = await fetch(
-          `${API_HOST}/evaluate/evaluate-doc?uuid=${encodeURIComponent(
-            targetUuid
-          )}`
+          `${host}/evaluate/evaluate-doc?uuid=${encodeURIComponent(targetUuid)}`
         );
 
         if (!response.ok) {

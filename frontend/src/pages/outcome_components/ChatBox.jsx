@@ -11,6 +11,7 @@ const makeMessageId = () =>
 const ChatBox = ({
   case_id,
   showAlert,
+  host,
   title = "Virtual Assistant",
   placeholder = "Ask about this outcome...",
 }) => {
@@ -38,7 +39,7 @@ const ChatBox = ({
     let assistantAnswer = "Unable to generate response.";
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/search/ask", {
+      const response = await fetch(`${host}/search/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

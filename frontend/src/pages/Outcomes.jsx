@@ -42,7 +42,7 @@ const STATUS_CONFIG = {
 };
 
 const Outcomes = (props) => {
-  const { showAlert, showToast } = props.prop;
+  const { showAlert, showToast, host } = props.prop;
   const { caseid } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -618,7 +618,9 @@ const Outcomes = (props) => {
           </button>
         </div>
         <div>
-          {chatBox && <ChatBox case_id={caseId} showAlert={showAlert} />}
+          {chatBox && (
+            <ChatBox case_id={caseId} showAlert={showAlert} host={host} />
+          )}
           {allDocumentsCompleted && (
             <button
               className={`btn btn-${
