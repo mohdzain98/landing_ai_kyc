@@ -12,6 +12,13 @@ from src.service.loan_core.document_kpi_logic.salary_kpi import PaystubSimpleKPI
 from src.service.loan_core.document_kpi_logic.tax_statement_1040_kpi import IncomeKPI
 from src.service.loan_core.document_kpi_logic.utility_bill_kpi import UtilityKPI
 from src.service.loan_core.document_kpi_logic.identity_verification_kpi import calculate_identity_verification_kpis
+from src.service.summary_service.report_summarizer import Summarizer
+from src.service.summary_service.summarizer_prompt import(BANK_STATEMENT_SUMMARIZER_HUMAN_PROMPT,BANK_STATEMENT_SUMMARIZER_SYSTEM_PROMPT,
+                                                          IDENTITY_REPORT_SUMMARIZER_HUMAN_PROMPT,IDENTITY_REPORT_SUMMARIZER_SYSTEM_PROMPT,
+                                                          INCOME_PROOF_REPORT_SUMMARIZER_HUMAN_PROMPT,INCOME_PROOF_REPORT_SUMMARIZER_SYSTEM_PROMPT,
+                                                          TAX_STATEMENT_REPORT_SUMMARIZER_HUMAN_PROMPT,TAX_STATEMENT_REPORT_SUMMARIZER_SYSTEM_PROMPT,
+                                                          UTILITY_BILL_REPORT_SUMMARIZER_HUMAN_PROMPT,UTILITY_BILLS_REPORT_SUMMARIZER_SYSTEM_PROMPT,
+                                                          CREDIT_REPORT_SUMMARIZER_HUMAN_PROMPT,CREDIT_REPORT_SUMMARIZER_SYSTEM_PROMPT)
 
 router = APIRouter()
 bankstatement_kpi = BankStatementKPIs()
@@ -19,6 +26,7 @@ creditreportkpis  = CreditReportKPIs()
 salaryslipkpis = PaystubSimpleKPIs()
 incomekpis = IncomeKPI()
 utilitykpis  = UtilityKPI()
+summary_module = Summarizer()
 
 
 @router.post("/bank_statement", response_model=Response)
@@ -36,6 +44,10 @@ async def upload_bank_statement(
     statement_json = files['json']
     bank_statement_kpis = bankstatement_kpi.calculate(statement_json)
     save_json_to_file(bank_statement_kpis,base_path,document_type)
+    summary_output_path  = f"{base_path}/{document_type}/output"
+    input_path = f"{base_path}/{document_type}/output/{document_type}_kpis.json"
+    summary_module.save_summary(input_path,BANK_STATEMENT_SUMMARIZER_SYSTEM_PROMPT,BANK_STATEMENT_SUMMARIZER_HUMAN_PROMPT,summary_output_path ,document_type)
+
 
     # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     
@@ -67,7 +79,9 @@ async def upload_identity_document(
     statement_json = files['json']
     identity_kpis = calculate_identity_verification_kpis(statement_json)
     save_json_to_file(identity_kpis,base_path,document_type)
-
+    summary_output_path  = f"{base_path}/{document_type}/output"
+    input_path = f"{base_path}/{document_type}/output/{document_type}_kpis.json"
+    summary_module.save_summary(input_path,IDENTITY_REPORT_SUMMARIZER_SYSTEM_PROMPT,IDENTITY_REPORT_SUMMARIZER_HUMAN_PROMPT,summary_output_path ,document_type)
     # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
     return Response(
@@ -98,6 +112,10 @@ async def upload_credit_report(
     statement_json = files['json']
     credit_kpis = creditreportkpis.calculate(statement_json)
     save_json_to_file(credit_kpis,base_path,document_type)
+    summary_output_path  = f"{base_path}/{document_type}/output"
+    input_path = f"{base_path}/{document_type}/output/{document_type}_kpis.json"
+    summary_module.save_summary(input_path,CREDIT_REPORT_SUMMARIZER_SYSTEM_PROMPT,CREDIT_REPORT_SUMMARIZER_HUMAN_PROMPT,summary_output_path ,document_type)
+   
     # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 
@@ -128,6 +146,10 @@ async def upload_income_proof(
     statement_json = files['json']
     salary_kpis = salaryslipkpis.calculate(statement_json)
     save_json_to_file(salary_kpis ,base_path,document_type)
+    summary_output_path  = f"{base_path}/{document_type}/output"
+    input_path = f"{base_path}/{document_type}/output/{document_type}_kpis.json"
+    summary_module.save_summary(input_path,INCOME_PROOF_REPORT_SUMMARIZER_SYSTEM_PROMPT,INCOME_PROOF_REPORT_SUMMARIZER_HUMAN_PROMPT,summary_output_path ,document_type)
+   
     # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 
@@ -158,6 +180,10 @@ async def upload_tax_statement(
     statement_json = files['json']
     income_kpis = incomekpis.calculate(statement_json)
     save_json_to_file(income_kpis ,base_path,document_type)
+    summary_output_path  = f"{base_path}/{document_type}/output"
+    input_path = f"{base_path}/{document_type}/output/{document_type}_kpis.json"
+    summary_module.save_summary(input_path,TAX_STATEMENT_REPORT_SUMMARIZER_SYSTEM_PROMPT,TAX_STATEMENT_REPORT_SUMMARIZER_HUMAN_PROMPT,summary_output_path ,document_type)
+   
     # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 
@@ -189,6 +215,10 @@ async def upload_utility_bill(
     statement_json = files['json']
     utility_kpis = utilitykpis.calculate(statement_json)
     save_json_to_file(utility_kpis ,base_path,document_type)
+    summary_output_path  = f"{base_path}/{document_type}/output"
+    input_path = f"{base_path}/{document_type}/output/{document_type}_kpis.json"
+    summary_module.save_summary(input_path,UTILITY_BILLS_REPORT_SUMMARIZER_SYSTEM_PROMPT,UTILITY_BILL_REPORT_SUMMARIZER_HUMAN_PROMPT,summary_output_path ,document_type)
+   
     # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
 

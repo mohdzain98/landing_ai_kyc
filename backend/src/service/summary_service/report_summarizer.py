@@ -3,9 +3,9 @@ from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplat
 import json
 from pathlib import Path
 from dotenv import load_dotenv
-from summarizer_prompt import *
+from src.service.summary_service.summarizer_prompt import *
 
-class summarizer:
+class Summarizer:
 
     def __init__(self, model_name="gemini-2.5-pro"):
         self.llm = ChatGoogleGenerativeAI(model=model_name)
@@ -48,10 +48,11 @@ class summarizer:
         chat_prompt = ChatPromptTemplate.from_messages([system_template, human_template])
         formatted_messages = chat_prompt.format_messages(json_text=json_text)
         response = self.llm.invoke(formatted_messages)
+        print(response.content)
         return response.content
     
-    def save_summary(self, file_path, system_prompt, human_prompt, output_path):
-         sumamry = self.summarize_json(file_path, system_prompt, human_prompt, output_path)
-         save_path = output_path + "/summary.txt"
+    def save_summary(self, file_path, system_prompt, human_prompt, output_path,document_type):
+         sumamry = self.summarize_json(file_path, system_prompt, human_prompt)
+         save_path = f"{output_path}/{document_type}_summary.txt"
          with open(save_path, "w") as f:
              f.write(sumamry)
