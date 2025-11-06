@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from hashlib import md5
 from typing import Iterable, List
 
 from src.service.rag_service.models import DocumentChunk, RawDocument
@@ -50,7 +51,8 @@ class TextChunker:
             end = min(len(cleaned), cursor + size)
             snippet = cleaned[cursor:end].strip()
             if snippet:
-                chunk_id = f"{document.document_type}-{index}"
+                unique = md5(str(document.path).encode("utf-8")).hexdigest()[:12]
+                chunk_id = f"{document.document_type}-{unique}-{index}"
                 metadata = {
                     "document_type": document.document_type,
                     "source": str(document.path),
