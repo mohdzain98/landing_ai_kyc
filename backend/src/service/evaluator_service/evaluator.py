@@ -7,12 +7,14 @@ from src.service.loan_core.loan_metrics import LoanUnderwritingScorerSimple
 from src.service.loan_core.decision import DecisionEngine
 from src.service.doc_extractor.logger import get_logger
 from src.service.rag_service.agent import RAGAgent
+from src.service.loan_core.fraud_engine import FraudDetectionEngine
 
 # Initialize logger for this module
 logger = get_logger(__name__)
 
 loan_metrics = LoanUnderwritingScorerSimple()
 decision_engine = DecisionEngine()
+fraud_engine  = FraudDetectionEngine()
 
 
 def evaluate(folder_id):
@@ -40,6 +42,15 @@ def evaluate(folder_id):
     response_dict = loan_metrics.score(combined_flat)
     final_descision = decision_engine.make_decision(final_score=response_dict)
     save_responses_to_folder(response_dict, final_descision, base_path)
+    summary = fraud_engine.save_fraud_summary(base_path)
+    if 'warning' in str(summary ).lower():
+        fraud_json = {
+            "type": "warning",
+            "message": summary .split("Warning:")[-1],
+            "text": summary .split("Warning:")[0]
+        }
+    else:
+        fraud_json = None
 
     ## Build RAG index after evaluation
     agent = RAGAgent(case_id=folder_id)
@@ -48,4 +59,4 @@ def evaluate(folder_id):
     except Exception as e:
         logger.error(f"Error during RAG ingestion: {e}")
 
-    return str(final_descision["status"])
+    return str(final_descision["status"]), fraud_json
