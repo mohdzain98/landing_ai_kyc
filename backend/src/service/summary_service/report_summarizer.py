@@ -7,7 +7,7 @@ from src.service.summary_service.summarizer_prompt import *
 
 class Summarizer:
 
-    def __init__(self, model_name="gemini-2.5-pro"):
+    def __init__(self, model_name="gemini-2.0-flash"):
         self.llm = ChatGoogleGenerativeAI(model=model_name)
     
     def load_json(self, file_path):
