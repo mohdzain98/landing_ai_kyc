@@ -5,7 +5,7 @@ class TransactionRow(BaseModel):
     date: str = Field(description="Date of the transaction, if available")
     description: str = Field(description="Description or details of the transaction")
     amount: str = Field(description="Amount involved in the transaction")
-    type: str = Field(description="Type of transaction such as Credit, Debit, or Transfer")
+    type: str = Field(description="Type of transaction such as Credit(Deposits), Debit(Withdrawals), or Transfer. Do not include 'Balance' column")
 
 class Account(BaseModel):
     account_holder_name: str = Field(description="Name of the account holder as mentioned in the document")
