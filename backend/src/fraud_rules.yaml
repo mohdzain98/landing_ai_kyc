@@ -1,0 +1,61 @@
+bank_payslip_validation_rules:
+
+  metadata:
+    description: >
+      Validation rules to check consistency between a customer's bank statement
+      and corresponding salary slips. Rules focus on verifying salary amount,
+      payment date, employer identity, and frequency — without making judgments.
+    document_types:
+      - bank_statement
+      - payslips
+    output_format: factual_discrepancy_report
+    version: "1.0"
+
+  rules:
+
+    - id: R1
+      name: Employer Name Match
+      description: >
+        The employer name or salary credit descriptor in the bank statement
+        should match the employer listed on the payslip for the same month.
+      source_fields:
+        bank_statement: "transactions[].description"
+        payslip: "employer"
+      condition: "employer_name_from_bank IN employer_name_from_payslip"
+      discrepancy_message: "Employer name mismatch between bank statement and payslip."
+
+    - id: R2
+      name: Salary Amount Match
+      description: >
+        The net salary credited in the bank statement should match the
+        net_salary amount in the payslip for the same pay period.
+      source_fields:
+        bank_statement: "transactions[].amount"
+        payslip: "net_salary"
+      condition: "abs(bank_salary_amount - payslip_net_salary) <= tolerance_amount"
+      parameters:
+        tolerance_amount: 5.00  # allowed rounding error
+      discrepancy_message: "Salary credited does not match payslip net salary."
+
+    - id: R3
+      name: Salary Date Alignment
+      description: >
+        The salary payment date in the payslip should correspond to a
+        credit transaction date in the bank statement for the same period.
+      source_fields:
+        bank_statement: "transactions[].date"
+        payslip: "payment_date"
+      condition: "date_diff(bank_date, payslip_date) <= 2 days"
+      discrepancy_message: "Salary payment date mismatch between bank statement and payslip."
+
+    - id: R4
+      name: Consistent Employer Identifier
+      description: >
+        If employer identifier (e.g., company code or bank reference ID)
+        is available in both sources, they should match.
+      source_fields:
+        bank_statement: "transactions[].reference_id"
+        payslip: "employer_id"
+      condition: "bank_reference_id == employer_id"
+      discrepancy_message: "Employer ID mismatch between bank and payslip records."
+
