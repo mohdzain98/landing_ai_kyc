@@ -78,3 +78,5 @@ class FraudDetectionEngine:
         print(save_path)
         with open(save_path, "w") as f:
             f.write(sumamry)
+
+        return sumamry

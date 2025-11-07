@@ -42,7 +42,7 @@ def evaluate(folder_id):
     response_dict = loan_metrics.score(combined_flat)
     final_descision = decision_engine.make_decision(final_score=response_dict)
     save_responses_to_folder(response_dict, final_descision, base_path)
-    fraud_engine.save_fraud_summary(base_path )
+    summary = fraud_engine.save_fraud_summary(base_path)
 
     ## Build RAG index after evaluation
     agent = RAGAgent(case_id=folder_id)
@@ -51,4 +51,4 @@ def evaluate(folder_id):
     except Exception as e:
         logger.error(f"Error during RAG ingestion: {e}")
 
-    return str(final_descision["status"])
+    return str(final_descision["status"]), summary
