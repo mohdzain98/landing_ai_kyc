@@ -14,8 +14,12 @@ frontend/node_modules/
 backend/landing_ai
 backend/resources/*
 backend/src/service/rag_service/*.ipynb
+<<<<<<< Updated upstream
 backend/src/service/rag_service/rag_index/*
 
+=======
+backend/.lvenv
+>>>>>>> Stashed changes
 # Distribution / packaging
 .Python
 build/

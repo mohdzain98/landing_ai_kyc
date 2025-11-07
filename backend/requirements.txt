@@ -10,11 +10,8 @@ PyMuPDF
 python-dotenv
 landingai-ade
 langchain-google-genai
-langchain
-
 ## rag service dependencies
 sentence_transformers
 langchain-huggingface
 langchain-community
 faiss-cpu
-google-genai
