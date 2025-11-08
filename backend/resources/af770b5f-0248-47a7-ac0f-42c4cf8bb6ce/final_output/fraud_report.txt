@@ -1,8 +1,0 @@
-Discrepancy Summary:
-*   **Employer Name Mismatch:** The bank statement shows "HOTEL" as the employer for payroll deposits, while the salary slip indicates "Acme Hospitality LLC".
-*   **Salary Amount Mismatch:** The bank statement shows a payroll deposit of $694.81 on Apr-01-14 and $38.30 on Apr-01-30. The salary slip shows a net pay of $5,500.00 for the pay period ending 09/30/2023.
-*   **Date Inconsistency:** The salary slip pay date is 09/30/2023, but the payroll deposits in the bank statement are dated Apr-01-14 and Apr-01-30.
-*   **Unusual Pattern:** Multiple payroll deposits are listed in April, but the salary slip is for September.
-
-Warning:
-Upload the bank statement where your salary is credited

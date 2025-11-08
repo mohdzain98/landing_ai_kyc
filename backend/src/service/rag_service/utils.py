@@ -42,7 +42,7 @@ class Config:
         else:
             logger.warning(".env file not found in current or parent directories.")
 
-        self.gemini_api_key = os.getenv("GOOGLE_API_KEY", "")
+        #self.gemini_api_key = os.getenv("GOOGLE_API_KEY", "")
         self.aws_access_key = os.getenv("AWS_ACCESS_KEY", "")
         self.aws_secret_key = os.getenv("AWS_SECRET_KEY", "")
 
