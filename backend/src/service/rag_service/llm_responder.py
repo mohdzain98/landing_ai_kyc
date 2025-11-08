@@ -2,16 +2,19 @@ from __future__ import annotations
 
 from typing import Dict, Iterable, List, Optional
 from google import genai
+from langchain_aws import ChatBedrock
+
 from src.service.rag_service.utils import Config, Logger
 
 logger = Logger.get_logger(__name__)
 
 
 class LLMResponder:
+
     def __init__(
         self,
         *,
-        model: str = "gemini-2.0-flash",
+        model: str = "amazon.titan-text-express-v1",
         style: str = "concise",
         max_context_chars: int = 12000,
         api_key: Optional[str] = None,
@@ -74,15 +77,20 @@ class LLMResponder:
                 "--- MEMORY END ---\n\n"
             )
         instruction += f"User question: {query}\n"
-
-        print("LLM Instruction:", instruction)
-        client = genai.Client(api_key=self.api_key)
-        response = client.models.generate_content(
-            model=self.model,
-            contents=[{"role": "user", "parts": [{"text": instruction}]}],
+        # client = genai.Client(api_key=self.api_key)
+        # response = client.models.generate_content(
+        #     model=self.model,
+        #     contents=[{"role": "user", "parts": [{"text": instruction}]}],
+        # )
+        llm = ChatBedrock(
+            model_id="amazon.titan-text-express-v1",
+            region="us-east-1",
+            aws_access_key_id=self.config.aws_access_key,
+            aws_secret_access_key=self.config.aws_secret_key,
         )
-        answer = (response.text or "").strip()
-        logger.info("Generated answer with Gemini model %s", self.model)
+        response = llm.invoke(instruction)
+        answer = (response.content or "").strip()
+        logger.info("Generated answer with Bedrock model %s", self.model)
         return {"answer": answer, "query": query, "used_context": stitched}
 
     # ------------------------------------------------------------------ #
