@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from typing import Dict, Iterable, List, Optional
-from google import genai
+
+# from google import genai
 from langchain_aws import ChatBedrock
 
 from src.service.rag_service.utils import Config, Logger
