@@ -1,14 +1,23 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+from langchain_aws import ChatBedrock
 from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate
 import json
 from pathlib import Path
 from dotenv import load_dotenv
 from src.service.summary_service.summarizer_prompt import *
 
+
+
 class Summarizer:
 
-    def __init__(self, model_name="gemini-2.0-flash"):
-        self.llm = ChatGoogleGenerativeAI(model=model_name)
+    def __init__(self, model_name="amazon.titan-text-express-v1"):
+        load_dotenv()
+        access_key = os.getenv("AWS_ACCESS_KEY")
+        secret_key  = os.getenv("AWS_SECRET_KEY")
+        self.llm = ChatBedrock(model=model_name,
+                               region="us-east-1",   
+                                aws_access_key_id=access_key,
+                                aws_secret_access_key=secret_key)
     
     def load_json(self, file_path):
         '''
