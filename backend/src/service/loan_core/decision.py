@@ -8,38 +8,48 @@ class DecisionEngine:
         """
         Combine outputs from all modules to decide loan approval status.
         """
-        # Default decision
-        decision = {
-            "status": "manual_review",
-            "reason": "Unable to determine automatically",
-            "score": final_score.get("final_weighted_score", None),
-        }
+        # Identity Farud Check
+        is_authentic  = fraud_result['is_authentic']
 
-        # # 1. Hard rejection check
-        # if hard_rules.get("rejected", False):
-        #     decision["status"] = "rejected"
-        #     decision["reason"] = hard_rules.get("reason", "Hard rule triggered")
-        #     return decision
+        if is_authentic:
+            # Default decision
+            decision = {
+                "status": "manual_review",
+                "reason": "Unable to determine automatically",
+                "score": final_score.get("final_weighted_score", None),
+            }
 
-        # # 2. Fraud detection threshold
-        # if fraud_result.get("fraud_score", 0) > 0.8:
-        #     decision["status"] = "rejected"
-        #     decision["reason"] = "High fraud risk detected"
-        #     return decision
+            # # 1. Hard rejection check
+            # if hard_rules.get("rejected", False):
+            #     decision["status"] = "rejected"
+            #     decision["reason"] = hard_rules.get("reason", "Hard rule triggered")
+            #     return decision
 
-        # 3. Credit score or weighted score
-        score = final_score.get("final_weighted_score", 0)
-        if score >= 70:
-            decision["status"] = "approved"
-            decision["reason"] = "Strong financial and credit indicators"
-        elif 60 <= score < 70:
-            decision["status"] = "manual_review"
-            decision["reason"] = "Borderline score; manual verification needed"
+            # # 2. Fraud detection threshold
+            # if fraud_result.get("fraud_score", 0) > 0.8:
+            #     decision["status"] = "rejected"
+            #     decision["reason"] = "High fraud risk detected"
+            #     return decision
+
+            # 3. Credit score or weighted score
+            score = final_score.get("final_weighted_score", 0)
+            if score >= 70:
+                decision["status"] = "approved"
+                decision["reason"] = "Strong financial and credit indicators"
+            elif 60 <= score < 70:
+                decision["status"] = "manual_review"
+                decision["reason"] = "Borderline score; manual verification needed"
+            else:
+                decision["status"] = "rejected"
+                decision["reason"] = "Low creditworthiness"
+
+            return decision
         else:
-            decision["status"] = "rejected"
-            decision["reason"] = "Low creditworthiness"
-
-        return decision
+            return  {
+                "status": "Rejected",
+                "reason": "Douments are not authentic",
+                "score": 0,
+            }
 
 
 # if __name__ == "__main__":

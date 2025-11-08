@@ -5,7 +5,7 @@ from src.model.Response import Response
 from src.service.utils.upload_file_utils import persist_file_in_local
 from src.service.summariser_module.get_summary import get_markdown, get_document_data, check_for_fraud_image
 from src.service.main import process_documents
-from src.service.loan_core.utils import get_document_files,save_json_to_file,get_document_kpis_files
+from src.service.loan_core.utils import get_document_files,save_json_to_file,get_image_file_paths
 from src.service.loan_core.document_kpi_logic.bank_statement_kpi import BankStatementKPIs
 from src.service.loan_core.document_kpi_logic.credit_report_kpi import CreditReportKPIs
 from src.service.loan_core.document_kpi_logic.salary_kpi import PaystubSimpleKPIs
@@ -13,6 +13,7 @@ from src.service.loan_core.document_kpi_logic.tax_statement_1040_kpi import Inco
 from src.service.loan_core.document_kpi_logic.utility_bill_kpi import UtilityKPI
 from src.service.loan_core.document_kpi_logic.identity_verification_kpi import calculate_identity_verification_kpis
 from src.service.summary_service.report_summarizer import Summarizer
+from src.service.loan_core.image_fraud_engine import PassportFraudDetector,PassportFraudAnalyzer
 from src.service.summary_service.summarizer_prompt import(BANK_STATEMENT_SUMMARIZER_HUMAN_PROMPT,BANK_STATEMENT_SUMMARIZER_SYSTEM_PROMPT,
                                                           IDENTITY_REPORT_SUMMARIZER_HUMAN_PROMPT,IDENTITY_REPORT_SUMMARIZER_SYSTEM_PROMPT,
                                                           INCOME_PROOF_REPORT_SUMMARIZER_HUMAN_PROMPT,INCOME_PROOF_REPORT_SUMMARIZER_SYSTEM_PROMPT,
@@ -27,6 +28,8 @@ salaryslipkpis = PaystubSimpleKPIs()
 incomekpis = IncomeKPI()
 utilitykpis  = UtilityKPI()
 summary_module = Summarizer()
+passport_fraud_detector  = PassportFraudDetector()
+passport_analyzer = PassportFraudAnalyzer()
 
 
 @router.post("/bank_statement", response_model=Response)
@@ -84,6 +87,11 @@ async def upload_identity_document(
     summary_module.save_summary(input_path,IDENTITY_REPORT_SUMMARIZER_SYSTEM_PROMPT,IDENTITY_REPORT_SUMMARIZER_HUMAN_PROMPT,summary_output_path ,document_type)
     # folder_id = "0eb98f46-908a-4734-a4e5-645b6d7db032"
     markdown = get_document_data(folder_id, folder_name)
+    image_path = get_image_file_paths(f"{base_path}/{document_type}")
+    image_output_path = f"{summary_output_path}/{document_type}_components_analyze.jpg" 
+    passport_detection_result = passport_fraud_detector.detect_all_components(image_path[0],image_output_path)
+    passport_analysis = passport_analyzer.analyze_passport(passport_detection_result[0],passport_detection_result[1])
+    passport_analyzer.save_fraud_result_as_json(passport_analysis,summary_output_path)
     return Response(
         status=200,
         message="Documents uploaded successfully.",
@@ -91,7 +99,7 @@ async def upload_identity_document(
             "folderId": folder_id,
             "content": markdown
         },
-        errors=check_for_fraud_image(folder_id, folder_name),
+        errors= check_for_fraud_image(folder_id,folder_name),
     )
 
 

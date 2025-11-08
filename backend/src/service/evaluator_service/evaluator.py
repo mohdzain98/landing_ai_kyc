@@ -1,7 +1,10 @@
+import os
+import json
 from pathlib import Path
 from src.service.loan_core.utils import (
     get_document_kpis_files,
     save_responses_to_folder,
+    load_json
 )
 from src.service.loan_core.loan_metrics import LoanUnderwritingScorerSimple
 from src.service.loan_core.decision import DecisionEngine
@@ -29,6 +32,9 @@ def evaluate(folder_id):
     tax_statements = get_document_kpis_files("tax-statements", base_path)
     utility_bills = get_document_kpis_files("utility-bills", base_path)
 
+    fraud_json_path  = f"{base_path}/identity-documents/output/identity-documents_fraud_report.json"
+    fraud_json = load_json(fraud_json_path)
+    fraud_json = json.loads(fraud_json)
     # --- Combine all safely ---
     combined_flat = {
         **credit_reports,
@@ -40,15 +46,19 @@ def evaluate(folder_id):
     }
     logger.info(f"The combined kpis dict is- {combined_flat}")
     response_dict = loan_metrics.score(combined_flat)
-    final_descision = decision_engine.make_decision(final_score=response_dict)
+    final_descision = decision_engine.make_decision(final_score=response_dict,fraud_result=fraud_json)
     save_responses_to_folder(response_dict, final_descision, base_path)
-    summary = fraud_engine.save_fraud_summary(base_path)
+    summary, save_path = fraud_engine.save_fraud_summary(base_path)
+    # Ensure output folder exists
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     if 'warning' in str(summary ).lower():
         fraud_json = {
             "type": "warning",
             "message": summary .split("Warning:")[-1],
             "text": summary .split("Warning:")[0]
         }
+        with open(save_path, "w") as f:
+            json.dump(fraud_json, f, indent=4)
     else:
         fraud_json = None
 

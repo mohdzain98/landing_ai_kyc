@@ -2,6 +2,7 @@ import os
 import json
 import base64
 from pathlib import Path
+from src.service.loan_core.utils import load_json
 
 
 def get_markdown(folder_id, folder_name):
@@ -69,17 +70,16 @@ def check_for_fraud_image(folder_id, folder_name):
         base_dir + f"/resources/{folder_id}/{folder_name}/output/"
     ).resolve()
 
-    matched_files = [
-        f
-        for f in output_path.iterdir()
-        if f.is_file() and f.name.endswith((".png", ".PNG")) and "_fraud" in f.name
-    ]
+    json_path  =  f"{output_path}/identity-documents_fraud_report.json"
+    image_path  = f"{output_path}/identity-documents_components_analyze.jpg"
+    fraud_json  = load_json(json_path)
+    fraud_json = json.loads(fraud_json)
+    is_authentic = fraud_json['is_authentic']
 
-    if len(matched_files) == 0:
+    if is_authentic:
         return None
 
     else:
-        image_path = matched_files[0]
         image_path = Path(image_path)
         with open(image_path, "rb") as f:
             img_bytes = f.read()

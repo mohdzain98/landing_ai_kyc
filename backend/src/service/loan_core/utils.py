@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 from typing import Optional, Dict
@@ -120,3 +121,27 @@ def save_responses_to_folder(response_dict, final_decision, folder_path):
 
     logger.info(f"✅ Saved response_dict at: {response_path}")
     logger.info(f"✅ Saved final_decision at: {decision_path}")
+
+def get_image_file_paths(folder_path):
+    """
+    Return a list of full paths of image files in the given folder.
+    """
+    image_extensions = {'.png', '.jpg', '.jpeg'}
+    image_paths = []
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+        if os.path.isfile(file_path) and os.path.splitext(file_name.lower())[1] in image_extensions:
+            image_paths.append(file_path)
+
+    return image_paths
+
+def load_json(file_path):
+    '''
+    input: json file path
+    output: text
+    Reads a JSON file and returns a pretty string for model input. 
+    '''
+
+    with open(Path(file_path), "r") as f:
+        json_text = json.load(f)
+    return json.dumps(json_text, indent=2)

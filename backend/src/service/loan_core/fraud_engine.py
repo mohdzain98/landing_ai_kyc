@@ -74,9 +74,9 @@ class FraudDetectionEngine:
         income_json_path  = f"{base_path}/income-proof/output/income-proof.json"
         sumamry = self.fraud_detection(bank_json_path, income_json_path)
         print(f"The fraud summary is  {sumamry}")
-        save_path = f"{base_path}/final_output/fraud_report.txt"
-        print(save_path)
-        with open(save_path, "w") as f:
-            f.write(sumamry)
+        save_path = f"{base_path}/final_output/fraud_report.json"
+        # print(save_path)
+        # with open(save_path, "w") as f:
+        #     f.write(sumamry)
 
-        return sumamry
+        return sumamry,save_path
