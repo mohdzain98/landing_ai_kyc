@@ -10,8 +10,14 @@ PyMuPDF
 python-dotenv
 landingai-ade
 langchain-google-genai
+
+# image fraud engine dependencies
+opencv-python
+matplotlib
+
 ## rag service dependencies
 sentence_transformers
 langchain-huggingface
 langchain-community
-faiss-cpu
+langchain-aws
+google-genai
