@@ -155,7 +155,6 @@
   object-fit: contain;
 }
 
-
 /* Responsive adjustments */
 @media (max-width: 992px) {
   .role-text {

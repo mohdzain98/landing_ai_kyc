@@ -1,9 +1,9 @@
 .scrollbox-fade {
   position: sticky;
   bottom: 0;
-  height: 64px;
+  height: 54px;
   pointer-events: none;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(8px);
   /* background: linear-gradient(
     to bottom,
