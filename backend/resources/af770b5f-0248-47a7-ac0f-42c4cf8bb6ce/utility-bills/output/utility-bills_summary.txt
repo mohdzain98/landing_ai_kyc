@@ -1,1 +1,0 @@
-A utility bill record indicates a payment of $89.14. The payment history is marked as "On-time payer". However, the bill is considered old, and a more recent bill is recommended for review.

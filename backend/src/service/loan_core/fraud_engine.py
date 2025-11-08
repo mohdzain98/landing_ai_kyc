@@ -1,9 +1,10 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_aws import ChatBedrock
 from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate
 import json
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+
 
 
 SYSTEM_PROMPT = ''' 
@@ -39,11 +40,16 @@ Here is the customer's salary slip data in JSON format:
 {salary_slips_json}
 '''
 class FraudDetectionEngine:
-    def __init__(self, model_id:str ="gemini-2.5-flash-lite"):
-        self.model_id = model_id
-        self.llm = ChatGoogleGenerativeAI(model=self.model_id)
+    def __init__(self, model_name="amazon.titan-text-express-v1"):
         self.system_prompt = SYSTEM_PROMPT
         self.human_prompt = HUMAN_PROMPT
+        load_dotenv()
+        access_key = os.getenv("AWS_ACCESS_KEY")
+        secret_key  = os.getenv("AWS_SECRET_KEY")
+        self.llm = ChatBedrock(model=model_name,
+                               region="us-east-1",   
+                                aws_access_key_id=access_key,
+                                aws_secret_access_key=secret_key)
 
     def load_json(self,file_path):
         '''

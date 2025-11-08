@@ -24,10 +24,10 @@ class LLMResponder:
         self.style = style
         self.max_context_chars = max_context_chars
         self.config = Config()
-        self.api_key = api_key or self.config.gemini_api_key
+        #self.api_key = api_key or self.config.gemini_api_key
 
-        if not self.api_key:
-            raise ValueError("Gemini API key is required for LLM responses.")
+        #if not self.api_key:
+            #raise ValueError("Gemini API key is required for LLM responses.")
 
     def answer(
         self,

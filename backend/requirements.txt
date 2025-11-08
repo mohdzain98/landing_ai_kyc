@@ -9,7 +9,7 @@ Pillow
 PyMuPDF
 python-dotenv
 landingai-ade
-langchain-google-genai
+opencv-python
 
 # image fraud engine dependencies
 opencv-python

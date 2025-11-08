@@ -1,9 +1,0 @@
-{
-    "age": 40,
-    "document_valid": true,
-    "days_until_expiry": 3294,
-    "document_verification_status": "valid",
-    "issuing_country": "UNITED STATES OF AMERICA",
-    "has_passport_number": true,
-    "has_address": false
-}
