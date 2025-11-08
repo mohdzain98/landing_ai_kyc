@@ -1,24 +1,24 @@
 import React, { useState, useMemo } from "react";
+// import {
+//   PieChart,
+//   Pie,
+//   Cell,
+//   BarChart,
+//   Bar,
+//   XAxis,
+//   YAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   Legend,
+//   ResponsiveContainer,
+//   LineChart,
+//   Line,
+// } from "recharts";
 import {
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-} from "recharts";
-import {
-  DollarSign,
-  TrendingDown,
-  TrendingUp,
-  AlertCircle,
+  // DollarSign,
+  // TrendingDown,
+  // TrendingUp,
+  // AlertCircle,
   FileText,
 } from "lucide-react";
 
@@ -26,7 +26,7 @@ const BankStatementDashboard = ({
   transaction,
   summary = "Unable to get summary",
 }) => {
-  const [activeView, setActiveView] = useState("summary");
+  const [activeView, setActiveView] = useState("transactions");
   console.log("transactions", transaction);
   const styles = `
     <style>
@@ -43,71 +43,81 @@ const BankStatementDashboard = ({
   `;
 
   const transactions = transaction.transactions_table;
-  const OpeningBalance = Number(transaction.transactions_table[0].amount);
-  // Calculate totals
-  const totalCredits = transactions
-    .filter((t) => t.type === "Credit")
-    .reduce((sum, t) => sum + Number(t.amount), 0);
 
-  const totalDebits = transactions
-    .filter((t) => t.type === "Debit")
-    .reduce((sum, t) => sum + Number(t.amount), 0);
+  function parseAmount(value) {
+    if (typeof value === "string") {
+      // Remove commas and extra spaces
+      value = value.replace(/,/g, "").trim();
+    }
+    let num = Number(value);
+    return isNaN(num) ? 0 : num;
+  }
 
-  const netChange = totalCredits - totalDebits;
-  const finalBalance = OpeningBalance + netChange;
+  // const OpeningBalance = parseAmount(transaction.transactions_table[0].amount);
+  // // Calculate totals
+  // const totalCredits = transactions
+  //   .filter((t) => t.type === "Credit")
+  //   .reduce((sum, t) => sum + parseAmount(t.amount), 0);
+
+  // const totalDebits = transactions
+  //   .filter((t) => t.type === "Debit")
+  //   .reduce((sum, t) => sum + parseAmount(t.amount), 0);
+
+  // const netChange = totalCredits - totalDebits;
+  // const finalBalance = OpeningBalance + netChange;
 
   // Category breakdown
-  const categories = {
-    Payroll: 0,
-    "Bill Payments": 0,
-    Purchases: 0,
-    Transfers: 0,
-    Fees: 0,
-    Mortgage: 0,
-    ATM: 0,
-    Refunds: 0,
-    Cheques: 0,
-  };
+  // const categories = {
+  //   Payroll: 0,
+  //   "Bill Payments": 0,
+  //   Purchases: 0,
+  //   Transfers: 0,
+  //   Fees: 0,
+  //   Mortgage: 0,
+  //   ATM: 0,
+  //   Refunds: 0,
+  //   Cheques: 0,
+  // };
 
-  transactions.forEach((t) => {
-    if (t.description.includes("Payroll"))
-      categories["Payroll"] += t.type === "Credit" ? t.amount : -t.amount;
-    else if (t.description.includes("Bill Payment"))
-      categories["Bill Payments"] -= t.amount;
-    else if (t.description.includes("Purchase"))
-      categories["Purchases"] -= t.amount;
-    else if (t.description.includes("Transfer"))
-      categories["Transfers"] -= t.amount;
-    else if (t.description.includes("Fee")) categories["Fees"] -= t.amount;
-    else if (t.description.includes("Mortgage"))
-      categories["Mortgage"] -= t.amount;
-    else if (t.description.includes("ATM")) categories["ATM"] -= t.amount;
-    else if (t.description.includes("Refund"))
-      categories["Refunds"] += t.amount;
-    else if (t.description.includes("Cheque"))
-      categories["Cheques"] -= t.amount;
-  });
+  // transactions.forEach((t) => {
+  //   if (t.description.includes("Payroll"))
+  //     categories["Payroll"] += t.type === "Credit" ? t.amount : -t.amount;
+  //   else if (t.description.includes("Bill Payment"))
+  //     categories["Bill Payments"] -= t.amount;
+  //   else if (t.description.includes("Purchase"))
+  //     categories["Purchases"] -= t.amount;
+  //   else if (t.description.includes("Transfer"))
+  //     categories["Transfers"] -= t.amount;
+  //   else if (t.description.includes("Fee")) categories["Fees"] -= t.amount;
+  //   else if (t.description.includes("Mortgage"))
+  //     categories["Mortgage"] -= t.amount;
+  //   else if (t.description.includes("ATM")) categories["ATM"] -= t.amount;
+  //   else if (t.description.includes("Refund"))
+  //     categories["Refunds"] += t.amount;
+  //   else if (t.description.includes("Cheque"))
+  //     categories["Cheques"] -= t.amount;
+  // });
 
-  const categoryData = Object.entries(categories)
-    .filter(([_, value]) => value !== 0)
-    .map(([name, value]) => ({ name, value: Math.abs(value) }));
+  // const categoryData = Object.entries(categories)
+  //   .filter(([_, value]) => value !== 0)
+  //   .map(([name, value]) => ({ name, value: Math.abs(value) }));
 
-  const creditDebitData = [
-    { name: "Credits", value: totalCredits, color: "#10b981" },
-    { name: "Debits", value: totalDebits, color: "#ef4444" },
-  ];
+  // const creditDebitData = [
+  //   { name: "Credits", value: totalCredits, color: "#10b981" },
+  //   { name: "Debits", value: totalDebits, color: "#ef4444" },
+  // ];
 
-  const COLORS = [
-    "#3b82f6",
-    "#ef4444",
-    "#f59e0b",
-    "#8b5cf6",
-    "#ec4899",
-    "#14b8a6",
-    "#f97316",
-    "#10b981",
-    "#6366f1",
-  ];
+  // const COLORS = [
+  //   "#3b82f6",
+  //   "#ef4444",
+  //   "#f59e0b",
+  //   "#8b5cf6",
+  //   "#ec4899",
+  //   "#14b8a6",
+  //   "#f97316",
+  //   "#10b981",
+  //   "#6366f1",
+  // ];
   function parseTransactionDate(str) {
     const [mon, yr, day] = str.split("-");
     // convert "01" -> 2001
@@ -140,17 +150,14 @@ const BankStatementDashboard = ({
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: styles }} />
-      <div
-        className="min-vh-100 py-4 px-3"
-        style={{ background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)" }}
-      >
-        <div className="container" style={{ maxWidth: "1400px" }}>
+      <div className="min-vh-100 py-4 px-3">
+        <div className="container" style={{ maxWidth: "1100px" }}>
           {/* Header */}
-          <div className="card shadow-sm mb-4">
-            <div className="card-body p-4">
-              <div className="d-flex justify-content-between align-items-start flex-wrap">
+          <div className="card shadow-sm mb-4 border-0 border-top border-primary border-5">
+            <div className="card-body p-4 p-md-5">
+              <div className="d-flex justify-content-between align-items-start flex-wrap ">
                 <div>
-                  <h1 className="display-6 fw-bold text-dark">
+                  <h1 className="h3 fw-bold text-dark mb-3">
                     Bank Statement Analysis
                   </h1>
                   <p className="text-muted mt-1 mb-1">
@@ -172,7 +179,7 @@ const BankStatementDashboard = ({
           </div>
 
           {/* Summary Cards */}
-          <div className="row g-3 mb-4">
+          {/* <div className="row g-3 mb-4">
             <div className="col-12 col-sm-6 col-lg-3">
               <div className="card shadow-sm h-100">
                 <div className="card-body">
@@ -240,28 +247,28 @@ const BankStatementDashboard = ({
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Navigation Tabs */}
           <div className="card shadow-sm mb-4">
             <div className="card-body p-2">
               <div className="d-flex gap-2">
-                <button
+                {/* <button
                   onClick={() => setActiveView("summary")}
                   className={`flex-fill btn fw-medium nav-btn ${
                     activeView === "summary" ? "active" : "btn-light"
                   }`}
                 >
                   Summary
-                </button>
-                <button
+                </button> */}
+                {/* <button
                   onClick={() => setActiveView("categories")}
                   className={`flex-fill btn fw-medium nav-btn ${
                     activeView === "categories" ? "active" : "btn-light"
                   }`}
                 >
                   Categories
-                </button>
+                </button> */}
                 <button
                   onClick={() => setActiveView("transactions")}
                   className={`flex-fill btn fw-medium nav-btn ${
@@ -275,7 +282,7 @@ const BankStatementDashboard = ({
           </div>
 
           {/* Charts */}
-          {activeView === "summary" && (
+          {/* {activeView === "summary" && (
             <div className="row g-4">
               <div className="col-12 col-lg-12">
                 <div className="card shadow-sm h-100">
@@ -307,48 +314,6 @@ const BankStatementDashboard = ({
                   </div>
                 </div>
               </div>
-
-              {/* <div className="col-12 col-lg-6">
-                <div className="card shadow-sm h-100">
-                  <div className="card-body">
-                    <h3 className="h5 fw-semibold text-dark mb-3">
-                      Key Insights
-                    </h3>
-                    <div className="d-flex flex-column gap-3">
-                      <div className="insight-card insight-blue">
-                        <p className="fw-semibold text-dark mb-1">
-                          Primary Income Source
-                        </p>
-                        <p className="text-muted mb-0">
-                          Hotel payroll: $733.11
-                        </p>
-                      </div>
-                      <div className="insight-card insight-red">
-                        <p className="fw-semibold text-dark mb-1">
-                          Largest Expense
-                        </p>
-                        <p className="text-muted mb-0">
-                          Mortgage payment: $710.49
-                        </p>
-                      </div>
-                      <div className="insight-card insight-amber">
-                        <p className="fw-semibold text-dark mb-1">
-                          Credit Card Payments
-                        </p>
-                        <p className="text-muted mb-0">
-                          Total: $500.00 (Mastercard + Amex)
-                        </p>
-                      </div>
-                      <div className="insight-card insight-purple">
-                        <p className="fw-semibold text-dark mb-1">Total Fees</p>
-                        <p className="text-muted mb-0">
-                          $11.50 (overdraft, monthly, Interac fees)
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </div>
           )}
 
@@ -381,7 +346,7 @@ const BankStatementDashboard = ({
                 </ResponsiveContainer>
               </div>
             </div>
-          )}
+          )} */}
 
           {activeView === "transactions" && (
             <div className="card shadow-sm">
@@ -396,7 +361,7 @@ const BankStatementDashboard = ({
                         <th className="text-muted fw-semibold">Date</th>
                         <th className="text-muted fw-semibold">Description</th>
                         <th className="text-muted fw-semibold text-end">
-                          Amount
+                          Amount($)
                         </th>
                         <th className="text-muted fw-semibold text-center">
                           Type
@@ -417,7 +382,8 @@ const BankStatementDashboard = ({
                                 : "text-dark"
                             }`}
                           >
-                            ${Number(t.amount).toFixed(2)}
+                            {/* {parseAmount(t.amount).toFixed(2)} */}
+                            {t.amount}
                           </td>
                           <td className="text-center">
                             {t.type && (

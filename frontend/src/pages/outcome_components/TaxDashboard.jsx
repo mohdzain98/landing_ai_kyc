@@ -126,6 +126,8 @@ const COLORS = [
 ];
 
 const TaxReturnDashboard = ({ report = {}, summary }) => {
+  console.log("TaxReturnDashboard report:", report);
+
   const taxpayerName = useMemo(() => {
     const parts = [
       report.taxpayer_first_name,
@@ -184,10 +186,10 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
     report.refund_or_amount_owed,
   ]);
 
-  const taxComputation = useMemo(
-    () => calculateFederalTax(taxData.taxableIncome),
-    [taxData.taxableIncome]
-  );
+  // const taxComputation = useMemo(
+  //   () => calculateFederalTax(taxData.taxableIncome),
+  //   [taxData.taxableIncome]
+  // );
 
   const infoItems = [
     ["Occupation", report.occupation],
@@ -202,16 +204,16 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
 
   const hasData = infoItems.length > 0 || taxItems.length > 0;
 
-  const effectiveTaxRate = useMemo(() => {
-    if (
-      taxComputation.estimatedTax === null ||
-      !Number.isFinite(taxData.totalIncome) ||
-      taxData.totalIncome === 0
-    ) {
-      return null;
-    }
-    return (taxComputation.estimatedTax / taxData.totalIncome) * 100;
-  }, [taxComputation.estimatedTax, taxData.totalIncome]);
+  // const effectiveTaxRate = useMemo(() => {
+  //   if (
+  //     taxComputation.estimatedTax === null ||
+  //     !Number.isFinite(taxData.totalIncome) ||
+  //     taxData.totalIncome === 0
+  //   ) {
+  //     return null;
+  //   }
+  //   return (taxComputation.estimatedTax / taxData.totalIncome) * 100;
+  // }, [taxComputation.estimatedTax, taxData.totalIncome]);
 
   const incomeBreakdown = useMemo(() => {
     const items = [];
@@ -231,7 +233,7 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
     }
     if (Number.isFinite(taxData.totalIncome)) {
       items.push({
-        name: "Reported Income",
+        name: "Total Income",
         value: taxData.totalIncome,
         color: COLORS[0],
       });
@@ -286,25 +288,24 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
 
   const highlights = useMemo(() => {
     const items = [
-      Number.isFinite(taxData.taxableIncome) && {
-        icon: Calculator,
-        label: "Taxable Income",
-        value: formatCurrency(taxData.taxableIncome),
-        helper: "Income subject to federal tax after deductions.",
-      },
-      Number.isFinite(taxComputation.estimatedTax) && {
-        icon: DollarSign,
-        label: "Estimated Federal Tax",
-        value: formatCurrency(taxComputation.estimatedTax),
-        helper:
-          "Approximate liability based on 2024 brackets for a single filer.",
-      },
-      Number.isFinite(effectiveTaxRate) && {
-        icon: ShieldCheck,
-        label: "Effective Tax Rate",
-        value: formatPercent(effectiveTaxRate, { precision: 1 }),
-        helper: "Total tax as a percentage of reported income.",
-      },
+      // Number.isFinite(taxData.taxableIncome) && {
+      //   icon: Calculator,
+      //   label: "Taxable Income",
+      //   value: formatCurrency(taxData.taxableIncome),
+      //   helper: "Income subject to tax after deductions.",
+      // },
+      // Number.isFinite(taxData.totalWages) && {
+      //   icon: DollarSign,
+      //   label: "Total Wages",
+      //   value: formatCurrency(taxData.totalWages),
+      //   helper: "Total Wages before any deductions.",
+      // },
+      // Number.isFinite(effectiveTaxRate) && {
+      //   icon: ShieldCheck,
+      //   label: "Effective Tax Rate",
+      //   value: formatPercent(effectiveTaxRate, { precision: 1 }),
+      //   helper: "Total tax as a percentage of reported income.",
+      // },
       Number.isFinite(taxData.refundOrAmountOwed) && {
         icon: AlertCircle,
         label:
@@ -317,17 +318,17 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
       },
     ].filter(Boolean);
     return items;
-  }, [taxData, taxComputation, effectiveTaxRate]);
+  }, [taxData]);
 
-  const bracketBarData = useMemo(
-    () =>
-      taxComputation.contributions.map((item) => ({
-        name: item.label,
-        amount: Number(item.amount.toFixed(2)),
-        range: item.range,
-      })),
-    [taxComputation.contributions]
-  );
+  // const bracketBarData = useMemo(
+  //   () =>
+  //     taxComputation.contributions.map((item) => ({
+  //       name: item.label,
+  //       amount: Number(item.amount.toFixed(2)),
+  //       range: item.range,
+  //     })),
+  //   [taxComputation.contributions]
+  // );
 
   const hasIncomeBreakdown =
     incomeBreakdown.length > 0 &&
@@ -337,18 +338,18 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
     calculationSteps.length > 0 &&
     calculationSteps.some((item) => Number.isFinite(item.amount));
 
-  const hasBracketBars =
-    bracketBarData.length > 0 &&
-    bracketBarData.some((item) => Number.isFinite(item.amount));
+  // const hasBracketBars =
+  //   bracketBarData.length > 0 &&
+  //   bracketBarData.some((item) => Number.isFinite(item.amount));
 
   return (
     <div className="min-vh-100 py-4 px-3">
-      <div className="container" style={{ maxWidth: "1280px" }}>
+      <div className="container" style={{ maxWidth: "1100px" }}>
         <div className="card shadow-sm mb-4 border-0 border-top border-primary border-5">
           <div className="card-body p-4 p-md-5">
             <div className="row gy-4 align-items-center">
               <div className="col-md-8">
-                <h1 className="display-6 fw-bold text-dark mb-3">
+                <h1 className="h3 fw-bold text-dark mb-3">
                   Tax Return Summary
                 </h1>
                 <div className="d-flex align-items-center gap-2 text-secondary mb-2">
@@ -425,8 +426,24 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
                           data={incomeBreakdown}
                           dataKey="value"
                           nameKey="name"
-                          innerRadius={55}
-                          outerRadius={95}
+                          label={({ name, value, x, y, textAnchor }) => (
+                            <text
+                              x={x}
+                              y={y}
+                              textAnchor={textAnchor}
+                              fontSize={12}
+                              style={{ pointerEvents: "none" }}
+                            >
+                              <tspan x={x} dy="0em">
+                                {name}
+                              </tspan>
+                              <tspan x={x} dy="1.2em">
+                                {value.toFixed(2)}
+                              </tspan>
+                            </text>
+                          )}
+                          innerRadius={45}
+                          outerRadius={75}
                           paddingAngle={4}
                         >
                           {incomeBreakdown.map((entry, idx) => (
@@ -495,7 +512,7 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
           )}
         </div>
 
-        {hasBracketBars && (
+        {/* {hasBracketBars && (
           <div className="card shadow-sm mb-4">
             <div className="card-body p-4">
               <div className="d-flex justify-content-between align-items-center mb-3">
@@ -522,9 +539,9 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
-        <div className="row g-4 mb-4">
+        {/* <div className="row g-4 mb-4">
           <div className="col-lg-6">
             <div className="card shadow-sm h-100">
               <div className="card-body p-4">
@@ -594,7 +611,7 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {summaryParagraphs.length > 0 && (
           <div className="card shadow-sm mb-4">
