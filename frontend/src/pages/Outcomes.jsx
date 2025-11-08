@@ -30,7 +30,7 @@ const STATUS_CONFIG = {
     description: "Hold tight while we finalize this document.",
   },
   completed: {
-    label: "Completed",
+    label: "Processed",
     badge: "success",
     description: "Document processed successfully.",
   },
@@ -48,6 +48,9 @@ const Outcomes = (props) => {
   const navigate = useNavigate();
   const [page, setPage] = useState("page_1");
   const [chatBox, setChatBox] = useState(false);
+  const [boxH, setBoxH] = useState(false);
+  const [fraudImg, setFraudImg] = useState(false);
+
   const {
     documentGroups,
     uploadStatuses,
@@ -114,6 +117,37 @@ const Outcomes = (props) => {
   const verdictContent = verdictData?.content;
   const verdictStatus = finalVerdict.status;
   const verdictError = finalVerdict.error;
+  console.log("finalverdict", finalVerdict);
+
+  const warningContent = useMemo(() => {
+    if (!verdictError || typeof verdictError !== "object") {
+      return { label: "", summary: "", details: "" };
+    }
+
+    const rawText =
+      typeof verdictError.text === "string" ? verdictError.text : "";
+    const rawMessage =
+      typeof verdictError.message === "string" ? verdictError.message : "";
+
+    const shouldSwap = rawMessage.length > 100;
+    let label = "Detected Warning";
+    if (verdictContent.toLowerCase() === "rejected") {
+      label = "Verdict Reason";
+    } else {
+      if (verdictError.types === "warning") {
+        label = "Detected Warning";
+      } else {
+        label = "Verdict Reason";
+      }
+    }
+
+    return {
+      label: label,
+      summary: shouldSwap ? rawText : rawMessage,
+      details: shouldSwap ? rawMessage : rawText,
+    };
+  }, [verdictError]);
+  console.log(finalVerdict);
 
   const handleCopy = (content, copy, msg) => {
     showToast(content, copy, msg);
@@ -121,6 +155,19 @@ const Outcomes = (props) => {
 
   const activeCard =
     cards.find((card) => card.key === activeKey) || cards[0] || null;
+
+  const identityFraudImage =
+    activeKey === "identity_documents"
+      ? activeCard?.response?.errors || null
+      : null;
+  const canToggleFraudImage = Boolean(identityFraudImage);
+  const showFraudImage = canToggleFraudImage && fraudImg;
+
+  useEffect(() => {
+    if (!canToggleFraudImage) {
+      setFraudImg(false);
+    }
+  }, [canToggleFraudImage, identityFraudImage, activeKey]);
 
   const isExpanded =
     activeCard && expandedMap.hasOwnProperty(activeCard.key)
@@ -249,6 +296,9 @@ const Outcomes = (props) => {
       .toLowerCase()
       .replace(/\b\w/g, (c) => c.toUpperCase());
   }
+  const warningLabel = warningContent.label;
+  const warningSummary = warningContent.summary;
+  const warningDetails = warningContent.details;
 
   const verdictDisplay = useMemo(() => {
     const base = {
@@ -450,9 +500,41 @@ const Outcomes = (props) => {
                   {activeCard.status.description}
                 </p>
               </div>
-              <span className={`badge bg-${activeCard.status.badge} px-3`}>
-                {activeCard.status.label}
-              </span>
+              <div>
+                {showFraudImage && (
+                  <button
+                    className="btn btn-outline-dark btn-sm me-2 px-3"
+                    onClick={() => setFraudImg(false)}
+                  >
+                    <i className="fa-solid fa-arrow-left fa-sm"></i>
+                  </button>
+                )}
+                <span
+                  className={`badge bg-${
+                    canToggleFraudImage ? "danger" : activeCard.status.badge
+                  } px-3`}
+                  style={
+                    canToggleFraudImage ? { cursor: "pointer" } : undefined
+                  }
+                  onClick={() => {
+                    if (!canToggleFraudImage) return;
+                    setPage("page_1");
+                    setFraudImg(true);
+                  }}
+                >
+                  {canToggleFraudImage
+                    ? "Fraud Detected"
+                    : activeCard.status.label}
+                </span>
+                {canToggleFraudImage && (
+                  <p
+                    className="text-muted text-end me-1"
+                    style={{ fontSize: "12px" }}
+                  >
+                    Click to view
+                  </p>
+                )}
+              </div>
             </div>
 
             {activeCard.statusKey !== "completed" &&
@@ -477,6 +559,12 @@ const Outcomes = (props) => {
                       </ScrollLink>
                     </center>
                   </div>
+                  {showFraudImage && (
+                    <div className="border rounded bg-white py-3 px-4 mb-2">
+                      <h5 className="text-muted text-uppercase">Information</h5>
+                      <p>Fraud Message</p>
+                    </div>
+                  )}
                   <div
                     className="position-relative"
                     style={
@@ -492,18 +580,28 @@ const Outcomes = (props) => {
                     <div className="">
                       {page == "page_1" ? (
                         (() => {
-                          const images =
+                          const baseImages =
                             activeCard.response.data.content["images"];
+                          const images =
+                            (showFraudImage && identityFraudImage
+                              ? [identityFraudImage]
+                              : baseImages) || [];
                           if (images && images.length === 1) {
                             return (
                               <center>
                                 <img
                                   src={`data:image/png;base64,${images[0]}`}
                                   alt="Extracted Annotation Not Found"
-                                  className="shadow rounded mb-2 animate__animated animate__fadeInLeft"
+                                  className="shadow rounded mb-2 animate__animated animate__zoomIn"
                                   style={{
-                                    maxWidth: "100%",
-                                    height: "710px",
+                                    maxWidth:
+                                      activeKey === "identity_documents"
+                                        ? "50%"
+                                        : "70%",
+                                    height:
+                                      activeKey === "identity_documents"
+                                        ? "50%"
+                                        : "710px",
                                   }}
                                 />
                               </center>
@@ -512,7 +610,7 @@ const Outcomes = (props) => {
                           return <Slider images={images} />;
                         })()
                       ) : (
-                        <div className="animate__animated animate__fadeInRight">
+                        <div className="animate__animated animate__zoomIn">
                           {renderKpiView()}
                         </div>
                       )}
@@ -560,42 +658,114 @@ const Outcomes = (props) => {
         )}
       </div>
 
+      {/* Final Verdict section */}
       {cards.length > 0 && (
         <section className="mt-4">
-          <div
-            className={`rounded-4 border border-${verdictVariant} shadow-sm p-4`}
-            style={verdictPanelStyle}
-          >
-            <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+          <div className="row g-3 align-items-stretch">
+            <div className={`col-12 col-lg-${verdictError ? "6" : "12"}`}>
               <div
-                className={`rounded-circle bg-${verdictVariant} text-white d-flex align-items-center justify-content-center flex-shrink-0`}
-                style={{ width: "56px", height: "56px" }}
+                className={`${
+                  boxH && "h-100"
+                } rounded-4 border border-${verdictVariant} shadow-sm p-4`}
+                style={verdictPanelStyle}
               >
-                <i className={`${verdictIcon} fa-lg`}></i>
-              </div>
-              <div>
-                <h3 className="h5 fw-bold mb-1">The Final Verdict</h3>
-                <p className={`fs-4 fw-semibold text-${verdictVariant} mb-1`}>
-                  {verdictLabel}
-                </p>
-                <p className="mb-0 text-muted">{verdictMessage}</p>
-                {allDocumentsCompleted && (
-                  <p className="text-muted">
-                    Use the chat box for any additional queries.
-                  </p>
-                )}
-                {showVerdictRetry && (
-                  <button
-                    type="button"
-                    className={`btn btn-outline-${verdictVariant} btn-sm mt-3`}
-                    onClick={handleRetryFinalVerdict}
-                    disabled={verdictStatus === "loading"}
+                <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+                  <div
+                    className={`rounded-circle bg-${verdictVariant} text-white d-flex align-items-center justify-content-center flex-shrink-0`}
+                    style={{ width: "56px", height: "56px" }}
                   >
-                    Try again
-                  </button>
-                )}
+                    <i className={`${verdictIcon} fa-lg`}></i>
+                  </div>
+                  <div>
+                    <h3 className="h5 fw-bold mb-1">The Final Verdict</h3>
+                    <p
+                      className={`fs-4 fw-semibold text-${verdictVariant} mb-1`}
+                    >
+                      {verdictLabel}
+                    </p>
+                    <p className="mb-0 text-muted">{verdictMessage}</p>
+                    {allDocumentsCompleted && (
+                      <p className="text-muted">
+                        Use the chat box for any additional queries.
+                      </p>
+                    )}
+                    {showVerdictRetry && (
+                      <button
+                        type="button"
+                        className={`btn btn-outline-${verdictVariant} btn-sm mt-3`}
+                        onClick={handleRetryFinalVerdict}
+                        disabled={verdictStatus === "loading"}
+                      >
+                        Try again
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
+            {warningLabel && (
+              <div className="col-12 col-lg-6">
+                <div
+                  className={`${
+                    boxH && "h-100"
+                  } rounded-4 border border-warning shadow-sm p-4`}
+                >
+                  {/* <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3"> */}
+                  {/* <div
+                    className={`rounded-circle bg-warning text-white d-flex align-items-center justify-content-center flex-shrink-0`}
+                    style={{ width: "56px", height: "56px" }}
+                  >
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                  </div> */}
+                  <div>
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <div>
+                        <p className="text-uppercase text-muted small mb-1">
+                          Risk Insights
+                        </p>
+                        <h3 className="h5 fw-bold mb-0">
+                          {warningLabel || "Detected Warning"}
+                        </h3>
+                      </div>
+                    </div>
+                    <p className="fw-semibold mb-3 text-secondary">
+                      {warningSummary || "No summary available."}
+                    </p>
+                    <div className="accordion" id="warningAccordion">
+                      <div className="accordion-item border-0">
+                        <h2 className="accordion-header" id="warningHeading">
+                          <button
+                            className="accordion-button collapsed shadow-sm border border-warning rounded"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#warningCollapse"
+                            aria-expanded="true"
+                            aria-controls="warningCollapse"
+                          >
+                            View warning details
+                          </button>
+                        </h2>
+                        <div
+                          id="warningCollapse"
+                          className="accordion-collapse collapse"
+                          aria-labelledby="warningHeading"
+                          data-bs-parent="#warningAccordion"
+                        >
+                          <div className="accordion-body text-muted">
+                            <Markdown
+                              content={
+                                warningDetails || "No additional details."
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* </div> */}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       )}
