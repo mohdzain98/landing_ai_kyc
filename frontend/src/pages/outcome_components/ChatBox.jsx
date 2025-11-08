@@ -68,7 +68,6 @@ const ChatBox = ({
         }),
       });
       const payload = await response.json().catch(() => null);
-      console.log("Chat response data:", payload);
 
       if (!response.ok || payload?.status !== 200) {
         const errorMessage =

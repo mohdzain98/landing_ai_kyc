@@ -45,7 +45,7 @@ const katexSchema = {
 const Markdown = ({ content }) => {
   return (
     <ReactMarkdown
-      remarkPlugins={[remarkGfm, remarkMath]}
+      remarkPlugins={[remarkGfm]}
       rehypePlugins={[
         [rehypeRaw],
         [rehypeKatex],

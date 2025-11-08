@@ -50,7 +50,7 @@ const Slider = ({ images }) => {
                   ? img
                   : `data:image/jpeg;base64,${img}`
               }
-              className="d-block"
+              className="d-block animate__animated animate__zoomIn"
               alt={`Slide ${idx + 1}`}
               style={{
                 maxWidth: "100%",
