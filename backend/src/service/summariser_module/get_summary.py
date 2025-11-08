@@ -3,6 +3,10 @@ import json
 import base64
 from pathlib import Path
 from src.service.loan_core.utils import load_json
+from src.service.doc_extractor.logger import get_logger
+
+# Initialize logger for this module
+logger = get_logger(__name__)
 
 
 def get_markdown(folder_id, folder_name):
@@ -12,7 +16,7 @@ def get_markdown(folder_id, folder_name):
         base_dir + f"/resources/{folder_id}/{folder_name}/output/{folder_name}.json"
     )
     kpi_path = Path(kpi_path).resolve()
-
+    logger.info(f"Loading KPI file from: {kpi_path}")
     with open(kpi_path) as fp:
         kpi_data = json.load(fp)
 
@@ -64,22 +68,24 @@ def get_document_data(folder_id, folder_name):
 
 
 def check_for_fraud_image(folder_id, folder_name):
-
+    logger.info(f"Checking for fraud image in {folder_name} for folder ID: {folder_id}")
     base_dir = os.getcwd()
     output_path = Path(
         base_dir + f"/resources/{folder_id}/{folder_name}/output/"
     ).resolve()
 
-    json_path  =  f"{output_path}/identity-documents_fraud_report.json"
-    image_path  = f"{output_path}/identity-documents_components_analyze.jpg"
-    fraud_json  = load_json(json_path)
+    json_path = f"{output_path}/identity-documents_fraud_report.json"
+    image_path = f"{output_path}/identity-documents_components_analyze.jpg"
+    fraud_json = load_json(json_path)
     fraud_json = json.loads(fraud_json)
-    is_authentic = fraud_json['is_authentic']
+    is_authentic = fraud_json["is_authentic"]
 
     if is_authentic:
+        logger.info("Document is authentic. No fraud image to return.")
         return None
 
     else:
+        logger.info("Document is not authentic. Returning fraud image.")
         image_path = Path(image_path)
         with open(image_path, "rb") as f:
             img_bytes = f.read()
