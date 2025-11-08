@@ -185,6 +185,7 @@ const Outcomes = (props) => {
   };
 
   const handlePageChange = () => {
+    setFraudImg(false);
     setPage((prev) => (prev === "page_1" ? "page_2" : "page_1"));
   };
 
@@ -570,9 +571,10 @@ const Outcomes = (props) => {
                           Information
                         </h5>
                         <p class="mb-0">
-                          The uploaded documents are{" "}
-                          <strong>not authentic</strong>. Please verify and
-                          upload valid documents for further processing.
+                          The uploaded file failed validation due to
+                          discrepancies in <strong>authenticity</strong>{" "}
+                          markers. Please provide a clear and verified copy of
+                          your ID.
                         </p>
                       </div>
                     </center>
