@@ -560,10 +560,22 @@ const Outcomes = (props) => {
                     </center>
                   </div>
                   {showFraudImage && (
-                    <div className="border rounded bg-white py-3 px-4 mb-2">
-                      <h5 className="text-muted text-uppercase">Information</h5>
-                      <p>Fraud Message</p>
-                    </div>
+                    <center>
+                      <div
+                        class="alert alert-danger border border-2 rounded-3 shadow-sm py-3 px-4 mb-3"
+                        style={{ width: "50%" }}
+                      >
+                        <h5 class="text-uppercase fw-semibold mb-2">
+                          <i class="fa-solid fa-circle-exclamation fa-sm me-2"></i>
+                          Information
+                        </h5>
+                        <p class="mb-0">
+                          The uploaded documents are{" "}
+                          <strong>not authentic</strong>. Please verify and
+                          upload valid documents for further processing.
+                        </p>
+                      </div>
+                    </center>
                   )}
                   <div
                     className="position-relative"
