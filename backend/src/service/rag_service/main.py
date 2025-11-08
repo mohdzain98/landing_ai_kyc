@@ -185,3 +185,39 @@ class CaseDocumentLoader:
             raise ValueError(f"Case '{case_id}' contains no readable documents.")
 
         return AllDocument(case_id=case_id, docs=docs, path=case_path)
+
+    def load_kpi_definitions(self, case_id: str) -> Optional[RawDocument]:
+        """
+        Load the global KPI definitions reference so it can be indexed alongside
+        case-specific documents. Returns a RawDocument or None if the resource
+        is unavailable.
+        """
+        service_dir = Path(__file__).resolve().parent
+        candidate_paths = [
+            service_dir / "kpi_definition.json",
+            Path(self.resource_root).parent
+            / "src/service/rag_service/kpi_definitions.json",
+        ]
+
+        file_path = next((p for p in candidate_paths if p.exists()), None)
+        if file_path is None:
+            logger.warning("KPI definitions file not found; skipping reference load.")
+            return None
+
+        try:
+            text = file_path.read_text(encoding="utf-8")
+            logger.info("Loaded KPI definitions from %s", file_path)
+        except Exception as exc:
+            logger.error("Failed to read KPI definitions (%s)", exc)
+            return None
+
+        cleaned = text.strip()
+        if not cleaned:
+            return None
+
+        return RawDocument(
+            case_id=case_id,
+            document_type="kpi_definitions",
+            path=file_path,
+            text=cleaned,
+        )
