@@ -60,3 +60,30 @@ def get_document_data(folder_id, folder_name):
     resp.update(metadata)
 
     return resp
+
+
+def check_for_fraud_image(folder_id, folder_name):
+
+    base_dir = os.getcwd()
+    output_path = Path(
+        base_dir + f"/resources/{folder_id}/{folder_name}/output/"
+    ).resolve()
+
+    matched_files = [
+        f
+        for f in output_path.iterdir()
+        if f.is_file() and f.name.endswith((".png", ".PNG")) and "_fraud" in f.name
+    ]
+
+    if len(matched_files) == 0:
+        return None
+
+    else:
+        image_path = matched_files[0]
+        image_path = Path(image_path)
+        with open(image_path, "rb") as f:
+            img_bytes = f.read()
+
+        img_b64 = base64.b64encode(img_bytes).decode("utf-8")
+
+        return img_b64

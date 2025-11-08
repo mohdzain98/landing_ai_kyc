@@ -3,7 +3,7 @@ from fastapi import Form, File, UploadFile, APIRouter
 
 from src.model.Response import Response
 from src.service.utils.upload_file_utils import persist_file_in_local
-from src.service.summariser_module.get_summary import get_markdown, get_document_data
+from src.service.summariser_module.get_summary import get_markdown, get_document_data, check_for_fraud_image
 from src.service.main import process_documents
 from src.service.loan_core.utils import get_document_files,save_json_to_file,get_document_kpis_files
 from src.service.loan_core.document_kpi_logic.bank_statement_kpi import BankStatementKPIs
@@ -91,7 +91,7 @@ async def upload_identity_document(
             "folderId": folder_id,
             "content": markdown
         },
-        errors=None,
+        errors=check_for_fraud_image(folder_id, folder_name),
     )
 
 
