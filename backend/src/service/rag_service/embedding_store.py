@@ -2,12 +2,17 @@ from __future__ import annotations
 
 import json
 import shutil
+import datetime
 from pathlib import Path
 from typing import Iterable, List
 
 from langchain_community.vectorstores import FAISS as LCFAISS
 
-from src.service.rag_service.core import DEFAULT_EMBED_MODEL, get_embeddings, index_dir_for
+from src.service.rag_service.core import (
+    DEFAULT_EMBED_MODEL,
+    get_embeddings,
+    index_dir_for,
+)
 from src.service.rag_service.models import DocumentChunk, RetrievedChunk
 from src.service.rag_service.utils import Logger
 
@@ -123,5 +128,6 @@ class ChunkFaissStore:
             "case_id": self.case_id,
             "model_name": self.model_name,
             "chunks_indexed": chunk_count,
+            "time": datetime.datetime.now().strftime("%H:%M:%S"),
         }
         self.meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
