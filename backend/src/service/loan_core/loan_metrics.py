@@ -99,10 +99,10 @@ all_kpis = {
 
 @dataclass
 class Weights:
-    income: float = 0.28
+    income: float = 0.20
     credit: float = 0.23
     delinquency_risk: float = 0.18
-    dti: float = 0.17
+    dti: float = 0.25
     liquidity: float = 0.09
     income_consistency: float = 0.03
     employment_stability: float = 0.02
@@ -130,13 +130,14 @@ class LoanUnderwritingScorerSimple:
         self.w.normalize()
 
     # Scoring functions
-    def _score_income(self, gmi):
-        if gmi is None or gmi <= 0: return None
-        if gmi >= 8000: return 100
-        if gmi >= 5000: return 80 + (gmi - 5000) * (20/3000)
-        if gmi >= 3000: return 60 + (gmi - 3000) * (20/2000)
-        if gmi >= 2000: return 40 + (gmi - 2000) * (20/1000)
-        return 20
+    def _score_income(self, days_old):
+        if days_old is None or days_old < 0: return None
+        if days_old <= 45: return 100
+        if days_old <= 90: return 100 - (days_old - 45) * (40 / 45)   # 100 → 60
+        if days_old <= 180: return 60 - (days_old - 90) * (30 / 90)   # 60 → 30
+        if days_old <= 365: return 30 - (days_old - 180) * (20 / 185) # 30 → 10
+        return 0
+
 
     def _score_credit(self, cs):
         print(f"Credit score - {cs}")
@@ -216,7 +217,7 @@ class LoanUnderwritingScorerSimple:
     # Main scoring function
     def score(self, f: Dict[str, Any]) -> Dict[str, Any]:
 
-        gmi = _to_float(f.get("Gross Monthly Income"))
+        days_old = _to_float(f.get("paystub_recency_days"))
         cs  = _to_float(f.get("credit_score") or f.get("representative_credit_score"))
         dti = _to_float(f.get("debt_to_income_ratio") or f.get("dti"))
         bal = _to_float(f.get("average_monthly_balance"))
@@ -230,7 +231,7 @@ class LoanUnderwritingScorerSimple:
         res = f.get("Billing Recency Check")
 
         scores = {
-            "income_score": self._score_income(gmi),
+            "income_score": self._score_income(days_old),
             "credit_score_score": self._score_credit(cs),
             "delinquency_risk_score": self._score_delinquency(d30, d60, d90, banks, col),
             "dti_score": self._score_dti(dti),

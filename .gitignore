@@ -12,6 +12,7 @@ __pycache__/
 .vscode/
 frontend/node_modules/
 backend/landing_ai
+backend/loanslens/bin
 backend/resources/*
 backend/src/service/rag_service/*.ipynb
 <<<<<<< Updated upstream
@@ -219,3 +220,15 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+backend/loanlens/bin/pip3.9
+.gitignore
+backend/loanlens/bin/pip3
+backend/loanlens/bin/Activate.ps1
+backend/loanlens/bin/activate.fish
+backend/loanlens/bin/activate.csh
+.gitignore
+backend/loanlens/pyvenv.cfg
+.gitignore
+.gitignore
+backend/loanlens/bin/activate
+backend/loanlens/bin/pip
