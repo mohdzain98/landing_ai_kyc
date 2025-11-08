@@ -290,8 +290,6 @@ const UserState = ({ children, prop }) => {
 
         const payload = await response.json().catch(() => ({}));
         const verdictData = payload?.data ?? null;
-        console.log("Final verdict data us:", payload);
-        const errors = payload?.errors || null;
 
         setFinalVerdict({
           status: "success",
