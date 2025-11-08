@@ -91,17 +91,17 @@ const Main = () => {
               </div>
               <div className="partner-card shadow-lg">
                 <img
-                  src="https://img.icons8.com/color/96/bank-cards.png"
-                  alt="Financial insights icon"
+                  src="https://img.icons8.com/color/96/shield.png"
+                  alt="Fraud protection icon"
                   className="partner-icon"
                 />
                 <div>
-                  <span className="badge bg-light text-dark text-uppercase mb-2">
-                    Credit Insights
+                  <span className="badge bg-danger text-white text-uppercase mb-2">
+                    Fraud Detection
                   </span>
                   <p className="mb-0 small">
-                    Aggregated bureau feeds and cash-flow scoring in one secure
-                    dashboard.
+                    Identifying factual discrepancies, verifying authenticity,
+                    and detecting tampering
                   </p>
                 </div>
               </div>
