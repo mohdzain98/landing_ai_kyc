@@ -232,3 +232,4 @@ backend/loanlens/pyvenv.cfg
 .gitignore
 backend/loanlens/bin/activate
 backend/loanlens/bin/pip
+backend/notebook/validation.ipynb

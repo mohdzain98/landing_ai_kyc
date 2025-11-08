@@ -34,25 +34,43 @@ class BankStatementKPIs:
     @staticmethod
     def _parse_date(token: str) -> Optional[date]:
         """
-        Parse formats like 'Apr-01-14' or 'Sep-03-00'.
-        Assumes the last chunk is 2-digit year: <=25 -> 2000+yy else 1900+yy.
+        Parse date strings in multiple formats, such as:
+          - 'Apr-01-14' or 'Sep-03-00' (month abbrev + day + 2-digit year)
+          - '03-10-2025' or '2025-03-10' (numeric month-day-year)
+          - '03/10/2025' or '2025/03/10' (with slashes)
         """
         if not token:
             return None
+
+        token = token.strip()
+
+        # Try custom 'Apr-01-14' format (3-letter month + day + 2-digit year)
         try:
             mon_abbr, dd, yy = token.split("-")
-            month = datetime.strptime(mon_abbr, "%b").month
-            day = int(dd)
-            year2 = int(yy)
-            year = 2000 + year2 if year2 <= 25 else 1900 + year2
-            return date(year, month, day)
+            if len(mon_abbr) == 3 and mon_abbr.isalpha():
+                month = datetime.strptime(mon_abbr, "%b").month
+                day = int(dd)
+                year2 = int(yy)
+                year = 2000 + year2 if year2 <= 25 else 1900 + year2
+                return date(year, month, day)
         except Exception:
-            # fallback: try common formats
-            for fmt in ("%b-%d-%Y", "%Y-%m-%d", "%m/%d/%Y"):
-                try:
-                    return datetime.strptime(token, fmt).date()
-                except Exception:
-                    pass
+            pass
+
+        # Try common date formats in order
+        for fmt in (
+            "%d-%m-%Y",  # 03-10-2025
+            "%m-%d-%Y",  # 10-03-2025 (if month/day swapped)
+            "%Y-%m-%d",  # 2025-03-10
+            "%d/%m/%Y",  # 03/10/2025
+            "%m/%d/%Y",  # 10/03/2025
+            "%b-%d-%Y",  # Apr-01-2014
+            "%b %d, %Y", # Apr 01, 2014
+        ):
+            try:
+                return datetime.strptime(token, fmt).date()
+            except Exception:
+                continue
+
         return None
 
     @staticmethod
@@ -110,7 +128,7 @@ class BankStatementKPIs:
             else:
                 # Unknown type -> ignore for debit/credit totals
                 pass
-
+        print(tx_by_month)
         # Averages across observed months
         months = sorted(tx_by_month.keys())
         n_months = max(1, len(months))
