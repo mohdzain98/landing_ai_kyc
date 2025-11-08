@@ -10,14 +10,14 @@ const Main = () => {
         <div className="row align-items-center g-5">
           <div className="col-12 col-md-8">
             <h2 className="animated-text fw-bold mb-4 fs-1">
-              Loan <span className="name-highlight">KYC</span>
+              Loanlens <span className="name-highlight">AI</span>
             </h2>
             <TypingEffect
               className="role-text mb-3"
               speed={40}
               textSegments={[
-                { text: "Your Landing AI " },
-                { text: "ADE Powered", className: "ade-highlight" },
+                { text: "Your AI " },
+                { text: "Powered", className: "ade-highlight" },
                 {
                   text: " Document Intelligence Hub",
                 },
@@ -74,18 +74,18 @@ const Main = () => {
               <div className="partner-card shadow-lg">
                 <img
                   src={
-                    new URL("../../../assets/gemini.png", import.meta.url).href
+                    new URL("../../../assets/awsbg.png", import.meta.url).href
                   }
                   alt="Gemini icon"
                   className="partner-icon"
                 />
                 <div>
                   <span className="badge bg-info text-dark text-uppercase mb-2">
-                    Gemini
+                    Bedrock
                   </span>
                   <p className="mb-0 small">
-                    Narrative copilots that contextualize each borrower in plain
-                    language.
+                    Narrative copilots powered by AWS Bedrock that contextualize
+                    each borrower in plain language.
                   </p>
                 </div>
               </div>
