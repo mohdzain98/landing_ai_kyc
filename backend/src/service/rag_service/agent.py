@@ -48,6 +48,12 @@ class RAGAgent:
         # all_docs = self.loader.load_case_all_documents(self.case_id)
         # raw_docs = self._build_raw_documents(all_docs)
         raw_docs = self.loader.load_case_documents(self.case_id)
+        kpi_reference = self.loader.load_kpi_definitions(self.case_id)
+        if kpi_reference is not None:
+            raw_docs.append(kpi_reference)
+            logger.info(
+                "Appended KPI definitions reference to case %s corpus.", self.case_id
+            )
         logger.info(
             "Prepared %d combined documents for case %s",
             len(raw_docs),
