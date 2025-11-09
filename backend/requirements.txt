@@ -20,4 +20,6 @@ sentence_transformers
 langchain-huggingface
 langchain-community
 langchain-aws
-google-genai
+# google-genai
+beautifulsoup4
+langchain-text-splitters
