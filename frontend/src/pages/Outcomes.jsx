@@ -50,6 +50,7 @@ const Outcomes = (props) => {
   const [chatBox, setChatBox] = useState(false);
   const [boxH, setBoxH] = useState(false);
   const [fraudImg, setFraudImg] = useState(false);
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
 
   const {
     documentGroups,
@@ -109,6 +110,10 @@ const Outcomes = (props) => {
   const allDocumentsCompleted = useMemo(
     () =>
       cards.length > 0 && cards.every((card) => card.statusKey === "completed"),
+    [cards]
+  );
+  const processedCount = useMemo(
+    () => cards.filter((card) => card.statusKey === "completed").length,
     [cards]
   );
 
@@ -475,20 +480,70 @@ const Outcomes = (props) => {
         </div>
       </div>
 
-      <div className="mb-4 d-flex flex-wrap gap-2">
-        {cards.map((card) => (
-          <button
-            key={card.key}
-            type="button"
-            className={`btn btn-sm ${
-              card.key === activeKey ? "btn-primary" : "btn-outline-secondary"
-            }`}
-            onClick={() => setActiveKey(card.key)}
-          >
-            {card.icon && <i className={`${card.icon} me-2 `}></i>}
-            {card.title}
-          </button>
-        ))}
+      <div className="mb-4 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center">
+        <div className="d-flex flex-wrap gap-2">
+          {cards.map((card) => (
+            <button
+              key={card.key}
+              type="button"
+              className={`btn btn-sm ${
+                card.key === activeKey ? "btn-primary" : "btn-outline-secondary"
+              }`}
+              onClick={() => {
+                setActiveKey(card.key);
+                setStatusDropdownOpen(false);
+              }}
+            >
+              {card.icon && <i className={`${card.icon} me-2 `}></i>}
+              {card.title}
+            </button>
+          ))}
+        </div>
+        {cards.length > 0 && (
+          <div className="position-relative">
+            <button
+              type="button"
+              className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
+              onClick={() => setStatusDropdownOpen((prev) => !prev)}
+            >
+              <span>
+                Processed {processedCount}/{cards.length}
+              </span>
+              <i
+                className={`fa-solid fa-chevron-${
+                  statusDropdownOpen ? "up" : "down"
+                }`}
+              ></i>
+            </button>
+            {statusDropdownOpen && (
+              <>
+                <div
+                  className="card shadow-sm mt-2 position-absolute end-0"
+                  style={{ minWidth: "260px", zIndex: 5 }}
+                >
+                  <div className="card-body p-0">
+                    <ul className="list-group list-group-flush">
+                      {cards.map((card) => (
+                        <li
+                          key={`${card.key}-status`}
+                          className="list-group-item d-flex justify-content-between align-items-center small"
+                        >
+                          <span className="fw-semibold me-2">{card.title}</span>
+                          <span
+                            className={`badge rounded-pill badge-sm bg-${card.status.badge}`}
+                            style={{ fontSize: "12px" }}
+                          >
+                            {card.status.label}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="border rounded-3 p-4 shadow-sm" id="result">
