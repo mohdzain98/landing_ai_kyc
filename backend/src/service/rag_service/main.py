@@ -5,8 +5,11 @@ import re
 import fnmatch
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
+from langchain_aws import ChatBedrock
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 from src.service.rag_service.models import RawDocument, AllDocument
-from src.service.rag_service.utils import Logger
+from src.service.rag_service.utils import Logger, Config
 
 SUPPORTED_TEXT_EXTENSIONS = {".txt", ".md", ".json", ".csv", ".log"}
 logger = Logger.get_logger(__name__)
@@ -221,3 +224,73 @@ class CaseDocumentLoader:
             path=file_path,
             text=cleaned,
         )
+
+
+class KPIReferenceLoader:
+    def __init__(self):
+        self.FINAL_RE = re.compile(
+            r"\b(final(\s*decision)?|decision|decline|approve|outcome)\b", re.I
+        )
+        self.KPI_RE = re.compile(
+            r"\b(kpi|kpis|key\s*performance\s*indicator[s]?|metric|definition)\b", re.I
+        )
+        self.GREETING_RE = re.compile(
+            r"^\s*(hi+|hello|hey|hiya|yo|thanks|thank\s*you|thank\s*u)\b.*$", re.I
+        )
+        self.config = Config()
+
+    def heuristic_intents(self, q: str) -> Dict[str, bool]:
+        logger.info("Using heuristic intent detection for question.")
+        return {
+            "decision_intent": bool(self.FINAL_RE.search(q or "")),
+            "kpi_intent": bool(self.KPI_RE.search(q or "")),
+        }
+
+    def llm_intents(self, q: str) -> Dict[str, bool]:
+        logger.info("Using LLM intent detection for question.")
+        intent_system = """You classify user questions for retrieval augmentation.
+        Return ONLY JSON with two booleans: {{ "decision_intent": true, "kpi_intent": false }}
+        Definitions:
+        - decision_intent: user asks about final decision, approval/decline, reason, outcome.
+        - kpi_intent: user asks about KPIs or KPI definitions/meaning/metrics.
+        No extra text.
+        """
+
+        intent_user = """User question:
+        {question}
+
+        Return JSON only.
+        """
+
+        intent_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", intent_system),
+                ("user", intent_user),
+            ]
+        )
+
+        llm_small = ChatBedrock(
+            model_id="amazon.nova-micro-v1:0",
+            region="us-east-1",
+            aws_access_key_id=self.config.aws_access_key,
+            aws_secret_access_key=self.config.aws_secret_key,
+            temperature=0,
+        )
+        intent_chain = intent_prompt | llm_small | StrOutputParser()
+        raw = intent_chain.invoke({"question": q})
+        try:
+            data = json.loads(raw)
+            return {
+                "decision_intent": bool(data.get("decision_intent", False)),
+                "kpi_intent": bool(data.get("kpi_intent", False)),
+            }
+        except Exception:
+            return self.heuristic_intents(q)
+
+    def detect_intents(self, question: str) -> Dict[str, bool]:
+        if self.GREETING_RE.match(question or ""):
+            return {"decision_intent": False, "kpi_intent": False}
+        h = self.heuristic_intents(question)
+        if h["decision_intent"] or h["kpi_intent"]:
+            return h
+        return self.llm_intents(question)
