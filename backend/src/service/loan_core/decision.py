@@ -33,10 +33,10 @@ class DecisionEngine:
 
             # 3. Credit score or weighted score
             score = final_score.get("final_weighted_score", 0)
-            if score >= 70:
+            if score >= 60:
                 decision["status"] = "approved"
                 decision["reason"] = "Strong financial and credit indicators"
-            elif 60 <= score < 70:
+            elif 40 <= score < 60:
                 decision["status"] = "manual_review"
                 decision["reason"] = "Borderline score; manual verification needed"
             else:
