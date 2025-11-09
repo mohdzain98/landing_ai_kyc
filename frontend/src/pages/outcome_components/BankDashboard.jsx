@@ -167,13 +167,13 @@ const BankStatementDashboard = ({
                     Account: {transaction.account_number_masked}
                   </p>
                 </div>
-                <div className="text-end">
+                {/* <div className="text-end">
                   <p className="text-muted small mb-1">Statement Period</p>
                   <p className="fs-6 fw-semibold text-secondary">
                     {startDate.month} {startDate.year} to {endDate.month}
                     {endDate.year}
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
