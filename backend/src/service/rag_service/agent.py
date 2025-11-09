@@ -4,7 +4,8 @@ import os
 import json
 from pathlib import Path
 from typing import Dict, List, Optional
-from src.service.rag_service.chunker import ChunkingConfig, TextChunker
+
+from src.service.rag_service.chunker import TextChunker, TextChunkerSplit
 from src.service.rag_service.embedding_store import ChunkFaissStore
 from src.service.rag_service.llm_responder import LLMResponder
 from src.service.rag_service.main import CaseDocumentLoader
@@ -32,9 +33,11 @@ class RAGAgent:
         self.case_id = case_id
         self.top_k = top_k
         self.loader = CaseDocumentLoader()
-        self.chunker = TextChunker(
-            config=ChunkingConfig(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        )
+        try:
+            self.chunker = TextChunkerSplit()
+        except Exception as e:
+            logger.warning(f"Falling back to TextChunker due to: {e}")
+            self.chunker = TextChunker()
         self.store = ChunkFaissStore(case_id)
         self.llm = None  # Lazily initialised to honour API key validation
         self.memory = ConversationMemory(case_id=case_id)
@@ -80,12 +83,14 @@ class RAGAgent:
             raise ValueError("Query must not be blank.")
 
         k = top_k or self.top_k
+        logger.info("Retrieving top-%d relevant chunks for query.", k)
         matches = self.store.similarity_search(query, top_k=k)
         if not matches:
             raise ValueError(
                 "No indexed context available. Build the index for this case first."
             )
         raw_docs = self.loader.load_case_documents(self.case_id)
+        kpis_definitions = self.loader.load_kpi_definitions(self.case_id).text
         final = self.loader.select_named_documents(
             raw_docs,
             wanted=["final_decision.json", "kpis_final.json"],
@@ -109,6 +114,7 @@ class RAGAgent:
             contexts,
             final_kpis=final_kpis,
             final_decision=final_decision,
+            kpi_definitions=kpis_definitions,
             memory=memory_contexts,
         )
 
