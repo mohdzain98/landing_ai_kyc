@@ -4,6 +4,51 @@ import "../styling/task.css";
 import ProcessingBlink from "../../../components/Blink";
 import { userContext } from "../../../context/userContext";
 
+const DOC_CONFLICT_REGEX = {
+  identity_documents: [
+    /(bank|statement)/i,
+    /(tax|1040|w[-\s]?2)/i,
+    /(credit|bureau)/i,
+    /(utility|bill)/i,
+    /(pay\s?stub|payslip|salary|income)/i,
+  ],
+  bank_statements: [
+    /(identity|passport|license)/i,
+    /(tax|1040|w[-\s]?2)/i,
+    /(credit|bureau)/i,
+    /(utility|bill)/i,
+    /(pay\s?stub|payslip|salary|income)/i,
+  ],
+  tax_statements: [
+    /(identity|passport|license)/i,
+    /(bank|statement)/i,
+    /(credit|bureau)/i,
+    /(utility|bill)/i,
+    /(pay\s?stub|payslip|salary|income)/i,
+  ],
+  credit_reports: [
+    /(identity|passport|license)/i,
+    /(bank|statement)/i,
+    /(tax|1040|w[-\s]?2)/i,
+    /(utility|bill)/i,
+    /(pay\s?stub|payslip|salary|income)/i,
+  ],
+  income_proof: [
+    /(identity|passport|license)/i,
+    /(tax|1040|w[-\s]?2)/i,
+    /(utility|bill)/i,
+    /(credit|bureau)/i,
+    /(bank|statement)/i,
+  ],
+  utility_bills: [
+    /(identity|passport|license)/i,
+    /(tax|1040|w[-\s]?2)/i,
+    /(credit|bureau)/i,
+    /(bank|statement)/i,
+    /(pay\s?stub|payslip|salary|income)/i,
+  ],
+};
+
 const Task = (props) => {
   const { showAlert } = props.prop;
   // const [uploadCount, setUploadCount] = useState(0);
@@ -42,15 +87,41 @@ const Task = (props) => {
   }, [documentGroups, uploadStatuses]);
 
   const handleFileChange = async (group, event) => {
-    const files = Array.from(event.target.files || []);
+    const inputEl = event.target;
+    const files = Array.from(inputEl.files || []);
 
     if (files.length === 0) {
       return;
     }
 
+    const conflictMatchers = DOC_CONFLICT_REGEX[group.key] || [];
+
+    const conflictFile = files.find((file) =>
+      conflictMatchers.some((regex) => regex.test(file.name))
+    );
+
+    if (conflictFile) {
+      showAlert(
+        <>
+          The selected file <strong>{conflictFile.name} </strong> doesn't look
+          like <strong>{group.title}</strong>. Please double-check and upload
+          the correct document.
+        </>,
+        "warning"
+      );
+      if (inputEl) {
+        inputEl.value = "";
+      }
+      return;
+    }
+
+    console.log(`Uploading files for ${group.key}:`);
     try {
       changeUploadCount();
       await uploadDocumentGroup(group.key, files);
+      if (inputEl) {
+        inputEl.value = "";
+      }
     } catch (error) {
       console.error(`Upload failed for ${group.key}`, error);
     }
