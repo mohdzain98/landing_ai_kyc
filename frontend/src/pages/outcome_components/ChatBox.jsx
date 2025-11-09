@@ -21,7 +21,10 @@ const ChatBox = ({
   const skipNextPersist = useRef(true);
 
   useEffect(() => {
-    if (!case_id) return;
+    if (!case_id) {
+      setMessages([]);
+      return;
+    }
     skipNextPersist.current = true;
     const storedMessages = localStorage.getItem(`chat_messages_${case_id}`);
     if (storedMessages) {
@@ -56,6 +59,15 @@ const ChatBox = ({
     setInputValue("");
     setLoader(true);
 
+    if (!case_id) {
+      showAlert(
+        "No case is selected yet. Please open a case before chatting.",
+        "warning"
+      );
+      setLoader(false);
+      return;
+    }
+
     let assistantAnswer = "Unable to generate response.";
 
     try {
@@ -74,7 +86,11 @@ const ChatBox = ({
           payload?.errors ||
           payload?.message ||
           "There was an error generating the response.";
-        showAlert(errorMessage, "danger");
+        showAlert(
+          "There was error generating response, see console logs for more details",
+          "danger"
+        );
+        console.error(errorMessage);
       } else if (payload?.data?.response?.answer) {
         assistantAnswer = payload.data.response.answer;
       }

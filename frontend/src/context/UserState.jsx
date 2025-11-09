@@ -127,6 +127,7 @@ const UserState = ({ children, prop }) => {
   const caseIdRef = useRef(uuidv4());
 
   const resetUploads = useCallback(() => {
+    caseIdRef.current = uuidv4();
     setUploads(createInitialUploadState());
     setSummary({
       completed: 0,
