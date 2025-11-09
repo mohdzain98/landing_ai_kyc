@@ -4,8 +4,11 @@ from typing import Dict, Iterable, List, Optional
 
 # from google import genai
 from langchain_aws import ChatBedrock
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 from src.service.rag_service.utils import Config, Logger
+from src.service.rag_service.main import KPIReferenceLoader
 
 logger = Logger.get_logger(__name__)
 
@@ -15,7 +18,7 @@ class LLMResponder:
     def __init__(
         self,
         *,
-        model: str = "amazon.titan-text-express-v1",
+        model: str = "amazon.nova-pro-v1:0",
         style: str = "concise",
         max_context_chars: int = 12000,
         api_key: Optional[str] = None,
@@ -24,10 +27,11 @@ class LLMResponder:
         self.style = style
         self.max_context_chars = max_context_chars
         self.config = Config()
-        #self.api_key = api_key or self.config.gemini_api_key
+        self.kpis = KPIReferenceLoader()
+        # self.api_key = api_key or self.config.gemini_api_key
 
-        #if not self.api_key:
-            #raise ValueError("Gemini API key is required for LLM responses.")
+        # if not self.api_key:
+        # raise ValueError("Gemini API key is required for LLM responses.")
 
     def answer(
         self,
@@ -35,62 +39,66 @@ class LLMResponder:
         contexts: Iterable[str],
         final_kpis: Optional[Dict[str]] = None,
         final_decision: Optional[Dict[str]] = None,
+        kpi_definitions: Optional[Dict[str]] = None,
         *,
         memory: Optional[Iterable[str]] = None,
     ) -> Dict[str, str]:
         stitched = self._build_context(contexts)
         memory_block = self._build_memory(memory)
-        instruction = (
-            "You are an intelligent retrieval-augmented assistant."
-            "STYLE & TONE"
-            "- Speak directly to the user as if the information in the context belongs to them (use “you”, “your”)."
-            f"- Respond in a single, clear {self.style} paragraph."
-            "GREETING OVERRIDE"
-            "- If the user greets you (e.g., 'hi', 'hello', 'hey'), respond EXACTLY with:"
-            "Hello, how can I help you with your documents?"
-            "- When you do this, do not add any other text."
-            "SOURCES & PRIORITY"
-            "- You have three sources: CONTEXT, FINAL KPIs, FINAL DECISION."
-            "- Primary: Use CONTEXT as the first source of truth."
-            "- If the user’s question is about a final outcome, recommendation, approval/rejection, or “what should I do?”, use the FINAL DECISION (and KPIs as needed)."
-            "- If CONTEXT lacks relevant details, rely on FINAL KPIs and FINAL DECISION."
-            "- Never invent facts beyond these sources."
-            "OUTPUT CONTENT RULES"
-            "- Answer the question using the prioritized sources above."
-            "- If neither CONTEXT nor FINAL KPIs/DECISION contain enough info to answer, say you couldn’t find the answer and suggest what is missing; still provide any available KPI highlights if relevant."
-            "- Keep the whole response to one paragraph\n"
-            "--- CONTEXT START ---\n\n"
-            f"context:\n{stitched}\n"
-            "--- CONTEXT END ---\n\n"
-            "--- FINAL KPIs START ---\n"
-            f"{final_kpis}\n\n"
-            "--- FINAL KPIs END ---\n\n"
-            "--- FINAL DECISION START ---\n"
-            f"{final_decision}\n"
-            "--- FINAL DECISION END ---\n\n"
-        )
-        if memory_block:
-            instruction += (
-                "The following conversation history may contain follow-up details. "
-                "Use it only to resolve pronouns or references when the context above is insufficient.\n"
-                "--- MEMORY START ---\n"
-                f"{memory_block}\n"
-                "--- MEMORY END ---\n\n"
-            )
-        instruction += f"User question: {query}\n"
+        intent = self.kpis.detect_intents(question=query)
+        logger.info(intent)
+        if intent["decision_intent"]:
+            stitched += "\n\n--- FINAL DECISION ---\n" + str(final_decision)
+        if intent["kpi_intent"]:
+            stitched += "\n\n--- Kpis Definitions ---\n" + str(kpi_definitions)
+        system_template = """You are an intelligent retrieval-augmented assistant.
+        Use ONLY the information in CONTEXT to answer.
+        Use MEMORY only to resolve pronouns/references; do not add new facts from memory.
+        If the answer is not present in CONTEXT, reply exactly:
+        I couldn't find that information in the provided documents.
+        Never give generic reasons or background explanations. Respond in one concise paragraph.
+
+        GREETING OVERRIDE:
+        If the user greets you (e.g., "hi", "hello", "hey"), respond EXACTLY:
+        Hello, how can I help you with your documents?
+        Do not add any other text.
+        """
+        user_template = """--- CONTEXT START ---
+        {context}
+        --- CONTEXT END ---
+
+        --- MEMORY (use only for resolving references) ---
+        {memory}
+
+        User question: {question}
+        """
         # client = genai.Client(api_key=self.api_key)
         # response = client.models.generate_content(
         #     model=self.model,
         #     contents=[{"role": "user", "parts": [{"text": instruction}]}],
         # )
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", system_template),
+                ("user", user_template),
+            ]
+        )
         llm = ChatBedrock(
-            model_id="amazon.titan-text-express-v1",
+            model_id=self.model,
             region="us-east-1",
             aws_access_key_id=self.config.aws_access_key,
             aws_secret_access_key=self.config.aws_secret_key,
+            temperature=0.3,
         )
-        response = llm.invoke(instruction)
-        answer = (response.content or "").strip()
+        chain = prompt | llm | StrOutputParser()
+        variables = {
+            "context": stitched,
+            "memory": memory_block,
+            "question": query,
+        }
+        answer = chain.invoke(variables)
+        # response = llm.invoke(instruction)
+        # answer = (response.content or "").strip()
         logger.info("Generated answer with Bedrock model %s", self.model)
         return {"answer": answer, "query": query, "used_context": stitched}
 
