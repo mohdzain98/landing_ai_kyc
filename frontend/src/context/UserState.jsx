@@ -12,8 +12,7 @@ const DOCUMENT_GROUPS = [
   {
     key: "identity_documents",
     title: "Identity Documents",
-    description:
-      "Passports, national IDs, or driver’s licenses to verify the applicant.",
+    description: "Upload your passport to verify the applicant",
     icon: "fa-solid fa-id-card",
     accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/identity_document",
@@ -37,7 +36,7 @@ const DOCUMENT_GROUPS = [
     key: "tax_statements",
     title: "Tax Statements",
     description:
-      "Latest tax returns or filings to confirm declared income and obligations.",
+      "Latest tax returns(form 1040) or filings to confirm declared income and obligations.",
     icon: "fa-solid fa-file-invoice-dollar",
     accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/tax_statement",
@@ -60,8 +59,7 @@ const DOCUMENT_GROUPS = [
   {
     key: "income_proof",
     title: "Income Proof",
-    description:
-      "Payslips, employment letters, or audited financials for income validation.",
+    description: "Upload your Payslip for income validation.",
     icon: "fa-solid fa-briefcase",
     accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/income_proof",
@@ -72,8 +70,7 @@ const DOCUMENT_GROUPS = [
   {
     key: "utility_bills",
     title: "Utility Bills",
-    description:
-      "Monthly invoice for essential services like water, electricity, gas.",
+    description: "Monthly invoice of your electricity bill",
     icon: "fa-solid fa-money-bills",
     accept: ".pdf,.jpg,.jpeg,.png",
     endpoint: "upload/utility_bill",
