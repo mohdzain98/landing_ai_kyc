@@ -1,3 +1,5 @@
+"""LangChain FAISS storage wrapper used by the RAG service."""
+
 from __future__ import annotations
 
 import json
@@ -20,11 +22,9 @@ logger = Logger.get_logger(__name__)
 
 
 class ChunkFaissStore:
-    """
-    Minimal wrapper around langchain-community's FAISS vector store.
-    Keeps compatibility with the existing RAGAgent ingest/ask flow while
-    storing indices under rag_index/<case_id>.
-    """
+    """Persistence helper around the langchain-community FAISS store.
+
+    Keeps compatibility with the existing ingest/ask flow."""
 
     def __init__(
         self,
@@ -42,13 +42,18 @@ class ChunkFaissStore:
 
     # ------------------------------------------------------------------ #
     def reset(self) -> None:
-        """Remove any previously stored index/metadata for this case."""
+        """Remove any previously stored index/metadata for this case.
+
+        Ensures a clean slate before re-ingesting."""
         if self.index_dir.exists():
             shutil.rmtree(self.index_dir)
         self.index_dir.mkdir(parents=True, exist_ok=True)
         self._store = None
 
     def upsert_chunks(self, chunks: Iterable[DocumentChunk]) -> int:
+        """Encode, store, and persist the supplied chunks.
+
+        Returns the number of chunks written to FAISS."""
         chunk_list = list(chunks)
         if not chunk_list:
             return 0
@@ -83,6 +88,7 @@ class ChunkFaissStore:
 
     # ------------------------------------------------------------------ #
     def similarity_search(self, query: str, top_k: int = 5) -> List[RetrievedChunk]:
+        """Search the FAISS index and return the top matches."""
         store = self._ensure_store()
         if store is None:
             return []
@@ -104,11 +110,13 @@ class ChunkFaissStore:
 
     # ------------------------------------------------------------------ #
     def _ensure_store(self) -> LCFAISS | None:
+        """Load the FAISS store from disk if necessary."""
         if self._store is None:
             self._store = self._load_store()
         return self._store
 
     def _load_store(self) -> LCFAISS | None:
+        """Attempt to load the FAISS artefacts and embedding model."""
         try:
             return LCFAISS.load_local(
                 self.index_dir,
@@ -124,6 +132,7 @@ class ChunkFaissStore:
             return None
 
     def _write_meta(self, chunk_count: int) -> None:
+        """Persist lightweight metadata about the stored chunks."""
         meta = {
             "case_id": self.case_id,
             "model_name": self.model_name,

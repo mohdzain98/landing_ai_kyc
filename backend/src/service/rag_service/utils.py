@@ -1,3 +1,5 @@
+"""Shared logging and configuration helpers for the RAG service."""
+
 import os
 import sys
 import logging
@@ -6,14 +8,13 @@ from dotenv import load_dotenv
 
 
 class Logger:
+    """Simple stdout logger factory shared across modules."""
+
     @staticmethod
     def get_logger(name: str | None = None) -> logging.Logger:
-        """Return a configured logger.
+        """Return a configured stdout logger at INFO level by default.
 
-        - Logs to stdout
-        - Simple, beginner-friendly format
-        - Default level INFO (override via LOG_LEVEL env or code if needed)
-        """
+        Attaches a single handler and avoids duplicate parents."""
         logger = logging.getLogger(name if name else __name__)
         if logger.handlers:
             return logger
@@ -33,7 +34,10 @@ class Logger:
 
 
 class Config:
+    """Loads environment variables required for RAG integrations."""
+
     def __init__(self, dotenv_filename: str = ".env"):
+        """Locate an .env file and expose the relevant secrets."""
         dotenv_path = self._find_env_file(dotenv_filename)
         logger = Logger.get_logger()
         if dotenv_path:

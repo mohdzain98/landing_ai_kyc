@@ -1,3 +1,5 @@
+"""High-level RAG agent that chunks cases and answers questions."""
+
 from __future__ import annotations
 
 import os
@@ -17,10 +19,9 @@ logger = Logger.get_logger(__name__)
 
 
 class RAGAgent:
-    """
-    High-level helper that ingests case documents into a per-case FAISS index
-    and answers questions by retrieving relevant chunks and delegating to the LLM.
-    """
+    """Coordinates ingestion, retrieval, and response generation per case.
+
+    Owns the chunker, FAISS store, memory, and LLM client."""
 
     def __init__(
         self,
@@ -44,10 +45,9 @@ class RAGAgent:
 
     # ------------------------------------------------------------------ #
     def ingest(self) -> Dict[str, int]:
-        """
-        Load all documents for the case, chunk them, and persist embeddings.
-        Returns bookkeeping info about the number of documents/chunks indexed.
-        """
+        """Load, chunk, and index case documents plus KPI definitions.
+
+        Returns bookkeeping stats for chunks/documents stored."""
         # all_docs = self.loader.load_case_all_documents(self.case_id)
         # raw_docs = self._build_raw_documents(all_docs)
         raw_docs = self.loader.load_case_documents(self.case_id)
@@ -77,6 +77,9 @@ class RAGAgent:
 
     # ------------------------------------------------------------------ #
     def ask(self, query: str, *, top_k: Optional[int] = None) -> Dict[str, object]:
+        """Answer a query using FAISS retrieval, memory, and the LLM.
+
+        Returns the response along with matches and updated memory."""
         logger.info("Processing query for case %s: %s", self.case_id, query)
         query = (query or "").strip()
         if not query:
@@ -131,11 +134,17 @@ class RAGAgent:
 
     # ------------------------------------------------------------------ #
     def _ensure_llm(self) -> LLMResponder:
+        """Instantiate the responder lazily to avoid needless API checks.
+
+        Prevents repeated API-key validation churn."""
         if self.llm is None:
             self.llm = LLMResponder()
         return self.llm
 
     def _format_match(self, match: RetrievedChunk) -> Dict[str, object]:
+        """Convert an internal RetrievedChunk into a serialisable dict.
+
+        Helps the API surface consistent metadata to clients."""
         data = {
             "chunk_id": match.chunk.chunk_id,
             "score": match.score,
@@ -145,6 +154,9 @@ class RAGAgent:
         return data
 
     def _build_raw_documents(self, all_docs: AllDocument) -> List[RawDocument]:
+        """Legacy helper for merging KPIs + markdown into synthetic docs.
+
+        Used when the case pipeline needs virtual text files."""
         documents: List[RawDocument] = []
 
         base_path: Path

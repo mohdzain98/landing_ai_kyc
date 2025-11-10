@@ -1,3 +1,7 @@
+"""Chunking utilities for preparing documents for FAISS indexing.
+
+Includes lightweight and LangChain-based splitters with metadata helpers."""
+
 from __future__ import annotations
 
 import re
@@ -42,6 +46,10 @@ except ImportError:
 
 @dataclass
 class ChunkingConfig:
+    """Holds chunking hyperparameters.
+
+    Controls size, overlap, normalisation, and base strategies."""
+
     chunk_size: int = 800
     chunk_overlap: int = 160
     normalize_whitespace: bool = True
@@ -49,12 +57,12 @@ class ChunkingConfig:
 
 
 class TextChunker:
-    """
-    Lightweight whitespace-normalising chunker. Designed to work with the
-    `RawDocument` records produced by `CaseDocumentLoader`.
-    """
+    """Simple whitespace-normalising chunker for RawDocuments.
+
+    Uses deterministic chunk IDs and minimal dependencies."""
 
     def __init__(self, *, config: ChunkingConfig | None = None) -> None:
+        """Initialise the chunker and validate configuration."""
         self.config = config or ChunkingConfig()
         if self.config.chunk_size <= 0:
             raise ValueError("chunk_size must be positive")
@@ -64,6 +72,9 @@ class TextChunker:
             raise ValueError("chunk_overlap must be smaller than chunk_size")
 
     def chunk_documents(self, documents: Iterable[RawDocument]) -> List[DocumentChunk]:
+        """Split each RawDocument into DocumentChunks.
+
+        Returns a flat list ready for FAISS ingestion."""
         chunks: List[DocumentChunk] = []
         for document in documents:
             chunks.extend(self._chunk_single_document(document))
@@ -71,6 +82,7 @@ class TextChunker:
 
     # ------------------------------------------------------------------ #
     def _chunk_single_document(self, document: RawDocument) -> List[DocumentChunk]:
+        """Chunk a single document according to the configured window."""
         cleaned = self._normalise_text(document.text)
         if not cleaned:
             return []
@@ -107,18 +119,17 @@ class TextChunker:
         return results
 
     def _normalise_text(self, text: str) -> str:
+        """Collapse whitespace so chunk boundaries stay predictable."""
         return re.sub(r"\s+", " ", text).strip()
 
 
 class TextChunkerSplit:
-    """
-    LangChain-based splitter with original API & metadata.
-    - Markdown -> header-aware, then size-normalize
-    - JSON -> structure-aware, then size-normalize
-    - Other -> character/recursive splitter
-    """
+    """LangChain-based chunker with markdown/json awareness.
+
+    Provides richer metadata and smarter splitting heuristics."""
 
     def __init__(self, *, config: ChunkingConfig | None = None) -> None:
+        """Prepare all optional splitters based on the supplied config."""
         self.config = config or ChunkingConfig()
         if self.config.chunk_size <= 0:
             raise ValueError("chunk_size must be positive")
@@ -171,6 +182,7 @@ class TextChunkerSplit:
     # -------------------- public API -------------------- #
 
     def chunk_documents(self, documents: Iterable[RawDocument]) -> List[DocumentChunk]:
+        """Split the provided documents using type-aware strategies."""
         chunks: List[DocumentChunk] = []
         for document in documents:
             chunks.extend(self._chunk_single_document(document))
@@ -178,6 +190,7 @@ class TextChunkerSplit:
 
     # -------------------- internals --------------------- #
     def _chunk_single_document(self, document: RawDocument) -> List[DocumentChunk]:
+        """Route a document through markdown, JSON, or plain pipelines."""
         doc_type = self._infer_type(document)
         text = document.text or ""
         if self.config.normalize_whitespace:
@@ -186,7 +199,6 @@ class TextChunkerSplit:
             return []
         name = os.path.basename(document.path)
         if "_parsed.txt" in name:
-            print("skipping:", name)
             return []
 
         if doc_type == "markdown" and self.md_header_splitter is not None:
@@ -220,6 +232,7 @@ class TextChunkerSplit:
         return results
 
     def _normalize_md_with_html(self, text: str) -> str:
+        """Convert HTML tables in markdown to textual tables."""
         # If no HTML table tags present, return as-is
         if (
             "<table" not in text
@@ -268,6 +281,7 @@ class TextChunkerSplit:
         return str(soup)
 
     def _split_markdown(self, text: str, document: RawDocument) -> List[Document]:
+        """Split markdown into header sections then normalise chunk sizes."""
         # 1) split by headers to preserve sections
         text = self._normalize_md_with_html(text)
         header_docs = self.md_header_splitter.split_text(text)  # type: ignore
@@ -277,6 +291,7 @@ class TextChunkerSplit:
         return self.base_char_splitter.split_documents(header_docs)
 
     def _split_json(self, text: str, document: RawDocument) -> List[Document]:
+        """Break JSON payloads into manageable serialized segments."""
 
         try:
             data = _json.loads(text) if isinstance(text, str) else text
@@ -304,10 +319,12 @@ class TextChunkerSplit:
     def _split_plain(
         self, text: str, document: RawDocument, doc_type: str
     ) -> List[Document]:
+        """Fallback splitter for plain-text or unsupported formats."""
         doc = Document(page_content=text, metadata={"document_type": doc_type})
         return self.base_char_splitter.split_documents([doc])
 
     def _infer_type(self, document: RawDocument) -> str:
+        """Guess the document type based on metadata or suffix."""
         # Prefer explicit document_type; otherwise infer from suffix
         if document.document_type:
             t = document.document_type.lower()
@@ -326,9 +343,11 @@ class TextChunkerSplit:
         return "text"
 
     def _normalise_text(self, text: str) -> str:
+        """Normalise any string-like input to a one-line representation."""
         return re.sub(r"\s+", " ", text).strip()
 
     def _normalise_text(self, text) -> str:
+        """Compat helper for legacy callers expecting implicit conversion."""
         if not isinstance(text, str):
             try:
                 if isinstance(text, (dict, list)):

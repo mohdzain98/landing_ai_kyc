@@ -1,3 +1,5 @@
+"""LLM responder that crafts prompts and fetches answers from Bedrock."""
+
 from __future__ import annotations
 
 from typing import Dict, Iterable, List, Optional
@@ -12,6 +14,7 @@ logger = Logger.get_logger(__name__)
 
 
 class LLMResponder:
+    """Wraps prompt construction, Bedrock invocation, and intent enrichment."""
 
     def __init__(
         self,
@@ -21,6 +24,7 @@ class LLMResponder:
         max_context_chars: int = 12000,
         api_key: Optional[str] = None,
     ) -> None:
+        """Store model settings and supporting helpers (config + KPI loader)."""
         self.model = model
         self.style = style
         self.max_context_chars = max_context_chars
@@ -37,6 +41,7 @@ class LLMResponder:
         *,
         memory: Optional[Iterable[str]] = None,
     ) -> Dict[str, str]:
+        """Generate an answer using the supplied contexts and memories."""
         stitched = self._build_context(contexts)
         memory_block = self._build_memory(memory)
         intent = self.kpis.detect_intents(question=query)
@@ -100,6 +105,7 @@ class LLMResponder:
 
     # ------------------------------------------------------------------ #
     def _build_context(self, contexts: Iterable[str]) -> str:
+        """Concatenate context snippets while enforcing the char budget."""
         bucket: List[str] = []
         total_chars = 0
         for idx, ctx in enumerate(contexts, start=1):
@@ -114,6 +120,7 @@ class LLMResponder:
         return "\n".join(bucket)
 
     def _build_memory(self, memory: Optional[Iterable[str]]) -> str:
+        """Format conversational memory for reference-only usage."""
         if not memory:
             return ""
         bucket: List[str] = []

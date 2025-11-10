@@ -1,3 +1,5 @@
+"""Lightweight conversation memory persisted per RAG case."""
+
 from __future__ import annotations
 
 import json
@@ -13,22 +15,21 @@ logger = Logger.get_logger(__name__)
 
 @dataclass
 class MemoryEntry:
+    """Single user/assistant exchange with timestamp metadata."""
     query: str
     answer: str
     timestamp: str
 
 
 class ConversationMemory:
-    """
-    Simple file-backed memory that stores the last N user/assistant exchanges
-    for a given case. Data is persisted under:
+    """File-backed store retaining the last N exchanges per case.
 
-        rag_index/<case_id>/memory.json
-    """
+    Persists JSON under rag_index/<case_id>/memory.json."""
 
     def __init__(
         self, case_id: str, max_entries: int = 10, index_root: str = "rag_index"
     ) -> None:
+        """Initialise the memory location and ensure directories exist."""
         self.case_id = case_id
         self.max_entries = max_entries
         base_dir = Path(__file__).resolve().parent
@@ -37,6 +38,7 @@ class ConversationMemory:
 
     # ------------------------------------------------------------------ #
     def load(self) -> List[MemoryEntry]:
+        """Read the memory file and return the most recent entries."""
         if not self.memory_path.exists():
             return []
         try:
@@ -59,6 +61,7 @@ class ConversationMemory:
         return entries
 
     def append(self, query: str, answer: str) -> List[MemoryEntry]:
+        """Add a new exchange to memory and persist it to disk."""
         entries = self.load()
         entries.append(
             MemoryEntry(
@@ -73,9 +76,7 @@ class ConversationMemory:
         return entries
 
     def as_context(self) -> List[str]:
-        """
-        Return the stored exchanges formatted as light-weight context snippets.
-        """
+        """Return stored exchanges formatted as light-weight context snippets."""
         entries = self.load()
         if not entries:
             return []
@@ -90,4 +91,5 @@ class ConversationMemory:
         return formatted
 
     def as_list(self) -> List[Dict[str, Any]]:
+        """Return the memory contents as serialisable dictionaries."""
         return [asdict(entry) for entry in self.load()]

@@ -1,3 +1,7 @@
+"""Core helpers for the RAG service.
+
+Provides embedding factories and index directory utilities."""
+
 from __future__ import annotations
 
 from functools import lru_cache
@@ -27,24 +31,17 @@ DEFAULT_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 @lru_cache(maxsize=4)
 def get_embeddings(model_name: str = DEFAULT_EMBED_MODEL) -> HuggingFaceEmbeddings:
-    """
-    Return a cached embeddings model. Cached to avoid re-loading
-    sentence-transformer weights for every request.
-    """
+    """Return a cached HuggingFace embedding model.
+
+    Avoids reloading weights for repeated queries."""
     logger.info("Loaded sentence-transformer model '%s'", model_name)
-    # config = Config()
-    # logger.info("Loaded Bedrock embedding model '%s'", model_name)
     return HuggingFaceEmbeddings(model_name=model_name)
-    # bedrcok embeddings are slow
-    # return BedrockEmbeddings(
-    #     model_id=model_name,
-    #     region_name="us-east-1",  # or your region
-    #     aws_access_key_id=config.aws_access_key,
-    #     aws_secret_access_key=config.aws_secret_key,
-    # )
 
 
 def index_dir_for(case_id: str, index_root: str = "rag_index") -> Path:
+    """Resolve and create the on-disk FAISS index directory.
+
+    Ensures the per-case path exists before writing files."""
     base_dir = Path(__file__).resolve().parent
     target = base_dir / index_root / case_id
     target.mkdir(parents=True, exist_ok=True)
