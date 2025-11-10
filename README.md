@@ -165,7 +165,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 
 ## Data Flow
 
-### 1. Document Ingestion 
+### 1. Document Ingestion
    - Input formats: PDFs, scanned images, and photos of borrower documents.  
    - LoanLens ingests:  
      - Bank statements  
@@ -207,7 +207,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 
 ## 🧰 Tech Stack
 
-### **Document Ingestion & Parsing**
+### 1. Document Ingestion & ADE Parsing Layer
 | Component | Technology | Purpose |
 |------------|-------------|----------|
 | Document Intake | POD Storage | Secure file storage for borrower uploads (PDFs, scans, images) |
@@ -215,27 +215,27 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 | Extraction | Landing AI ADE | Extracts text and detects layout structure |
 
 
-### **Structured Data Processing**
+### 2. Structured Data Processing
 | Component | Technology | Purpose |
 |------------|-------------|----------|
 | KPI Calculation | Python (Pandas, NumPy) / Spark | Compute Paystub freshness, expenses, DTI, etc. from structured data |
 
 
-### **Credit Decisioning Engine**
+### 3. Credit Decisioning Engine
 | Component | Technology | Purpose |
 |------------|-------------|----------|
 | Weighted Rule Engine | Python (Rule Engine) | Apply scoring logic based on metric weights |
 | Rejection Logic | Python (Python with custom rules) | Auto-reject applications on hard criteria |
 
 
-### **Fraud Detection Layer**
+### 4. Fraud Detection Layer
 | Component | Technology | Purpose |
 |------------|-------------|----------|
 | Anomaly Detection Engine | Python( Rule Engine) ADE’s Agentic Object Detection | Flag inconsistent fields |
 | Layout Detection | ADE’s Agentic Object Detection | Detect the co-ordinates
 | Layout Comparison | ADE’s Agentic Object Detection | Detect fake docs via layout pattern comparison |
 
-### **Decision Output & Dashboard**
+### 5. Decision Output & Reviewer Dashboard
 | Component | Technology | Purpose |
 |------------|-------------|----------|
 | Output Formatter | FastAPI | Return application status (Approved / Rejected / Manual Review) |
@@ -243,7 +243,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 | Frontend | React.js/ Bootstrap | Interactive reviewer dashboard |
 
 
-### **Conversational Chatbot Layer**
+### 6. Conversational Chatbot Layer
 | Component | Technology | Purpose |
 |------------|-------------|----------|
 | RAG Layer | LangChain + Vector DB+ Embedding Model | Retrieval-Augmented Generation from applicant documents |
