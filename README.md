@@ -216,7 +216,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 ### 2. Structured Data Processing
 | Component | Technology | Purpose |
 |------------|-------------|----------|
-| KPI Calculation | Python (Pandas, NumPy) / Spark | Compute, expenses, DTI, etc. from structured data |
+| KPI Calculation | Python (Pandas, NumPy) / Spark | Compute expense, DTI, etc. from structured data |
 
 
 ### 3. Credit Decisioning Engine
