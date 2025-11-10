@@ -10,7 +10,7 @@ const Main = () => {
         <div className="row align-items-center g-5">
           <div className="col-12 col-md-8">
             <h2 className="animated-text fw-bold mb-4 fs-1">
-              Loanlens <span className="name-highlight">AI</span>
+              LoanLens <span className="name-highlight">AI</span>
             </h2>
             <TypingEffect
               className="role-text mb-3"
@@ -30,13 +30,9 @@ const Main = () => {
                   with ADE precision.
                 </li>
                 <li>
-                  Gemini-powered narratives explain risk signals and policy
+                  AWS Bedrock narratives explain risk signals and policy
                   exceptions instantly.
                 </li>
-                {/* <li>
-                  Unified borrower profiles keep compliance teams, analysts, and
-                  advisors aligned.
-                </li> */}
               </ul>
             </div>
             <div>
@@ -66,8 +62,8 @@ const Main = () => {
                     Landing AI
                   </span>
                   <p className="mb-0 small">
-                    Flight-tested ADE pipelines powering automated document
-                    intelligence.
+                    Battle-tested ADE pipelines for smarter, automated document
+                    understanding.
                   </p>
                 </div>
               </div>
@@ -76,7 +72,7 @@ const Main = () => {
                   src={
                     new URL("../../../assets/awsbg.png", import.meta.url).href
                   }
-                  alt="Gemini icon"
+                  alt="Bedrock icon"
                   className="partner-icon"
                 />
                 <div>
@@ -84,8 +80,8 @@ const Main = () => {
                     Bedrock
                   </span>
                   <p className="mb-0 small">
-                    Narrative copilots powered by AWS Bedrock that contextualize
-                    each borrower in plain language.
+                    AI assistants built on AWS Bedrock that explain each
+                    borrower in simple terms.
                   </p>
                 </div>
               </div>

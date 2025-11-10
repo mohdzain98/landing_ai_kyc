@@ -147,8 +147,8 @@ const Task = (props) => {
         <div className="text-center mb-5">
           <h2 className="fw-bold">Upload Your Lending Documents</h2>
           <p className="text-muted mb-0">
-            Provide the borrower artifacts below so Landing AI can fast-track
-            Loan KYC checks.
+            Provide the borrower artifacts below so LoanLens AI can fast-track
+            loan approval.
           </p>
         </div>
         <div className="row g-4 justify-content-center">

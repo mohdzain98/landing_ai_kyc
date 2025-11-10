@@ -32,17 +32,13 @@
 }
 
 .content-container {
-  /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  /* top: 50%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
   width: 90%;
-  max-width: 1200px;
-  /* Increased from default 800px */
+  /* max-width: 1200px; */
+  /* /* Increased from default 800px  */
   padding: 0 20px;
 }
 
