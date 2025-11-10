@@ -27,7 +27,6 @@ const BankStatementDashboard = ({
   summary = "Unable to get summary",
 }) => {
   const [activeView, setActiveView] = useState("transactions");
-  console.log("transactions", transaction);
   const styles = `
     <style>
       .insight-card { border-left: 4px solid; padding-left: 1rem; padding-top: 0.5rem; padding-bottom: 0.5rem; }
