@@ -379,8 +379,7 @@ const Outcomes = (props) => {
       }
 
       if (!secondaryText) {
-        secondaryText =
-          "Review the evaluation summary above for more insights.";
+        secondaryText = "";
       }
 
       const normalized = primaryText.toLowerCase();
