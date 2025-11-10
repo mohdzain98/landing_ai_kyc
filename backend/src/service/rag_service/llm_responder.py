@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 from typing import Dict, Iterable, List, Optional
-
-# from google import genai
 from langchain_aws import ChatBedrock
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -28,10 +26,6 @@ class LLMResponder:
         self.max_context_chars = max_context_chars
         self.config = Config()
         self.kpis = KPIReferenceLoader()
-        # self.api_key = api_key or self.config.gemini_api_key
-
-        # if not self.api_key:
-        # raise ValueError("Gemini API key is required for LLM responses.")
 
     def answer(
         self,
@@ -48,9 +42,18 @@ class LLMResponder:
         intent = self.kpis.detect_intents(question=query)
         logger.info(intent)
         if intent["decision_intent"]:
-            stitched += "\n\n--- FINAL DECISION ---\n" + str(final_decision)
+            stitched += (
+                "\n\n--- FINAL DECISION ---\n"
+                + str(final_decision)
+                + "\n\n --- FINAL KPIs ---\n"
+                + str(final_kpis)
+            )
         if intent["kpi_intent"]:
-            stitched += "\n\n--- Kpis Definitions ---\n" + str(kpi_definitions)
+            stitched += (
+                "\n\n if user asks about indicators or definitions use these KPIs information:\n\n--- KPIs Definitions ---\n"
+                + str(kpi_definitions)
+            )
+
         system_template = """You are an intelligent retrieval-augmented assistant.
         Use ONLY the information in CONTEXT to answer.
         Use MEMORY only to resolve pronouns/references; do not add new facts from memory.
@@ -72,11 +75,6 @@ class LLMResponder:
 
         User question: {question}
         """
-        # client = genai.Client(api_key=self.api_key)
-        # response = client.models.generate_content(
-        #     model=self.model,
-        #     contents=[{"role": "user", "parts": [{"text": instruction}]}],
-        # )
         prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", system_template),
@@ -97,8 +95,6 @@ class LLMResponder:
             "question": query,
         }
         answer = chain.invoke(variables)
-        # response = llm.invoke(instruction)
-        # answer = (response.content or "").strip()
         logger.info("Generated answer with Bedrock model %s", self.model)
         return {"answer": answer, "query": query, "used_context": stitched}
 
