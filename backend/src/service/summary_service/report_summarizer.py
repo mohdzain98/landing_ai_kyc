@@ -10,7 +10,7 @@ from src.service.summary_service.summarizer_prompt import *
 
 class Summarizer:
 
-    def __init__(self, model_name="amazon.titan-text-express-v1"):
+    def __init__(self, model_name="amazon.nova-pro-v1:0"):
         load_dotenv()
         access_key = os.getenv("AWS_ACCESS_KEY")
         secret_key  = os.getenv("AWS_SECRET_KEY")
