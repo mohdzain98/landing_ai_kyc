@@ -8,8 +8,7 @@ Powered by **Landing AI 🚀** and **AWS Bedrock**
 ### 🎬 Watch Demo
 <p>
   <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID">
-    <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" style="margin:0;padding:0;">
-    <img src="https://img.shields.io/badge/Watch%20Demo%20Video-555555?style=for-the-badge" alt="Watch Demo Video" style="margin-left:-5px;padding:0;">
+    <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="youtube"><img src="https://img.shields.io/badge/Watch%20Demo%20Video-555555?style=for-the-badge" alt="Watch Demo Video"></img>
   </a>
 </p>
 
