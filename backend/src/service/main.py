@@ -192,26 +192,7 @@ def run(document_path: str | Path, document_type: str, output_dir: str | Path, m
         extractor.draw_bounding_boxes(parse_resp, document_path,document_type, output_dir)
     except Exception as e:
         logger.warning(f"Failed to draw bounding boxes: {e}")
-    
-    # # Calculate bounding boxes for all extracted fields
-    # field_bboxes = compute_field_bboxes(
-    #     extractor, document_type, parse_resp, extracted_metadata
-    # )
-    
-    # # Generate visualization images with bounding boxes for each field
-    # for key, bbox in (field_bboxes or {}).items():
-    #     output_path = output_dir / f"{key}_box.jpg"
-    #     output_path.parent.mkdir(parents=True, exist_ok=True)
-        
-    #     # Draw red bounding box on the document image
-    #     draw_bounding_box(
-    #         str(document_path),
-    #         str(output_path),
-    #         bbox,
-    #         color=(255, 0, 0),  # Red color
-    #         width=4
-    #     )
-    
+
     # Save extracted data as JSON file
     json_output_path = output_dir / f"{document_type}.json"
     json_output_path.write_text(json.dumps(extraction, indent=2))
@@ -277,10 +258,3 @@ def process_documents(folder_id: str,document_type: str, model: str = MODEL) -> 
     
     logger.info(f"Successfully processed {document_type}")
     return result, folder_id, document_type, base_path
-
-
-# Main execution block
-if __name__ == "__main__":
-    folder_id = 'bc0f8f34-1933-448b-9259-de05b80a081467'
-    results = process_documents(folder_id=folder_id,document_type='bank-statements')
-    print(f"Processing complete. Results: {results}")

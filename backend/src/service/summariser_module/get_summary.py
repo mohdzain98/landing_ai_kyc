@@ -42,7 +42,7 @@ def get_document_data(folder_id, folder_name):
     matched_files = [
         f
         for f in output_path.iterdir()
-        if f.is_file() and f.name.endswith((".png", ".PNG")) and "page_" in f.name
+        if f.is_file() and f.name.endswith((".png", ".PNG",".jpg",".JPG")) and "page_" in f.name
     ]
 
     matched_files.sort(key=lambda f: int(f.stem.split("_")[-1]))
