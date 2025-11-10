@@ -12,6 +12,7 @@ BANK_STATEMENT_SUMMARIZER_SYSTEM_PROMPT ='''
     Do not make recommendations or use interpretive phrases like “good,” “poor,” “stable,” or “risky.”
     Present only factual summaries based on the data provided.
 
+<<<<<<< Updated upstream
     **Formatting Rules:**
     - Output in markdown bullet points (`-`).
     - Use complete sentences in 4–6 short lines.
@@ -19,6 +20,16 @@ BANK_STATEMENT_SUMMARIZER_SYSTEM_PROMPT ='''
       - Company names, transaction types, months, and monetary amounts.
       - Example: **mortgage ($1,200.00)**, **auto loan ($710.00)**, **February**, **$4,395.00**, **TECH CORP**.
     - Keep the total output under 120 words.
+=======
+   **Formatting Rules:**
+    - Output in markdown text.
+    - Use complete sentences in 4-6 short lines.
+    - Bold key financial elements such as:
+      - Company names, transaction types, months, and monetary amounts.
+      - Example: **mortgage ($1,200.00)**, **auto loan ($710.00)**, **February**, **deposits**,**$4,395.00**, **TECH CORP**.
+    - Keep the total output under 120 words.
+    - Output in bullet points only.
+>>>>>>> Stashed changes
 
     **Example Format:**
     **Emily Hansen's bank statement** shows consistent monthly payroll deposits of **$4,395.00** from **TECH CORP**.  
@@ -48,7 +59,11 @@ Do not make recommendations or qualitative assessments (e.g., “responsible,”
 Report only the facts as they appear in the data.
 
 **Formatting Rules:**
+<<<<<<< Updated upstream
 - Output in markdown bullet points (`-`).
+=======
+- Output in markdown text.
+>>>>>>> Stashed changes
 - Use complete sentences in 4–6 short lines.
 - Bold key financial details such as:
   - Credit score and range.
@@ -57,6 +72,10 @@ Report only the facts as they appear in the data.
   - Dates, months, and named institutions.
   - Example: **credit score of 745**, **credit utilization 28%**, **three active credit cards**, **February 2025**, **Capital One**.
 - Keep the total output under 120 words.
+<<<<<<< Updated upstream
+=======
+- Output in bullet points only.
+>>>>>>> Stashed changes
 
 **Example Format:**
 **John Doe’s credit report** shows a **credit score of 745**, placing it in the **“Good” range**.  
@@ -91,6 +110,7 @@ If a field is missing or empty, ignore it.
 
 **Formatting Rules:**
 - Output in markdown bullet points (`-`).
+<<<<<<< Updated upstream
 - Use one short bullet per verified detail (max 7 lines).
 - Bold each key label and its value where applicable.
 - Example: `- **Age:** 32`, `- **Document Validity:** True`, `- **Issuing Country:** United States`
@@ -100,6 +120,17 @@ If a field is missing or empty, ignore it.
 - **Age:** 32  
 - **Document Validity:** True  
 - **Days Until Expiry:** 485  
+=======
+- Use one concise bullet per available detail (maximum 7 lines).
+- Bold each key label and its value where applicable.
+- Example: `- **Age:** 29`, `- **Document Validity:** True`, `- **Issuing Country:** United States`
+- Keep the total output under **120 words**.
+
+**Example Format:**
+- **Age:** 29  
+- **Document Validity:** True  
+- **Days Until Expiry:** 730  
+>>>>>>> Stashed changes
 - **Document Verification Status:** Verified  
 - **Issuing Country:** United States  
 - **Presence of Passport Number:** Yes  
@@ -130,6 +161,7 @@ Report only the facts explicitly present in the document.
 
 **Formatting Rules:**
 - Output in markdown bullet points (`-`).
+<<<<<<< Updated upstream
 - Use one concise bullet per available detail (maximum 8 lines).
 - Bold each key label and its value where applicable.
 - Example: `- **Employer:** TECH CORP`, `- **Gross Income:** $6,250/month`, `- **Type of Employment:** Salaried`, `- **Bonuses:** $1,200 Annual`
@@ -144,6 +176,21 @@ Report only the facts explicitly present in the document.
 - **Employment Duration:** January 2022 – Present  
 - **Bonuses:** $1,200 annual performance bonus  
 - **Deductions:** Health insurance and tax withheld
+=======
+- Use one short bullet per verified detail (max 7 lines).
+- Bold each key label and its value where applicable.
+- Example: `- **Age:** 32`, `- **Document Validity:** True`, `- **Issuing Country:** United States`
+- Keep the total output under **50 words**.
+
+**Example Format:**
+- **Age:** 32  
+- **Document Validity:** True  
+- **Days Until Expiry:** 485  
+- **Document Verification Status:** Verified  
+- **Issuing Country:** United States  
+- **Presence of Passport Number:** Yes  
+- **Presence of Address:** Yes
+>>>>>>> Stashed changes
 '''
 
 INCOME_PROOF_REPORT_SUMMARIZER_HUMAN_PROMPT = ''' 
@@ -230,3 +277,5 @@ UTILITY_BILL_REPORT_SUMMARIZER_HUMAN_PROMPT = '''
 Here is the customer's utility bill data in JSON format:
 {json_text}
 '''
+
+

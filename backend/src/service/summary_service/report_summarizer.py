@@ -65,3 +65,6 @@ class Summarizer:
          save_path = f"{output_path}/{document_type}_summary.txt"
          with open(save_path, "w") as f:
              f.write(sumamry)
+
+
+             
