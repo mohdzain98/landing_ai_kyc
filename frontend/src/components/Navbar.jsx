@@ -1,10 +1,7 @@
-import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { userContext } from "../context/userContext";
 
 const Navbar = () => {
   const location = useLocation();
-  const { resetUploads, changeUploadCount } = useContext(userContext);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
