@@ -21,6 +21,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import Markdown from "./Markdown";
 
 const TAX_BRACKETS_2024_SINGLE = [
   { limit: 11600, rate: 0.1, label: "10%" },
@@ -622,9 +623,7 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
               </div>
               <div className="text-muted">
                 {summaryParagraphs.map((paragraph, idx) => (
-                  <p key={idx} className="mb-3">
-                    {paragraph}
-                  </p>
+                  <Markdown content={paragraph} />
                 ))}
               </div>
             </div>

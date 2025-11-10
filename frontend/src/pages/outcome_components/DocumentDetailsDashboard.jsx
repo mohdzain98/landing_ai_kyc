@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { FileText, Info, ListChecks } from "lucide-react";
+import Markdown from "./Markdown";
 
 const TITLES = {
   identity_documents: "Identity Document Insights",
@@ -192,9 +193,7 @@ const DocumentDetailsDashboard = ({
             <div className="card shadow-sm mb-4" key={section.key}>
               <div className="card-body p-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h2 className="h6 fw-bold text-dark mb-0">
-                    {section.title}
-                  </h2>
+                  <h2 className="h6 fw-bold text-dark mb-0">{section.title}</h2>
                   <Info size={18} className="text-muted" />
                 </div>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
@@ -219,7 +218,10 @@ const DocumentDetailsDashboard = ({
             </div>
           ))
         ) : (
-          <div className="alert alert-info d-flex align-items-center" role="alert">
+          <div
+            className="alert alert-info d-flex align-items-center"
+            role="alert"
+          >
             <Info className="me-2" size={18} />
             <span>No structured data was available for this document.</span>
           </div>
@@ -234,9 +236,7 @@ const DocumentDetailsDashboard = ({
               </div>
               <div className="text-muted">
                 {summaryParagraphs.map((paragraph, idx) => (
-                  <p key={idx} className="mb-3">
-                    {paragraph}
-                  </p>
+                  <Markdown content={paragraph} />
                 ))}
               </div>
             </div>
