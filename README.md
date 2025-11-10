@@ -1,6 +1,6 @@
 # LoanLens AI - Intelligent Loan Processing and Fraud Detection
 *Your Virtual Underwriter — From Documents to Decisions, Instantly*  
-Powered by **<img href="https://landing.ai/">Landing AI</img> 🚀** and **<img href="https://aws.amazon.com/documentation-overview/bedrock/">AWS Bedrock</img>**
+Powered by **<a href="https://landing.ai/">Landing AI</a> 🚀** and **<a href="https://aws.amazon.com/documentation-overview/bedrock/">AWS Bedrock</a>**
 
 **LoanLens AI** is an intelligent, end-to-end underwriting assistant that automates financial document analysis, fraud detection, and credit decisioning with speed, accuracy, and transparency.
 
@@ -101,13 +101,11 @@ Here’s a **Key Features Table** for LoanLens AI <br>
       <td>
         Computes borrower health indicators:
         <ul>
-          <li>Paystub Freshness</li>
           <li>Credit Score</li>
           <li>Default Risk</li>
           <li>DTI (Debt-to-Income) Score</li>
           <li>Account Liquidity</li>
           <li>Income Stability</li>
-          <li>Job Tenure</li>
           <li>Address Stability</li>
         </ul>
       </td>
@@ -181,7 +179,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 
 ### 3. KPI & Loan Metric Calculation 
    - JSON fields go into:  
-     - **KPI Module:** Calculates ratios like DTI, Account Liquidity, Income Stability, Job Tenure  
+     - **KPI Module:** Calculates ratios like DTI, Account Liquidity, Income Stability 
      - **Loan Metric Engine:** Computes derived metrics for scoring and eligibility  
 
 ### 4. Credit Decisioning Engine 
@@ -210,7 +208,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 ### 1. Document Ingestion & ADE Parsing Layer
 | Component | Technology | Purpose |
 |------------|-------------|----------|
-| Document Intake | POD Storage | Secure file storage for borrower uploads (PDFs, scans, images) |
+| Document Intake | POD Storage | Secure file storage for borrower uploads (PDFs, images) |
 | Parsing | Landing AI ADE | Multi-stream extraction: JSON, bounding boxes, text |
 | Extraction | Landing AI ADE | Extracts text and detects layout structure |
 
@@ -218,7 +216,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 ### 2. Structured Data Processing
 | Component | Technology | Purpose |
 |------------|-------------|----------|
-| KPI Calculation | Python (Pandas, NumPy) / Spark | Compute Paystub freshness, expenses, DTI, etc. from structured data |
+| KPI Calculation | Python (Pandas, NumPy) / Spark | Compute, expenses, DTI, etc. from structured data |
 
 
 ### 3. Credit Decisioning Engine
@@ -265,9 +263,9 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 Create a `.env` file in `backend/` (or any ancestor directory) with the keys consumed by the services:
 
 ```bash
-AWS_ACCESS_KEY=<your_bedrock_access_key>
-AWS_SECRET_KEY=<your_bedrock_secret_key>
-VISION_AGENT_API_KEY=<vision_fraud_service_key>   
+AWS_ACCESS_KEY=<bedrock_access_key>
+AWS_SECRET_KEY=<bedrock_secret_key>
+VISION_AGENT_API_KEY=<landing_ai_key>   
 ```
 
 
@@ -299,7 +297,7 @@ Pass the backend base URL (defaults to `http://127.0.0.1:8000/api`) to the `User
 1. Start the backend (`uvicorn …`).
 2. Start the frontend (`npm run dev`).
 3. Visit the Home page, upload the six required document categories, and watch the status badges update.
-4. Click **Process Documents** to jump into the Outcomes dashboard, review markdown summaries, and read the final lending verdict.
+4. Click **See Result** to jump into the Outcomes dashboard, review markdown summaries, and read the final lending verdict.
 
 
 ## Project Structure
