@@ -98,7 +98,6 @@ const ChatBox = ({
       console.error("Chat query failed", error);
       showAlert("Unable to reach chat service", "danger");
     }
-    console.log("Assistant answer:", assistantAnswer);
     const assistantMessage = {
       id: makeMessageId(),
       role: "assistant",
@@ -165,20 +164,6 @@ const ChatBox = ({
                         : "chatbox-bubble-assistant text-secondary"
                     }`}
                   >
-                    {/* {message.animated ? (
-                      typeof message.content === "string" ? (
-                        <TypingEffect
-                          className="text-muted"
-                          speed={40}
-                          fontSize="0.95rem"
-                          textSegments={[{ text: message.content }]}
-                        />
-                      ) : (
-                        message.content
-                      )
-                    ) : (
-                      message.content
-                    )} */}
                     {message.content}
                   </span>
                 </div>

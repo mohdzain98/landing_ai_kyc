@@ -4,12 +4,6 @@ import "./styling/about.css";
 const About = ({ prop }) => {
   const showAlert = prop?.showAlert;
 
-  const handleConnectClick = () => {
-    if (typeof showAlert === "function") {
-      showAlert("Thanks for reaching out! We'll get back soon.", "success");
-    }
-  };
-
   const pipelineSteps = [
     {
       title: "Upload",

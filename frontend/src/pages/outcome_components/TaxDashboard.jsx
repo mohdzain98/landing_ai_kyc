@@ -1,14 +1,5 @@
 import React, { useMemo } from "react";
-import {
-  DollarSign,
-  TrendingDown,
-  Calculator,
-  FileText,
-  User,
-  MapPin,
-  ShieldCheck,
-  AlertCircle,
-} from "lucide-react";
+import { Calculator, FileText, User, MapPin, AlertCircle } from "lucide-react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -22,16 +13,6 @@ import {
   Cell,
 } from "recharts";
 import Markdown from "./Markdown";
-
-const TAX_BRACKETS_2024_SINGLE = [
-  { limit: 11600, rate: 0.1, label: "10%" },
-  { limit: 47150, rate: 0.12, label: "12%" },
-  { limit: 100525, rate: 0.22, label: "22%" },
-  { limit: 191950, rate: 0.24, label: "24%" },
-  { limit: 243725, rate: 0.32, label: "32%" },
-  { limit: 609350, rate: 0.35, label: "35%" },
-  { limit: Infinity, rate: 0.37, label: "37%" },
-];
 
 const parseCurrency = (value) => {
   if (value === null || value === undefined || value === "") {
@@ -59,21 +40,6 @@ const formatCurrency = (value) => {
   })}`;
 };
 
-const formatPercent = (value, options = {}) => {
-  if (value === null || value === undefined || !Number.isFinite(value)) {
-    return "—";
-  }
-  const { precision = 2 } = options;
-  return `${value.toFixed(precision)}%`;
-};
-
-const formatLabel = (text) =>
-  text
-    .replace(/[_-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-
 const maskSsn = (value) => {
   if (!value) {
     return null;
@@ -83,37 +49,6 @@ const maskSsn = (value) => {
     return null;
   }
   return `***-**-${digits.slice(-4)}`;
-};
-
-const calculateFederalTax = (taxableIncome) => {
-  if (!Number.isFinite(taxableIncome) || taxableIncome <= 0) {
-    return { estimatedTax: null, contributions: [] };
-  }
-
-  let tax = 0;
-  let previousLimit = 0;
-  const contributions = [];
-
-  for (const bracket of TAX_BRACKETS_2024_SINGLE) {
-    if (taxableIncome <= previousLimit) {
-      break;
-    }
-    const taxableInBracket =
-      Math.min(taxableIncome, bracket.limit) - previousLimit;
-    const amount = taxableInBracket * bracket.rate;
-    tax += amount;
-    contributions.push({
-      label: bracket.label,
-      amount,
-      range:
-        bracket.limit === Infinity
-          ? `$${previousLimit.toLocaleString()}+`
-          : `$${previousLimit.toLocaleString()} - $${bracket.limit.toLocaleString()}`,
-    });
-    previousLimit = bracket.limit;
-  }
-
-  return { estimatedTax: tax, contributions };
 };
 
 const COLORS = [
@@ -127,8 +62,6 @@ const COLORS = [
 ];
 
 const TaxReturnDashboard = ({ report = {}, summary }) => {
-  console.log("TaxReturnDashboard report:", report);
-
   const taxpayerName = useMemo(() => {
     const parts = [
       report.taxpayer_first_name,
@@ -186,35 +119,6 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
     report.total_payments,
     report.refund_or_amount_owed,
   ]);
-
-  // const taxComputation = useMemo(
-  //   () => calculateFederalTax(taxData.taxableIncome),
-  //   [taxData.taxableIncome]
-  // );
-
-  const infoItems = [
-    ["Occupation", report.occupation],
-    ["Signature Date", report.signature_date],
-    ["Routing Number", report.routing_number],
-  ].filter(([, value]) => Boolean(value));
-
-  const taxItems = [
-    ["Total Tax", taxData.totalTax],
-    ["Total Payments", taxData.totalPayments],
-  ].filter(([, value]) => Number.isFinite(value));
-
-  const hasData = infoItems.length > 0 || taxItems.length > 0;
-
-  // const effectiveTaxRate = useMemo(() => {
-  //   if (
-  //     taxComputation.estimatedTax === null ||
-  //     !Number.isFinite(taxData.totalIncome) ||
-  //     taxData.totalIncome === 0
-  //   ) {
-  //     return null;
-  //   }
-  //   return (taxComputation.estimatedTax / taxData.totalIncome) * 100;
-  // }, [taxComputation.estimatedTax, taxData.totalIncome]);
 
   const incomeBreakdown = useMemo(() => {
     const items = [];
@@ -289,24 +193,6 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
 
   const highlights = useMemo(() => {
     const items = [
-      // Number.isFinite(taxData.taxableIncome) && {
-      //   icon: Calculator,
-      //   label: "Taxable Income",
-      //   value: formatCurrency(taxData.taxableIncome),
-      //   helper: "Income subject to tax after deductions.",
-      // },
-      // Number.isFinite(taxData.totalWages) && {
-      //   icon: DollarSign,
-      //   label: "Total Wages",
-      //   value: formatCurrency(taxData.totalWages),
-      //   helper: "Total Wages before any deductions.",
-      // },
-      // Number.isFinite(effectiveTaxRate) && {
-      //   icon: ShieldCheck,
-      //   label: "Effective Tax Rate",
-      //   value: formatPercent(effectiveTaxRate, { precision: 1 }),
-      //   helper: "Total tax as a percentage of reported income.",
-      // },
       Number.isFinite(taxData.refundOrAmountOwed) && {
         icon: AlertCircle,
         label:
@@ -321,16 +207,6 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
     return items;
   }, [taxData]);
 
-  // const bracketBarData = useMemo(
-  //   () =>
-  //     taxComputation.contributions.map((item) => ({
-  //       name: item.label,
-  //       amount: Number(item.amount.toFixed(2)),
-  //       range: item.range,
-  //     })),
-  //   [taxComputation.contributions]
-  // );
-
   const hasIncomeBreakdown =
     incomeBreakdown.length > 0 &&
     incomeBreakdown.some((item) => Number.isFinite(item.value));
@@ -338,10 +214,6 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
   const hasCalculationSteps =
     calculationSteps.length > 0 &&
     calculationSteps.some((item) => Number.isFinite(item.amount));
-
-  // const hasBracketBars =
-  //   bracketBarData.length > 0 &&
-  //   bracketBarData.some((item) => Number.isFinite(item.amount));
 
   return (
     <div className="min-vh-100 py-4 px-3">
@@ -512,107 +384,6 @@ const TaxReturnDashboard = ({ report = {}, summary }) => {
             </div>
           )}
         </div>
-
-        {/* {hasBracketBars && (
-          <div className="card shadow-sm mb-4">
-            <div className="card-body p-4">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h2 className="h6 fw-bold text-dark mb-0">
-                  Estimated Tax By Bracket
-                </h2>
-                <TrendingDown size={18} className="text-danger" />
-              </div>
-              <div style={{ width: "100%", height: 260 }}>
-                <ResponsiveContainer>
-                  <BarChart data={bracketBarData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip
-                      formatter={(value, name, { payload }) => [
-                        formatCurrency(value),
-                        `${name} (${payload.range})`,
-                      ]}
-                    />
-                    <Bar dataKey="amount" fill="#dc3545" radius={6} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-        )} */}
-
-        {/* <div className="row g-4 mb-4">
-          <div className="col-lg-6">
-            <div className="card shadow-sm h-100">
-              <div className="card-body p-4">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h2 className="h6 fw-bold text-dark mb-0">Return Details</h2>
-                  <FileText size={18} className="text-secondary" />
-                </div>
-                <div className="row gy-3">
-                  {hasData ? (
-                    <>
-                      {infoItems.map(([label, value]) => (
-                        <div className="col-sm-6" key={label}>
-                          <p className="text-muted small mb-1">{label}</p>
-                          <p className="fw-semibold mb-0">{value}</p>
-                        </div>
-                      ))}
-                      {taxItems.map(([label, value]) => (
-                        <div className="col-sm-6" key={label}>
-                          <p className="text-muted small mb-1">{label}</p>
-                          <p className="fw-semibold mb-0">
-                            {formatCurrency(value)}
-                          </p>
-                        </div>
-                      ))}
-                    </>
-                  ) : (
-                    <div className="col-12 text-center text-muted text-uppercase">
-                      No data available
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-6">
-            <div className="card shadow-sm h-100">
-              <div className="card-body p-4">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h2 className="h6 fw-bold text-dark mb-0">
-                    Additional Insight
-                  </h2>
-                  <ShieldCheck size={18} className="text-success" />
-                </div>
-                <ul className="list-unstyled mb-0">
-                  {highlights.length === 0 && (
-                    <li className="text-muted small">
-                      No taxable income metrics were detected in this return.
-                    </li>
-                  )}
-                  {highlights.map((item) => (
-                    <li
-                      key={`${item.label}-insight`}
-                      className="d-flex flex-column border rounded p-3 mb-2"
-                      style={{ borderLeft: "4px solid #0d6efd" }}
-                    >
-                      <span className="fw-semibold">{item.label}</span>
-                      <span className="text-muted small">{item.value}</span>
-                      {item.helper && (
-                        <span className="text-muted small mt-1">
-                          {item.helper}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div> */}
 
         {summaryParagraphs.length > 0 && (
           <div className="card shadow-sm mb-4">

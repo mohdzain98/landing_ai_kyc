@@ -114,8 +114,6 @@ const Task = (props) => {
       }
       return;
     }
-
-    console.log(`Uploading files for ${group.key}:`);
     try {
       changeUploadCount();
       await uploadDocumentGroup(group.key, files);
