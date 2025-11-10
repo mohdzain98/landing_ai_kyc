@@ -190,9 +190,6 @@ const UserState = ({ children, prop }) => {
       const fd = new FormData();
 
       const formField = group.formField || group.key;
-      // for (const file of fileList) {
-      //   fd.append(formField, file, file.name);
-      // }
       fd.append(formField, primaryFile, primaryFile.name);
       const meta = {
         n_docs: fileList.length,
