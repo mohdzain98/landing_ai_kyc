@@ -7,24 +7,11 @@ Powered by **Landing AI 🚀** and **AWS Bedrock**
 ---
 ### 🎬 Watch Demo
 <p>
-  <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" target="_blank" style="
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 28px;
-    border-radius:10px;
-    text-decoration:none;
-    background: linear-gradient(90deg, #89f7fe, #66a6ff);
-    color:#003366;
-    font:600 16px/1 Arial, sans-serif;
-    box-shadow:0 4px 10px rgba(102,166,255,0.25);
-  ">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"
-         width="22" height="22" alt="YouTube" style="display:block;">
-    <span style="display:block;">Demo Video</span>
+  <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID">
+    <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" style="margin:0;padding:0;">
+    <img src="https://img.shields.io/badge/Watch%20Demo%20Video-555555?style=for-the-badge" alt="Watch Demo Video" style="margin-left:-5px;padding:0;">
   </a>
 </p>
-
 
 ---
 
@@ -173,8 +160,6 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 
 ## 🧠 Architecture & Data Flow
 
-![LoanLens AI Architecture](docs/loanlens_architecture.png)
-
 ### 1. Document Ingestion 
    - Input formats: PDFs, scanned images, and photos of borrower documents.  
    - LoanLens ingests:  
@@ -224,14 +209,12 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 | Parsing | Landing AI ADE | Multi-stream extraction: JSON, bounding boxes, text |
 | Extraction | Landing AI ADE | Extracts text and detects layout structure |
 
----
 
 ### **Structured Data Processing**
 | Component | Technology | Purpose |
 |------------|-------------|----------|
 | KPI Calculation | Python (Pandas, NumPy) / Spark | Compute Paystub freshness, expenses, DTI, etc. from structured data |
 
----
 
 ### **Credit Decisioning Engine**
 | Component | Technology | Purpose |
@@ -239,7 +222,6 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 | Weighted Rule Engine | Python (Rule Engine) | Apply scoring logic based on metric weights |
 | Rejection Logic | Python (Python with custom rules) | Auto-reject applications on hard criteria |
 
----
 
 ### **Fraud Detection Layer**
 | Component | Technology | Purpose |
@@ -248,8 +230,6 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 | Layout Detection | ADE’s Agentic Object Detection | Detect the co-ordinates
 | Layout Comparison | ADE’s Agentic Object Detection | Detect fake docs via layout pattern comparison |
 
----
-
 ### **Decision Output & Dashboard**
 | Component | Technology | Purpose |
 |------------|-------------|----------|
@@ -257,7 +237,6 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 | Summary Generator | LangChain Agent / Python summarizer | Display key KPIs & metrics in dashboard |
 | Frontend | React.js/ Bootstrap | Interactive reviewer dashboard |
 
----
 
 ### **Conversational Chatbot Layer**
 | Component | Technology | Purpose |
@@ -267,9 +246,6 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 | Chat UI | React.js | Reviewer interface for question answering |
 
 ---
-
-
-
 ## Getting Started
 
 ### Prerequisites
@@ -321,14 +297,13 @@ Pass the backend base URL (defaults to `http://127.0.0.1:8000/api`) to the `User
 4. Click **Process Documents** to jump into the Outcomes dashboard, review markdown summaries, and read the final lending verdict.
 
 
-
 ## Project Structure
 ```text
-loanlens_ai/
+landing_ai_kyc/
 ├── backend/                # FastAPI + LandingAI services
 │   ├── requirements.txt    # Python dependencies (FastAPI, landingai-ade, PyMuPDF…)
 │   └── src/
-│       ├── controller/     # FastAPI routers (upload, evaluate, search, app bootstrap)
+│       ├── controller/     # FastAPI routers (upload, evaluate, search, main)
 │       ├── model/          # Pydantic response contracts
 │       ├── service/        # Document extraction, KPI engines, RAG, fraud, summaries
 │       └── resources/      # (Generated) Uploaded files, KPIs, markdown, final outputs
@@ -336,10 +311,11 @@ loanlens_ai/
     ├── package.json        # npm scripts & dependencies
     └── src/
         ├── App.jsx         # Router + global providers
-        ├── context/        # Upload state, document metadata
+        ├── context/        # Context API manages State
         ├── components/     # Navbar, Toast, Spinner, etc.
         └── pages/          # Home (upload workflow) & Outcomes (results dashboard)
 ```
+
 ---
-📄 License
+## 📄 License
 MIT License
