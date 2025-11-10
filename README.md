@@ -1,32 +1,274 @@
-# LoanLens
+# LoanLens AI - Intelligent Loan Processing and Fraud Detection
+*Your Virtual Underwriter — From Documents to Decisions, Instantly*  
+Powered by **Landing AI 🚀** and **AWS Bedrock**
 
-LoanLens AI is an intelligent, end-to-end underwriting assistant that automates financial document analysis, fraud detection, and credit decisioning with speed, accuracy, and transparency..
+**LoanLens AI** is an intelligent, end-to-end underwriting assistant that automates financial document analysis, fraud detection, and credit decisioning with speed, accuracy, and transparency.
 
-## Project Structure
-```text
-landing_ai_kyc/
-├── backend/                # FastAPI + LandingAI services
-│   ├── requirements.txt    # Python dependencies (FastAPI, landingai-ade, PyMuPDF…)
-│   └── src/
-│       ├── controller/     # FastAPI routers (upload, evaluate, search, app bootstrap)
-│       ├── model/          # Pydantic response contracts
-│       ├── service/        # Document extraction, KPI engines, RAG, fraud, summaries
-│       └── resources/      # (Generated) Uploaded files, KPIs, markdown, final outputs
-└── frontend/               # React 19 + Vite single-page app
-    ├── package.json        # npm scripts & dependencies
-    └── src/
-        ├── App.jsx         # Router + global providers
-        ├── context/        # Upload state, document metadata
-        ├── components/     # Navbar, Toast, Spinner, etc.
-        └── pages/          # Home (upload workflow) & Outcomes (results dashboard)
-```
+---
+### 🎬 Watch Demo
+<p>
+  <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" target="_blank" style="
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 28px;
+    border-radius:10px;
+    text-decoration:none;
+    background: linear-gradient(90deg, #89f7fe, #66a6ff);
+    color:#003366;
+    font:600 16px/1 Arial, sans-serif;
+    box-shadow:0 4px 10px rgba(102,166,255,0.25);
+  ">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"
+         width="22" height="22" alt="YouTube" style="display:block;">
+    <span style="display:block;">Demo Video</span>
+  </a>
+</p>
 
-## Key Capabilities
-- **Document extraction pipeline** powered by LandingAI ADE schemas, per-document KPIs, and annotated bounding boxes.
-- **Automated underwriting** that blends KPI scoring, decisioning, and fraud detection across all uploaded documents.
-- **RAG-powered follow-ups** via Bedrock (Nova) for question answering against the case dossier and final decision files.
-- **Fraud analysis** for identity documnets using landing ai agentic object detection components and configurable thresholds.
-- **Interactive frontend** that drives uploads, monitors progress, and surfaces the final verdict plus fraud warnings.
+
+---
+
+## 🚨 Problem Statement
+
+Manual loan underwriting processes are **time-consuming**, **error prone**, and highly susceptible to **inconsistencies and fraud** due to fragmented document review and the lack of intelligent automation. Financial institutions face increasing pressure to accelerate credit decisions, improve risk assessment, and meet rising regulatory standards — all while reducing operational costs. 
+
+LoanLens AI addresses this challenge by automating document extraction, fraud detection, and credit evaluation using an AI-first, multi-agent architecture to deliver faster, more accurate, and auditable underwriting decisions.
+
+### 📊 Key Metrics Highlighting the Problem
+- **52% of loan processing time** is spent manually collecting and verifying documents, leading to delayed decisions and higher operational costs. (Source: ABA Banking Journal, 2023)
+- **One in four loan applications** contain discrepancies or altered documents, raising significant fraud risks. (Source: LexisNexis Risk Solutions, 2023)
+- **38% of lenders** cite difficulty in assessing borrower affordability due to inconsistent or unstructured income documentation. (Source: PwC Lending Survey, 2024)
+- **Up to 30% of creditworthy applicants** are rejected due to poor data interpretation or lack of context in traditional underwriting. (Source: McKinsey Credit Intelligence Report, 2023)
+- **Only 12% of banks** have implemented end-to-end automation in underwriting processes, despite growing demand for faster, more transparent decisions. (Source: Deloitte Digital Lending Study, 2023)
+- According to a 2021 FTC report, **almost 30% of all financial‑fraud** complaints in the U.S. involved identity theft—loan application fraud being a major sub‑category.
+- **Over 60% of fraudulent** personal loan application documents  match the pattern of first party fraud. These individuals are inflating their salaries or hiding evidence of risky revenue practices and present a much higher risk of delinquency.
+
+
+---
+
+## 💡 User Story
+As a **loan officer or underwriting analyst**,
+I want an **AI-powered assistant** that can automatically extract, validate, and analyze borrower documents across multiple formats,
+so that I can make **faster, more accurate, and fraud-resistant credit decisions** with full transparency and auditability.
+
+
+**Example:**  
+John, a credit underwriter at a large retail bank, reviews hundreds of loan applications daily.<br>
+Traditionally, he manually verifies bank statements, payslips, and ID proofs — a slow and error-prone process.<br>
+<br>
+With **LoanLens AI**, John uploads the borrower’s documents, and the system automatically:
+- Extracts data using **Landing AI ADE** from PDFs and images,
+- Calculates KPIs like **debt-to-income ratio, Credit Score, and income stability**
+- Runs **fraud detection** to flag anomalies or tampered files, and
+- Provides a weighted loan eligibility score along with a chat interface to query details like
+
+*Instead of spending hours on manual checks, John can now make confident, data-driven lending decisions in minutes - improving turnaround time, accuracy, and customer satisfaction.*
+
+ 
+---
+
+## ⚙️ Key Features
+
+Here’s a **Key Features Table** for LoanLens AI <br>
+<table>
+  <thead>
+    <tr>
+      <th>Feature Category</th>
+      <th>Key Capabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Automated Document Ingestion</b></td>
+      <td>
+        Accepts borrower-submitted documents such as:
+        <ul>
+          <li>Bank Statements</li>
+          <li>Income Proofs (Payslip)</li>
+          <li>Identity Documents (Passport)</li>
+          <li>Tax Statements</li>
+          <li>Credit Reports</li>
+          <li>Utility Bills</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Structured Data Extraction<br>
+       using Landing AI ADE <br>(Agentic Data Extraction) <br>& AOD (Agentic Object Extraction)</b></td>
+      <td>
+        Uses Landing AI ADE to:
+        <ul>
+          <li>Extract Information from docs using ADE</li>
+          <li>Calculate KPIs on the documents</li>
+          <li>Calculate Loan Metrics</li>
+          <li>Decide Final outcome by:
+            <ul>
+              <li>Weighted Engine</li>
+              <li>Rejection rules by Fraud Detection Agent</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>KPI & Loan Metric Calculation</b></td>
+      <td>
+        Computes borrower health indicators:
+        <ul>
+          <li>Paystub Freshness</li>
+          <li>Credit Score</li>
+          <li>Default Risk</li>
+          <li>DTI (Debt-to-Income) Score</li>
+          <li>Account Liquidity</li>
+          <li>Income Stability</li>
+          <li>Job Tenure</li>
+          <li>Address Stability</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Credit Decisioning Engine</b></td>
+      <td>
+        Final outcome determined using:
+        <ul>
+          <li>Scoring rules</li>
+          <li>Hard rejection criteria for immediate flagging</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Fraud Detection Module using Agentic Object Extraction</b></td>
+      <td>
+        Analyzes:
+        <ul>
+          <li>Document manipulation (image tampering, text inconsistencies)</li>
+          <li>Mismatched or anomalies</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Conversational Interface (RAG)</b></td>
+      <td>
+        <ul>
+          <li>Natural language interface for reviewers</li>
+          <li>Enables question-answering</li>
+          <li>Powered by Retrieval-Augmented Generation (RAG) for contextual insights</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Transparency & Auditability</b></td>
+      <td>
+        <ul>
+          <li>Visual overlays from ADE/AOD ensure traceability</li>
+          <li>Document source maintained for every decision</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+---
+
+## 🧠 Architecture & Data Flow
+
+![LoanLens AI Architecture](docs/loanlens_architecture.png)
+
+### 1. Document Ingestion 
+   - Input formats: PDFs, scanned images, and photos of borrower documents.  
+   - LoanLens ingests:  
+     - Bank statements  
+     - Identity and income proofs  
+     - Credit reports  
+     - Tax documents and utility bills  
+
+### 2. ADE Parsing and Structuring 
+   - LoanLens uses **Landing AI’s ADE & AOD** engine to extract information in three parallel streams:  
+     - **Structured Data (JSON)**: Used for metric and KPI computations  
+     - **Bounding Box Overlays**: Enables field-level traceability for UI verification  
+     - **Unstructured Text**: Enables semantic checks and fraud analysis  
+
+### 3. KPI & Loan Metric Calculation 
+   - JSON fields go into:  
+     - **KPI Module:** Calculates ratios like DTI, Account Liquidity, Income Stability, Job Tenure  
+     - **Loan Metric Engine:** Computes derived metrics for scoring and eligibility  
+
+### 4. Credit Decisioning Engine 
+   - Final outcomes derived via:  
+     - **Weighted Scoring Engine:** Applies scoring logic based on loan rules  
+     - **Hard Rejection Filters:** Flags direct rejections (e.g., insufficient income)  
+   - Outcomes:  
+     - Approved  
+     - Warning (for manual review)  
+     - Rejected  
+
+### 5. Fraud Detection Agent  
+   - Uses unstructured text + bounding boxes to detect:  
+     - Anomalies (e.g., mismatched balances, forged text)  
+     - Document layout discrepancies using Landing AI’s object detection  
+
+### 6. Reviewer Interface
+   - **Summary Agent:** Compiles applicant profile and decision overview  
+   - **Chatbot Agent:** Enables natural language Q&A on any case using RAG (Retrieval Augmented Generation) pipeline  
+
+
+---
+
+## 🧰 Tech Stack
+
+### **Document Ingestion & Parsing**
+| Component | Technology | Purpose |
+|------------|-------------|----------|
+| Document Intake | POD Storage | Secure file storage for borrower uploads (PDFs, scans, images) |
+| Parsing | Landing AI ADE | Multi-stream extraction: JSON, bounding boxes, text |
+| Extraction | Landing AI ADE | Extracts text and detects layout structure |
+
+---
+
+### **Structured Data Processing**
+| Component | Technology | Purpose |
+|------------|-------------|----------|
+| KPI Calculation | Python (Pandas, NumPy) / Spark | Compute Paystub freshness, expenses, DTI, etc. from structured data |
+
+---
+
+### **Credit Decisioning Engine**
+| Component | Technology | Purpose |
+|------------|-------------|----------|
+| Weighted Rule Engine | Python (Rule Engine) | Apply scoring logic based on metric weights |
+| Rejection Logic | Python (Python with custom rules) | Auto-reject applications on hard criteria |
+
+---
+
+### **Fraud Detection Layer**
+| Component | Technology | Purpose |
+|------------|-------------|----------|
+| Anomaly Detection Engine | Python( Rule Engine) ADE’s Agentic Object Detection | Flag inconsistent fields |
+| Layout Detection | ADE’s Agentic Object Detection | Detect the co-ordinates
+| Layout Comparison | ADE’s Agentic Object Detection | Detect fake docs via layout pattern comparison |
+
+---
+
+### **Decision Output & Dashboard**
+| Component | Technology | Purpose |
+|------------|-------------|----------|
+| Output Formatter | FastAPI | Return application status (Approved / Rejected / Manual Review) |
+| Summary Generator | LangChain Agent / Python summarizer | Display key KPIs & metrics in dashboard |
+| Frontend | React.js/ Bootstrap | Interactive reviewer dashboard |
+
+---
+
+### **Conversational Chatbot Layer**
+| Component | Technology | Purpose |
+|------------|-------------|----------|
+| RAG Layer | LangChain + Vector DB+ Embedding Model | Retrieval-Augmented Generation from applicant documents |
+| LLM Backend | AWS Bedrock | Natural language understanding and case explanation|
+| Chat UI | React.js | Reviewer interface for question answering |
+
+---
+
+
 
 ## Getting Started
 
@@ -78,64 +320,26 @@ Pass the backend base URL (defaults to `http://127.0.0.1:8000/api`) to the `User
 3. Visit the Home page, upload the six required document categories, and watch the status badges update.
 4. Click **Process Documents** to jump into the Outcomes dashboard, review markdown summaries, and read the final lending verdict.
 
-## Document Flow
-1. **Upload** – Each POST to `/api/upload/<document_type>` stores the raw file, extracts structured data with LandingAI ADE, and generates KPIs plus markdown summaries under `backend/resources/<case_id>/<document_type>/output/`.
-2. **Fraud checks** – Identity uploads trigger the passport fraud detector. Findings surface in the API response and dashboard warnings.
-3. **Evaluation** – `GET /api/evaluate/evaluate-doc` aggregates KPIs, runs fraud heuristics, writes `final_output/kpis_final.json` and `final_output/final_decision.json`, and kicks off RAG indexing.
-4. **Search & Q&A** – `/api/search/search-doc` returns a consolidated view of per-document markdown plus the final verdict. `/api/search/ask` lets reviewers query the case using the Bedrock-backed RAG agent.
 
-## Backend API Surface
-All endpoints accept multipart form submissions with a `metadata` JSON string and a single file field whose name matches the document type.
 
-| Method | Endpoint | Description | Expected file field |
-| ------ | -------- | ----------- | ------------------- |
-| POST | `/api/upload/bank_statement` | Upload and process borrower bank statements | `bank_statements` |
-| POST | `/api/upload/identity_document` | Verify identity documents (passport, ID, DL) | `identity_documents` |
-| POST | `/api/upload/credit_report` | Analyze credit bureau data | `credit_reports` |
-| POST | `/api/upload/income_proof` | Inspect income verification proofs | `income_proof` |
-| POST | `/api/upload/tax_statement` | Review the latest tax filings | `tax_statements` |
-| POST | `/api/upload/utility_bill` | Confirm residency using utility bills | `utility_bills` |
-| GET | `/api/evaluate/evaluate-doc?uuid=<case_id>` | Aggregate KPIs, compute underwriting score, build RAG index | — |
-| GET | `/api/search/search-doc?uuid=<case_id>` | Retrieve per-document markdown and final verdict | — |
-| POST | `/api/search/ask` | Query the case dossier via RAG (`{"case_id": "...", "query": "..."}`) | — |
-
-Successful uploads return:
-```json
-{
-  "status": 200,
-  "message": "Documents uploaded successfully.",
-  "data": {
-    "folderId": "<case-id>",
-    "content": "## Under Development"
-  },
-  "errors": null
-}
+## Project Structure
+```text
+loanlens_ai/
+├── backend/                # FastAPI + LandingAI services
+│   ├── requirements.txt    # Python dependencies (FastAPI, landingai-ade, PyMuPDF…)
+│   └── src/
+│       ├── controller/     # FastAPI routers (upload, evaluate, search, app bootstrap)
+│       ├── model/          # Pydantic response contracts
+│       ├── service/        # Document extraction, KPI engines, RAG, fraud, summaries
+│       └── resources/      # (Generated) Uploaded files, KPIs, markdown, final outputs
+└── frontend/               # React 19 + Vite single-page app
+    ├── package.json        # npm scripts & dependencies
+    └── src/
+        ├── App.jsx         # Router + global providers
+        ├── context/        # Upload state, document metadata
+        ├── components/     # Navbar, Toast, Spinner, etc.
+        └── pages/          # Home (upload workflow) & Outcomes (results dashboard)
 ```
-
-The `errors` field surfaces fraud warnings (for identity documents) or search/evaluation issues. After evaluation, `final_output/` contains downstream artefacts consumed by the RAG agent.
-
-## Frontend Experience
-- **Home / Upload Flow**  
-  Users work through six responsive cards, each with drag & drop, format hints, and inline status chips. A global progress check ensures all uploads finish before enabling the Outcomes link.
-
-- **Outcomes Dashboard**  
-  Tabs for each document type, collapsible markdown summaries (with “Show more” for long content), contextual status badges, and a visually distinct verdict panel. Quick actions let judges retry with different docs or restart the whole flow. Fraud alerts from the identity pipeline surface alongside the verdict.
-
-- **Ask This Case**  
-  The backend RAG agent indexes all generated markdown, KPI JSON, and the final decision. Call `/api/search/ask` from the UI (or REST clients) to power contextual Q&A once evaluation succeeds.
-
-- **UI Core**  
-  Built with React 19, React Router v7, Bootstrap 5, and Font Awesome icons. Toast + alert helpers surface copy-to-clipboard events and success/error messages.
-
-## Talking Points
-- **Speed to insight**: KYC reviewers jump straight from uploads to AI-curated summaries without waiting for manual compilation.
-- **Explainability**: Markdown narratives and document-specific scoring make it clear why a borrower is (or isn’t) approved.
-- **Composable architecture**: Swap in alternative parsers or AI models by updating the FastAPI service; the React UI automatically reflects new document types via the shared context.
-
-## Troubleshooting & Tips
-- Make sure `backend/resources/` contains mock markdown outputs for every document type when demoing without the full Landing AI pipeline.
-- Missing `.env` keys cause the extractor, Bedrock RAG, or passport fraud modules to raise errors—double-check credentials before running `uvicorn`.
-- The RAG agent persists FAISS indices under `backend/rag_index/<case_id>/`; delete a folder to force re-indexing.
-- The search service expects a case UUID present under `backend/resources/`. Ensure uploads completed (or mock data exists) before calling `/api/search/search-doc`.
-- If you change API base URLs, update the `host` prop passed into `UserState` (see `frontend/src/App.jsx`).
-- Use the browser dev tools network tab to confirm multipart payloads include both the file and the JSON `metadata`.
+---
+📄 License
+MIT License
