@@ -251,7 +251,7 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 | Chat UI | React.js | Reviewer interface for question answering |
 
 ---
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Python 3.10+ (virtual environment recommended)
