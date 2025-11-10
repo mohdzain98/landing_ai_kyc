@@ -1,6 +1,6 @@
 # LoanLens AI - Intelligent Loan Processing and Fraud Detection
 *Your Virtual Underwriter — From Documents to Decisions, Instantly*  
-Powered by **Landing AI 🚀** and **AWS Bedrock**
+Powered by **<img href="https://landing.ai/">Landing AI</img> 🚀** and **<img href="https://aws.amazon.com/documentation-overview/bedrock/">AWS Bedrock</img>**
 
 **LoanLens AI** is an intelligent, end-to-end underwriting assistant that automates financial document analysis, fraud detection, and credit decisioning with speed, accuracy, and transparency.
 
@@ -26,7 +26,7 @@ LoanLens AI addresses this challenge by automating document extraction, fraud de
 - **38% of lenders** cite difficulty in assessing borrower affordability due to inconsistent or unstructured income documentation. (Source: PwC Lending Survey, 2024)
 - **Up to 30% of creditworthy applicants** are rejected due to poor data interpretation or lack of context in traditional underwriting. (Source: McKinsey Credit Intelligence Report, 2023)
 - **Only 12% of banks** have implemented end-to-end automation in underwriting processes, despite growing demand for faster, more transparent decisions. (Source: Deloitte Digital Lending Study, 2023)
-- According to a 2021 FTC report, **almost 30% of all financial‑fraud** complaints in the U.S. involved identity theft—loan application fraud being a major sub‑category.
+- According to a 2021 FTC report, **almost 30% of all financial‑fraud complaints** in the U.S. involved identity theft—loan application fraud being a major sub‑category.
 - **Over 60% of fraudulent** personal loan application documents  match the pattern of first party fraud. These individuals are inflating their salaries or hiding evidence of risky revenue practices and present a much higher risk of delinquency.
 
 
@@ -158,6 +158,12 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 ---
 
 ## 🧠 Architecture & Data Flow
+
+![LoanLens AI Architecture](docs/loanlens_architecture.png)
+
+LoanLens is a modular, multi-agent AI system that automates the full loan document intake and underwriting journey — from ingesting raw documents to generating credit decisions, detecting fraud, and enabling natural language case review
+
+## Data Flow
 
 ### 1. Document Ingestion 
    - Input formats: PDFs, scanned images, and photos of borrower documents.  
