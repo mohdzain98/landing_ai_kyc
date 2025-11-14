@@ -52,6 +52,9 @@ With **LoanLens AI**, John uploads the borrower’s documents, and the system au
 
  
 ---
+## Few More Examples
+
+---
 
 ## ⚙️ Key Features
 
@@ -126,7 +129,8 @@ Here’s a **Key Features Table** for LoanLens AI <br>
         Analyzes:
         <ul>
           <li>Document manipulation (image tampering, text inconsistencies)</li>
-          <li>Mismatched or anomalies</li>
+          <li>Discrepancy in salary figures between the amount credited in the bank statement and the payslip</li>
+          <li>Inconsistency in name details across submitted documents</li>
         </ul>
       </td>
     </tr>
@@ -193,8 +197,8 @@ LoanLens is a modular, multi-agent AI system that automates the full loan docume
 
 ### 5. Fraud Detection Agent  
    - Uses unstructured text + bounding boxes to detect:  
-     - Anomalies (e.g., mismatched balances, forged text)  
-     - Document layout discrepancies using Landing AI’s object detection  
+     - Anomalies (e.g., mismatched balances, forged text, name inconsistency)  
+     - Document layout discrepancies using Landing AI’s object detection 
 
 ### 6. Reviewer Interface
    - **Summary Agent:** Compiles applicant profile and decision overview  
