@@ -47,16 +47,16 @@ def evaluate(folder_id):
     }
     logger.info(f"The combined kpis dict is- {combined_flat}")
     response_dict = loan_metrics.score(combined_flat)
-    final_descision = decision_engine.make_decision(final_score=response_dict,fraud_result=fraud_json)
-    save_responses_to_folder(response_dict, final_descision, base_path)
     fraud_engine  = FraudDetectionEngine(base_path)
     summary, save_path = fraud_engine.save_fraud_summary()
     summary= ast.literal_eval(summary)
     # Ensure output folder exists
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
- 
     with open(save_path, "w") as f:
-        json.dump(fraud_json, f, indent=4)
+        json.dump(summary, f, indent=4)
+
+    final_descision = decision_engine.make_decision(final_score=response_dict,fraud_result=fraud_json,text_fraud_result=summary)
+    save_responses_to_folder(response_dict, final_descision, base_path)
 
 
     ## Build RAG index after evaluation
