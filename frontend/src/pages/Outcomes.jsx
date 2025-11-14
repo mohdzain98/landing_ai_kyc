@@ -122,29 +122,27 @@ const Outcomes = (props) => {
   const verdictContent = verdictData?.content;
   const verdictStatus = finalVerdict.status;
   const verdictError = finalVerdict.error;
-  console.log("finalverdict", finalVerdict);
 
   const warningContent = useMemo(() => {
     if (!verdictError || typeof verdictError !== "object") {
       return { label: "", summary: "", details: "" };
     }
-
     const rawText =
       typeof verdictError.text === "string" ? verdictError.text : "";
     const rawMessage =
       typeof verdictError.message === "string" ? verdictError.message : "";
 
-    const shouldSwap = rawMessage.length > 100;
+    // const shouldSwap = rawMessage.length > 100;
     let label = verdictError.type;
-    if (verdictContent.toLowerCase() === "rejected") {
-      label = "Verdict Reason";
-    } else {
-      if (verdictError.type === "warning") {
-        label = "Detected Warning";
-      } else {
-        label = "Verdict Reason";
-      }
-    }
+    // if (verdictContent.toLowerCase() === "rejected") {
+    //   label = "Verdict Reason";
+    // } else {
+    //   if (verdictError.type === "warning") {
+    //     label = "Detected Warning";
+    //   } else {
+    //     label = "Verdict Reason";
+    //   }
+    // }
 
     return {
       label: label,
@@ -152,7 +150,6 @@ const Outcomes = (props) => {
       details: rawText,
     };
   }, [verdictError]);
-  console.log(finalVerdict);
 
   const handleCopy = (content, copy, msg) => {
     showToast(content, copy, msg);
