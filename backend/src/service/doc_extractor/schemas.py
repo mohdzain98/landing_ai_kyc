@@ -331,6 +331,32 @@ class IncomeProof(BaseModel):
         None, description="Cumulative year-to-date net pay after all deductions."
     )
 
+class MonthlyBillingEntry(BaseModel):
+    month: str = Field(..., description="MM format e.g. '03'")
+    month_name: str = Field(..., description="Short month name e.g. 'Mar'")
+    year: str = Field(..., description="YYYY")
+    energy_amount: str = Field(..., description="Total energy amount (electric + gas) as string")
+
+
+class UsagePeriod(BaseModel):
+    last_year: Optional[str] = Field(
+        None, description="Last year's value as a string"
+    )
+    last_period: Optional[str] = Field(
+        None, description="Last billing period value"
+    )
+    current_period: Optional[str] = Field(
+        None, description="Current billing period value"
+    )
+
+
+class DailyUsageComparison(BaseModel):
+    electric_kwh_per_day: Optional[UsagePeriod] = Field(
+        None, description="Electricity usage comparison table"
+    )
+    gas_therms_per_day: Optional[UsagePeriod] = Field(
+        None, description="Gas usage comparison table"
+    )
 
 class UtilityBill(BaseModel):
     account_number: Optional[str] = Field(
@@ -404,4 +430,13 @@ class UtilityBill(BaseModel):
     remittance_address: Optional[str] = Field(
         None,
         description="Mailing address for sending payments, found in the remittance section (e.g., 'P.O. Box 997500, Sacramento, CA 95899-7500')."
+    )
+    monthly_billing_history: Optional[List[MonthlyBillingEntry]] = Field(
+        None,
+        description="List of month-wise entries with energy_amount only",
+    )
+
+    daily_usage_comparison: Optional[DailyUsageComparison] = Field(
+        None,
+        description="Structured daily usage comparison from the right-side table"
     )

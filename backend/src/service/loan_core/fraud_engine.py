@@ -1,126 +1,110 @@
-from langchain_aws import ChatBedrock
-from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate
 import json
-import os
+import pandas as pd
+import collections
 from pathlib import Path
-from dotenv import load_dotenv
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
-# ===========================
-# 🔹 System Prompt Definition
-# ===========================
-SYSTEM_PROMPT = ''' 
-You are a **Loan Approver Assistant**.
-Your task is to compare two data sources — a customer's bank statement and salary slips — both provided in JSON format.
-
-Identify and list any **factual discrepancies** between the two datasets.
-
-Focus specifically on:
-- Differences between the salary amount credited in the bank statement and the gross/net pay in the salary slips.
-- Missing or inconsistent salary deposit dates in the bank statement compared to salary slip pay dates.
-- Differences in employer name or salary source description between both documents.
-- Unusual patterns such as multiple salary credits in one month, missing months, or partial credits.
-
-Follow these strict rules:
-- Do **not** make assumptions or judgments about reasons for discrepancies.
-- Do **not** assess eligibility, risk, or authenticity.
-- Report only **factual mismatches or inconsistencies** found between the JSON datasets.
-
-Present your findings in a clear and concise summary labeled:
-**“Discrepancy Summary:”**
-If no discrepancies are found, state: **“No discrepancies found between bank statement and salary slips.”**
-If there are discrepancies in bank statement and pay slips like name of company or the amount credited is not matching then send out a warning stating that: 
-*"Warning:"* 
-Upload the bank statement where your salary is credited"
-'''
-
-
-# ===========================
-# 🔹 Human Prompt Definition
-# ===========================
-HUMAN_PROMPT = ''' 
-Here is the customer's bank statement data in JSON format:
-{bank_statement_json}
-
-Here is the customer's salary slip data in JSON format:
-{salary_slips_json}
-'''
-
-
-# ===========================
-# 🔹 FraudDetectionEngine Class
-# ===========================
 class FraudDetectionEngine:
-    def __init__(self, model_name="amazon.titan-text-express-v1"):
+    def __init__(self, base_path):
         """
-        Initialize the FraudDetectionEngine with AWS Bedrock model credentials and configuration.
+        Initialize the FraudDetectionEngine with root path of json files.
         """
-        self.system_prompt = SYSTEM_PROMPT
-        self.human_prompt = HUMAN_PROMPT
-
-        # Load environment variables (for AWS credentials)
-        load_dotenv()
-
-        # Fetch AWS credentials
-        access_key = os.getenv("AWS_ACCESS_KEY")
-        secret_key = os.getenv("AWS_SECRET_KEY")
-
-        # Initialize the Bedrock LLM client
-        self.llm = ChatBedrock(
-            model=model_name,
-            region="us-east-1",
-            aws_access_key_id=access_key,
-            aws_secret_access_key=secret_key
-        )
+        self.base_path = base_path
+        self.bank_statement_path = base_path + "/bank-statements/output/bank-statements.json"
+        self.credit_report_path = base_path + "/credit-reports/output/credit-reports.json"
+        self.identity_doc_path = base_path + "/identity-documents/output/identity-documents.json"
+        self.income_proof_path = base_path + "/income-proof/output/income-proof.json"
+        self.tax_statement_path = base_path + "/tax-statements/output/tax-statements.json"
+        self.utility_bills_path = base_path + "/utility-bills/output/utility-bills.json"
 
     def load_json(self, file_path):
-        '''
-        Input: JSON file path
-        Output: String (pretty formatted JSON)
-        Reads a JSON file and returns a formatted string for model input.
-        '''
+        """
+        Reads a JSON file and returns the dictionary.
+        """
         with open(Path(file_path), "r") as f:
             json_text = json.load(f)
-        return json.dumps(json_text, indent=2)
+        return json_text
 
-    def fraud_detection(self, bank_json_path, income_json_path):
+    def pairwise_similarity(self, docs):
         """
-        Compare bank statement and salary slip JSONs using the LLM to detect factual discrepancies.
+        Returns list of document names where name mismatch (similarity < 0.95).
         """
-        # Load and format both JSONs
-        bank_json = self.load_json(bank_json_path)
-        income_json = self.load_json(income_json_path)
+        vectorizer = TfidfVectorizer()
+        tfidf_matrix = vectorizer.fit_transform(docs)
+        cosine_sim_matrix = cosine_similarity(tfidf_matrix)
 
-        # Prepare system and human message templates
-        system_template = SystemMessagePromptTemplate.from_template(self.system_prompt)
-        human_template = HumanMessagePromptTemplate.from_template(self.human_prompt)
+        doc_labels = ["bank statement", "credit report", "identity document", "income document", "tax document", "utility bills"]
+        df = pd.DataFrame(cosine_sim_matrix, columns=doc_labels, index=doc_labels)
 
-        # Combine messages into a single chat prompt
-        chat_prompt = ChatPromptTemplate.from_messages([system_template, human_template])
+        mismatch = []
+        for col in df.columns:
+            mismatch.extend(df[col][df[col] < 0.95].index.values.tolist())
 
-        # Format message inputs for LLM
-        formated_message = chat_prompt.format_messages(
-            bank_statement_json=bank_json,
-            salary_slips_json=income_json
-        )
+        collections_dict = collections.Counter(mismatch)
 
-        # Get response from the model
-        response = self.llm.invoke(formated_message)
-        return response.content
+        # FIX: If empty → return empty list (no mismatches)
+        if not collections_dict:
+            return []
 
-    def save_fraud_summary(self, base_path):
+        # find mismatched items (logic based on your code)
+        min_value = min(collections_dict.values())
+        mismatch_items = [item for item, count in collections_dict.items() if count > min_value]
+
+        return mismatch_items
+
+    def fraud_detection(self):
         """
-        Run fraud detection on bank statement and income proof JSONs,
-        print the summary, and return the summary with save path.
+        Compare names across documents using TF-IDF similarity.
         """
-        # Define file paths
-        bank_json_path = f"{base_path}/bank-statements/output/bank-statements.json"
-        income_json_path = f"{base_path}/income-proof/output/income-proof.json"
+        bank_json = self.load_json(self.bank_statement_path)
+        credit_json = self.load_json(self.credit_report_path)
+        identity_json = self.load_json(self.identity_doc_path)
+        income_json = self.load_json(self.income_proof_path)
+        tax_json = self.load_json(self.tax_statement_path)
+        utility_json = self.load_json(self.utility_bills_path)
 
-        # Generate fraud summary
-        sumamry = self.fraud_detection(bank_json_path, income_json_path)
-        print(f"The fraud summary is  {sumamry}")
+        name_in_bank = bank_json["account_holder_name"]
+        name_in_credit = credit_json["full_name"]
+        name_in_identity = identity_json["full_name"]
+        name_in_income = income_json["employee_name"]
+        name_in_tax = tax_json["taxpayer_first_name"] + " " + tax_json["taxpayer_last_name"]
+        name_in_utility = utility_json["customer_name"]
 
-        # Define output save path
-        save_path = f"{base_path}/final_output/fraud_report.json"
-        return sumamry, save_path
+        similarity_search_docs = [
+            name_in_bank,
+            name_in_credit,
+            name_in_identity,
+            name_in_income,
+            name_in_tax,
+            name_in_utility
+        ]
+
+        mismatch_items = self.pairwise_similarity(similarity_search_docs)
+
+        if len(mismatch_items) > 0:
+            mismatch_message = {
+                'type': "Warning",
+                'text': "\n".join(f"- {item.capitalize()}" for item in mismatch_items),
+                'message': 'Name inconsistencies detected across documents. Please expand the section below to view the documents with mismatched names.'
+                
+            }
+        else:
+            mismatch_message = {
+                'type': "Authentic",
+                'message': "",
+                'text': ""
+            }
+
+        return mismatch_message
+
+    def save_fraud_summary(self):
+        """
+        Run fraud detection and return summary + output path.
+        """
+        summary = str(self.fraud_detection())
+        print(f"The fraud summary is {summary}")
+
+        save_path = f"{self.base_path}/final_output/fraud_report.json"
+        return summary, save_path
