@@ -50,8 +50,6 @@ With **LoanLens AI**, John uploads the borrower’s documents, and the system au
 
 *Instead of spending hours on manual checks, John can now make confident, data-driven lending decisions in minutes - improving turnaround time, accuracy, and customer satisfaction.*
 
- 
----
 ## Few More Examples
 
 ---
