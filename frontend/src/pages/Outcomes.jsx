@@ -135,11 +135,11 @@ const Outcomes = (props) => {
       typeof verdictError.message === "string" ? verdictError.message : "";
 
     const shouldSwap = rawMessage.length > 100;
-    let label = "Detected Warning";
+    let label = verdictError.type;
     if (verdictContent.toLowerCase() === "rejected") {
       label = "Verdict Reason";
     } else {
-      if (verdictError.types === "warning") {
+      if (verdictError.type === "warning") {
         label = "Detected Warning";
       } else {
         label = "Verdict Reason";
@@ -148,8 +148,8 @@ const Outcomes = (props) => {
 
     return {
       label: label,
-      summary: shouldSwap ? rawText : rawMessage,
-      details: shouldSwap ? rawMessage : rawText,
+      summary: rawMessage,
+      details: rawText,
     };
   }, [verdictError]);
   console.log(finalVerdict);
