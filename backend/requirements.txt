@@ -10,6 +10,7 @@ PyMuPDF
 python-dotenv
 landingai-ade
 opencv-python
+scikit-learn
 
 # image fraud engine dependencies
 opencv-python

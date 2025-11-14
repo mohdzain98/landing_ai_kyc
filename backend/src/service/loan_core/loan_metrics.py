@@ -16,11 +16,11 @@ class Weights:
     income: float = 0.20
     credit: float = 0.23
     delinquency_risk: float = 0.18
-    dti: float = 0.25
+    dti: float = 0.23
     liquidity: float = 0.09
     income_consistency: float = 0.03
     employment_stability: float = 0.02
-    residency_stability: float = 0.00  # optional / can be ignored
+    residency_stability: float = 0.02  # optional / can be ignored
 
     def normalize(self):
         """Normalizes all weight values so they sum up to 1."""
@@ -158,12 +158,14 @@ class LoanUnderwritingScorerSimple:
 
     def _score_residency(self, recency_label):
         """
-        Scores residency recency (e.g., "recent" implies stable/verified).
+        Scores residency recency 
         """
         if not recency_label:
-            return None
-        if "recent" in recency_label.lower():
+            return 0
+        if "yes" in recency_label.lower():
             return 100
+        if "no" in recency_label.lower():
+            return 0
         return 60
 
     # ---------------------- Utility Function ----------------------
@@ -214,7 +216,7 @@ class LoanUnderwritingScorerSimple:
         col = int(_to_float(f.get("collections") or 0))
         stab = f.get("stability_flag")
         emp = _to_float(f.get("employment_tenure_months"))
-        res = f.get("Billing Recency Check")
+        res = f.get("Consistency")
 
         # Compute sub-scores for all dimensions
         scores = {
