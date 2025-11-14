@@ -6,6 +6,7 @@ from src.service.loan_core.utils import (
     save_responses_to_folder,
     load_json
 )
+import json, ast
 from src.service.loan_core.loan_metrics import LoanUnderwritingScorerSimple
 from src.service.loan_core.decision import DecisionEngine
 from src.service.doc_extractor.logger import get_logger
@@ -17,7 +18,7 @@ logger = get_logger(__name__)
 
 loan_metrics = LoanUnderwritingScorerSimple()
 decision_engine = DecisionEngine()
-fraud_engine  = FraudDetectionEngine()
+
 
 
 def evaluate(folder_id):
@@ -48,19 +49,15 @@ def evaluate(folder_id):
     response_dict = loan_metrics.score(combined_flat)
     final_descision = decision_engine.make_decision(final_score=response_dict,fraud_result=fraud_json)
     save_responses_to_folder(response_dict, final_descision, base_path)
-    summary, save_path = fraud_engine.save_fraud_summary(base_path)
+    fraud_engine  = FraudDetectionEngine(base_path)
+    summary, save_path = fraud_engine.save_fraud_summary()
+    summary= ast.literal_eval(summary)
     # Ensure output folder exists
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    if 'warning' in str(summary ).lower():
-        fraud_json = {
-            "type": "warning",
-            "message": summary .split("Warning:")[-1],
-            "text": summary .split("Warning:")[0]
-        }
-        with open(save_path, "w") as f:
-            json.dump(fraud_json, f, indent=4)
-    else:
-        fraud_json = None
+ 
+    with open(save_path, "w") as f:
+        json.dump(fraud_json, f, indent=4)
+
 
     ## Build RAG index after evaluation
     agent = RAGAgent(case_id=folder_id)
@@ -69,4 +66,4 @@ def evaluate(folder_id):
     except Exception as e:
         logger.error(f"Error during RAG ingestion: {e}")
 
-    return str(final_descision["status"]), fraud_json
+    return str(final_descision["status"]), summary
