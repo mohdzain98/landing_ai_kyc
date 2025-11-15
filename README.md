@@ -122,7 +122,7 @@ Here’s a **Key Features Table** for LoanLens AI <br>
       </td>
     </tr>
     <tr>
-      <td><b>Fraud Detection Module using Agentic Object Extraction</b></td>
+      <td><b>Fraud Detection Module using Agentic Object Detection and Agentic Document Extraction</b></td>
       <td>
         Analyzes:
         <ul>
@@ -157,13 +157,15 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 
 ---
 
-## 🧠 Architecture & Data Flow
+## 🧠 Architecture and Workflow
 
+### Architecture
 ![LoanLens AI Architecture](docs/loanlens_architecture.png)
 
 LoanLens is a modular, multi-agent AI system that automates the full loan document intake and underwriting journey — from ingesting raw documents to generating credit decisions, detecting fraud, and enabling natural language case review
 
-## Data Flow
+## Workflow
+![LoanLens AI Workflow](docs/workflow.png)
 
 ### 1. Document Ingestion
    - Input formats: PDFs, scanned images, and photos of borrower documents.  
