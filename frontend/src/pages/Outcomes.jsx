@@ -134,16 +134,13 @@ const Outcomes = (props) => {
 
     // const shouldSwap = rawMessage.length > 100;
     let label = verdictError.type;
+    if (label.toLowerCase() === "authentic") {
+      label = "";
+    }
+    // if verdict is rejected
     // if (verdictContent.toLowerCase() === "rejected") {
-    //   label = "Verdict Reason";
-    // } else {
-    //   if (verdictError.type === "warning") {
-    //     label = "Detected Warning";
-    //   } else {
-    //     label = "Verdict Reason";
-    //   }
+    //   label = "Rejected";
     // }
-
     return {
       label: label,
       summary: rawMessage,
@@ -727,7 +724,7 @@ const Outcomes = (props) => {
       {cards.length > 0 && (
         <section className="mt-4">
           <div className="row g-3 align-items-stretch">
-            <div className={`col-12 col-lg-${verdictError ? "6" : "12"}`}>
+            <div className={`col-12 col-lg-${warningLabel ? "6" : "12"}`}>
               <div
                 className={`${
                   boxH && "h-100"
