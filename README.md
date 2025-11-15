@@ -159,12 +159,12 @@ Here’s a **Key Features Table** for LoanLens AI <br>
 
 ## 🧠 Architecture and Workflow
 
-### Architecture
+### 🏗️ Architecture
 ![LoanLens AI Architecture](docs/loanlens_architecture.png)
 
 LoanLens is a modular, multi-agent AI system that automates the full loan document intake and underwriting journey — from ingesting raw documents to generating credit decisions, detecting fraud, and enabling natural language case review
 
-## Workflow
+## 🔄 Workflow
 ![LoanLens AI Workflow](docs/workflow.png)
 
 ### 1. Document Ingestion
