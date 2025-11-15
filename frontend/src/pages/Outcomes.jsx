@@ -770,15 +770,8 @@ const Outcomes = (props) => {
                 <div
                   className={`${
                     boxH && "h-100"
-                  } rounded-4 border border-warning shadow-sm p-4`}
+                  } rounded-4 border border-${verdictVariant} shadow-sm p-4`}
                 >
-                  {/* <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3"> */}
-                  {/* <div
-                    className={`rounded-circle bg-warning text-white d-flex align-items-center justify-content-center flex-shrink-0`}
-                    style={{ width: "56px", height: "56px" }}
-                  >
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                  </div> */}
                   <div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <div>
@@ -797,14 +790,14 @@ const Outcomes = (props) => {
                       <div className="accordion-item border-0">
                         <h2 className="accordion-header" id="warningHeading">
                           <button
-                            className="accordion-button collapsed shadow-sm border border-warning rounded"
+                            className={`accordion-button collapsed shadow-sm border border-${verdictVariant} rounded`}
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#warningCollapse"
                             aria-expanded="true"
                             aria-controls="warningCollapse"
                           >
-                            View warning details
+                            View Documents
                           </button>
                         </h2>
                         <div
