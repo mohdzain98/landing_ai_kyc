@@ -21,7 +21,7 @@ const DOC_CONFLICT_REGEX = {
   ],
   tax_statements: [
     /(identity|passport|license)/i,
-    /(bank|statement)/i,
+    /(bank)/i,
     /(credit|bureau)/i,
     /(utility|bill)/i,
     /(pay\s?stub|payslip|salary|income)/i,
