@@ -21,14 +21,13 @@ Manual loan underwriting processes are **time-consuming**, **error prone**, and 
 LoanLens AI addresses this challenge by automating document extraction, fraud detection, and credit evaluation using an AI-first, multi-agent architecture to deliver faster, more accurate, and auditable underwriting decisions.
 
 ### 📊 Key Metrics Highlighting the Problem
-- **52% of loan processing time** is spent manually collecting and verifying documents, leading to delayed decisions and higher operational costs. (Source: ABA Banking Journal, 2023)
-- **One in four loan applications** contain discrepancies or altered documents, raising significant fraud risks. (Source: LexisNexis Risk Solutions, 2023)
-- **38% of lenders** cite difficulty in assessing borrower affordability due to inconsistent or unstructured income documentation. (Source: PwC Lending Survey, 2024)
-- **Up to 30% of creditworthy applicants** are rejected due to poor data interpretation or lack of context in traditional underwriting. (Source: McKinsey Credit Intelligence Report, 2023)
-- **Only 12% of banks** have implemented end-to-end automation in underwriting processes, despite growing demand for faster, more transparent decisions. (Source: Deloitte Digital Lending Study, 2023)
-- According to a 2021 FTC report, **almost 30% of all financial‑fraud complaints** in the U.S. involved identity theft—loan application fraud being a major sub‑category.
-- **Over 60% of fraudulent** personal loan application documents  match the pattern of first party fraud. These individuals are inflating their salaries or hiding evidence of risky revenue practices and present a much higher risk of delinquency.
-
+- **52% of loan processing time** is spent manually collecting and verifying documents, leading to delayed decisions and higher operational costs. (Source: <a href="https://argyle.com/blog/history-of-mortgage-lending/">https://argyle.com/blog/history-of-mortgage-lending/</a>)
+- **5% loan applications** contain discrepancies or altered documents, raising significant fraud risks. (Source: <a href="https://arya.ai/blog/how-to-spot-fake-loan-documents">https://arya.ai/blog/how-to-spot-fake-loan-documents</a>)
+- **Up to 30% of creditworthy applicants** are rejected due to poor data interpretation or lack of context in traditional underwriting. (Source: <a href="https://tink.com/blog/open-banking/underwriting-challenges-solution/">https://tink.com/blog/open-banking/underwriting-challenges-solution/</a>)
+- **32% of lenders** cite difficulty in assessing borrower affordability due to inconsistent or unstructured income documentation. (Source:<a href="https://www.infrrd.ai/blog/why-mortgage-income-calculation-verification-matters-more-than-ever-in-2025">https://www.infrrd.ai/blog/why-mortgage-income-calculation-verification-matters-more-than-ever-in-2025</a>)
+- **19% of banks** are still using semi-automated underwriting process (Source:<a href="https://klearstack.com/automated-underwriting-systems">https://klearstack.com/automated-underwriting-systems</a>)
+- **Almost 20% of all financial‑fraud complaints** in the U.S. involved identity theft—loan application fraud being a major sub‑category.(Source: <a href="https://kpmg.com/kpmg-us/content/dam/kpmg/pdf/2025/fraud-identity-theft-other-scams-reg-alert..pdf">https://kpmg.com/kpmg-us/content/dam/kpmg/pdf/2025/fraud-identity-theft-other-scams-reg-alert..pdf</a>)
+- **Over 60% of fraudulent personal loan application documents** match the pattern of first-party fraud. These individuals are inflating their salaries or hiding evidence of risky revenue practices and present a much higher risk of delinquency. (Source: <a href="https://www.inscribe.ai/blog/12-common-red-flags-for-loan-application-fraud">https://www.inscribe.ai/blog/12-common-red-flags-for-loan-application-fraud</a>)
 
 ---
 
