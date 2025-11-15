@@ -1,14 +1,14 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
       <div className="container">
-        <Link className="navbar-brand fw-bold fs-5 text-primary" to="/">
+        {/* <Link className="navbar-brand fw-bold fs-5 text-primary" to="/">
           KYC
-        </Link>
+        </Link> */}
         <button
           className="navbar-toggler"
           type="button"

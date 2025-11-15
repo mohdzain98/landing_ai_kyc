@@ -66,7 +66,6 @@ const TypingEffect = ({ className, text, textSegments, speed = 40 }) => {
           )
         )}
       </h4>
-      {/* <span className="typing-cursor"></span> Blinking cursor */}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link as ScrollLink } from "react-scroll";
-// import "../styling/Landing.css";
 import "../styling/intro.css";
 import TypingEffect from "./TypingEffect";
 
@@ -11,14 +10,14 @@ const Main = () => {
         <div className="row align-items-center g-5">
           <div className="col-12 col-md-8">
             <h2 className="animated-text fw-bold mb-4 fs-1">
-              Loan <span className="name-highlight">KYC</span>
+              LoanLens <span className="name-highlight">AI</span>
             </h2>
             <TypingEffect
               className="role-text mb-3"
               speed={40}
               textSegments={[
-                { text: "Your Landing AI " },
-                { text: "ADE Powered", className: "ade-highlight" },
+                { text: "Your AI " },
+                { text: "Powered", className: "ade-highlight" },
                 {
                   text: " Document Intelligence Hub",
                 },
@@ -31,13 +30,9 @@ const Main = () => {
                   with ADE precision.
                 </li>
                 <li>
-                  Gemini-powered narratives explain risk signals and policy
+                  AWS Bedrock narratives explain risk signals and policy
                   exceptions instantly.
                 </li>
-                {/* <li>
-                  Unified borrower profiles keep compliance teams, analysts, and
-                  advisors aligned.
-                </li> */}
               </ul>
             </div>
             <div>
@@ -67,42 +62,42 @@ const Main = () => {
                     Landing AI
                   </span>
                   <p className="mb-0 small">
-                    Flight-tested ADE pipelines powering automated document
-                    intelligence.
+                    Battle-tested ADE pipelines for smarter, automated document
+                    understanding.
                   </p>
                 </div>
               </div>
               <div className="partner-card shadow-lg">
                 <img
                   src={
-                    new URL("../../../assets/gemini.png", import.meta.url).href
+                    new URL("../../../assets/awsbg.png", import.meta.url).href
                   }
-                  alt="Gemini icon"
+                  alt="Bedrock icon"
                   className="partner-icon"
                 />
                 <div>
                   <span className="badge bg-info text-dark text-uppercase mb-2">
-                    Gemini
+                    Bedrock
                   </span>
                   <p className="mb-0 small">
-                    Narrative copilots that contextualize each borrower in plain
-                    language.
+                    AI assistants built on AWS Bedrock that explain each
+                    borrower in simple terms.
                   </p>
                 </div>
               </div>
               <div className="partner-card shadow-lg">
                 <img
-                  src="https://img.icons8.com/color/96/bank-cards.png"
-                  alt="Financial insights icon"
+                  src="https://img.icons8.com/color/96/shield.png"
+                  alt="Fraud protection icon"
                   className="partner-icon"
                 />
                 <div>
-                  <span className="badge bg-light text-dark text-uppercase mb-2">
-                    Credit Insights
+                  <span className="badge bg-danger text-white text-uppercase mb-2">
+                    Fraud Detection
                   </span>
                   <p className="mb-0 small">
-                    Aggregated bureau feeds and cash-flow scoring in one secure
-                    dashboard.
+                    Identifying factual discrepancies, verifying authenticity,
+                    and detecting tampering
                   </p>
                 </div>
               </div>

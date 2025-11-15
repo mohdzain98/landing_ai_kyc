@@ -1,14 +1,26 @@
 pandas
 fastapi
-dotenv
 uvicorn
 typing
 typing_extensions
-# langgraph
-# langchain
-# langchain_openai
-# langchain_huggingface
-# langchain_community
-# faiss-cpu
 pymupdf
 python-multipart
+Pillow
+PyMuPDF
+python-dotenv
+landingai-ade
+opencv-python
+scikit-learn
+
+# image fraud engine dependencies
+opencv-python
+matplotlib
+
+## rag service dependencies
+sentence_transformers
+langchain-huggingface
+langchain-community
+langchain-aws
+# google-genai
+beautifulsoup4
+langchain-text-splitters

@@ -13,9 +13,9 @@
 }
 
 .upload-icon {
-  width: 48px;
+  width: 58px;
   height: 48px;
-  border-radius: 50%;
+  border-radius: 40%;
   background: linear-gradient(
     135deg,
     rgba(255, 215, 0, 0.85),

@@ -1,87 +1,74 @@
 import React from "react";
+import "./styling/about.css";
 
 const About = ({ prop }) => {
   const showAlert = prop?.showAlert;
 
-  const handleConnectClick = () => {
-    if (typeof showAlert === "function") {
-      showAlert("Thanks for reaching out! We'll get back soon.", "success");
-    }
-  };
-
   const pipelineSteps = [
     {
       title: "Upload",
-      description: "Borrower files arrive via drag-and-drop or secure API.",
+      description: "Borrower files arrive via drag-and-drop",
       icon: "fa-cloud-arrow-up",
     },
     {
-      title: "Classify",
-      description: "ADE detects the document type automatically.",
-      icon: "fa-layer-group",
-    },
-    {
       title: "Extract",
-      description: "Key fields and values are captured with confidence scores.",
+      description:
+        "Reads data from documents and checks for accuracy and fraud.",
       icon: "fa-robot",
     },
     {
-      title: "Validate",
-      description: "Rules compare declared data with policy thresholds.",
-      icon: "fa-list-check",
+      title: "Analyze",
+      description: "Evaluates borrower’s eligibility for approval",
+      icon: "fa-magnifying-glass",
     },
     {
-      title: "Narrate",
-      description: "Analyst-ready summary highlights risk signals and gaps.",
+      title: "Decision",
+      description: "Determines final outcome as Approved or Rejected",
+      icon: "fa-clipboard-check",
+    },
+    {
+      title: "Summarize",
+      description: "Creates a simple summary of all documents and results.",
+      icon: "fa-rectangle-list",
+    },
+  ];
+
+  const features = [
+    {
       icon: "fa-comments",
+      title: "Interactive Chat Assistant",
+      description:
+        "An intelligent chat assistant guides users through the loan process, answering queries instantly and simplifying every step.",
+    },
+    {
+      icon: "fa-shield-halved",
+      title: "Advanced Fraud Detection",
+      description:
+        "AI-powered checks detect inconsistencies and ensure every application is verified, secure, and trustworthy.",
     },
   ];
-
-  const team = [
-    {
-      name: "Tanika Gupta",
-      role: "Director Data Science",
-      focus: "",
-    },
-    {
-      name: "Ritesh Kumar",
-      role: "Principal Data Scientist",
-      focus: "",
-    },
-    {
-      name: "Abhisek Bannerjee",
-      role: "Senior Lead Data Scientist",
-      focus: "",
-    },
-    {
-      name: "Nilanjan Sahu",
-      role: "Lead Data Scientist",
-      focus: "",
-    },
-  ];
-
   const documentTypes = [
-    "Identity proofs (IDs, passports, KYC forms)",
-    "Income proofs & payslips",
-    "Bank statements and cash-flow exports",
-    "Tax returns (ITR, GST)",
-    "Credit bureau reports & scorecards",
+    "Identity proofs (Passport)",
+    "Income proofs (payslip)",
+    "Bank statements",
+    "Tax returns(form 1040)",
+    "Credit bureau reports",
+    "Utility Bills (Electricity bill)",
   ];
 
   return (
-    <div className="bg-light">
+    <div className="bg-light" id="about">
       <section className="py-5 text-white bg-dark">
         <div className="container py-4">
           <span className="badge bg-warning text-dark text-uppercase mb-3">
-            About Landing AI Loan KYC
+            About LoanLens AI
           </span>
           <h1 className="display-5 fw-bold">
             The document intelligence workspace for smarter lending
           </h1>
           <p className="lead text-white-50 mt-3 col-lg-8 px-0">
-            Built for the Financial AI Hackathon Championship 2025, this tool
-            accelerates Loan KYC by pairing ADE extraction with guided policy
-            checks and easy-to-read summaries.
+            Your Virtual Underwriter - From Documents to Decisions – Instantly
+            Powered by Landing AI and AWS Bedrock
           </p>
         </div>
       </section>
@@ -91,26 +78,24 @@ const About = ({ prop }) => {
           <div className="col-12 col-lg-6">
             <h2 className="fw-bold mb-3">What the platform does</h2>
             <p className="text-muted">
-              Loan KYC ingests the common lending document pack, structures the
-              data with ADE, and stages it for rapid review. Underwriters get a
-              single view that combines extracted values, rule outcomes, and
-              narrative insights—so approvals or escalations happen faster.
+              LoanLens AI is an intelligent, end-to-end underwriting assistant
+              that automates financial document analysis, fraud detection, and
+              credit decisioning with speed, accuracy, and transparency.
             </p>
             <ul className="list-unstyled text-muted">
               <li className="mb-2">
-                <i className="fa-solid fa-sparkles text-primary me-2"></i>
-                ADE-powered parsing captures the fields lending teams track
-                most.
+                <i className="fa-solid fa-file text-primary me-2"></i>
+                Extracts data using Landing AI ADE from PDFs and images
               </li>
               <li className="mb-2">
                 <i className="fa-solid fa-chart-simple text-primary me-2"></i>
-                Configurable policy checks flag gaps, mismatches, or missing
-                paperwork instantly.
+                Calculates KPIs on documents and loan metrics to decide the
+                final outcome
               </li>
               <li>
                 <i className="fa-solid fa-person-chalkboard text-primary me-2"></i>
-                Gemini-style narratives explain what changed and what to do
-                next.
+                AWS Bedrock powered Natural language interface for reviewers
+                enables question answering.
               </li>
             </ul>
           </div>
@@ -138,64 +123,42 @@ const About = ({ prop }) => {
 
       <section className="py-5 bg-white border-top border-bottom">
         <div className="container">
-          <h2 className="fw-bold text-center mb-4">Pipeline flow</h2>
+          <h2 className="fw-bold text-center mb-2">Pipeline flow</h2>
           <p className="text-muted text-center col-lg-8 mx-auto mb-5">
-            Each stage keeps analysts informed and maintains an audit trail.
+            A seamless workflow from document upload to decision.
           </p>
           <div className="p-4 bg-light rounded-4 shadow-sm">
             <div className="row gy-4 gx-0 align-items-center text-center text-md-start">
               {pipelineSteps.map((step, index) => (
-                <React.Fragment key={step.title}>
-                  <div className="col-12 col-md">
-                    <div className="h-100 px-3">
-                      <div className="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary fs-4 px-3 py-3">
-                        <i className={`fa-solid ${step.icon}`}></i>
+                <>
+                  <React.Fragment key={step.title}>
+                    <div className="col-12 col-md">
+                      <div className="h-100 px-3 step-card transition-all">
+                        <div className="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary fs-4 px-3 py-3">
+                          <i className={`fa-solid ${step.icon}`}></i>
+                        </div>
+                        <h6 className="fw-semibold mt-3">{step.title}</h6>
+                        <p className="small text-muted mb-0">
+                          {step.description}
+                        </p>
                       </div>
-                      <h6 className="fw-semibold mt-3">{step.title}</h6>
-                      <p className="small text-muted mb-0">
-                        {step.description}
-                      </p>
                     </div>
-                  </div>
-                  {index !== pipelineSteps.length - 1 && (
-                    <div className="col-auto d-none d-md-flex justify-content-center">
-                      <i className="fa-solid fa-arrow-right text-secondary"></i>
-                    </div>
-                  )}
-                </React.Fragment>
+                    {index !== pipelineSteps.length - 1 && (
+                      <div className="col-auto d-none d-md-flex justify-content-center">
+                        <i className="fa-solid fa-arrow-right-long text-secondary fs-5 mx-2 opacity-75"></i>
+                      </div>
+                    )}
+                  </React.Fragment>
+                </>
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="container py-5">
-        <div className="text-center mb-5">
-          <h2 className="fw-bold">Hackathon team</h2>
-          <p className="text-muted mb-0">
-            A cross-functional crew building the Landing AI Loan KYC pilot.
-          </p>
-        </div>
-        <div className="row g-4">
-          {team.map((member) => (
-            <div className="col-12 col-md-6 col-lg-3" key={member.name}>
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body text-center">
-                  <div
-                    className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
-                    style={{ width: "56px", height: "56px" }}
-                  >
-                    <span className="fw-bold">{member.name.charAt(0)}</span>
-                  </div>
-                  <h5 className="mb-1">{member.name}</h5>
-                  <small className="text-primary fw-semibold d-block mb-2">
-                    {member.role}
-                  </small>
-                  <p className="text-muted mb-0">{member.focus}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+          <div className="text-center mb-2 mt-4">
+            <p className="text-muted mb-0">
+              Smart chat assistance and fraud detection ensure a seamless and
+              secure lending experience.
+            </p>
+          </div>
         </div>
       </section>
     </div>
